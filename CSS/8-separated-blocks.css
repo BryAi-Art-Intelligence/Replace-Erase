@@ -1,0 +1,111 @@
+/* 8-separated-blocks.css
+   Controls each separated code card after paste. */
+
+.code-view.fade-in-blocks .code-section{
+  animation:fadeBlocksIn .38s ease both;
+}
+
+@keyframes fadeBlocksIn{
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.code-section{
+  width:100%;
+  max-width:430px;
+  margin:0 auto 18px;
+  padding:16px 12px 6px;
+  box-sizing:border-box;
+  border-radius:24px;
+  background:linear-gradient(180deg,var(--type-bg-1),var(--type-bg-2));
+  border:1px solid var(--type-border);
+  box-shadow:0 8px 22px rgba(70,45,20,.045), inset 0 1px 0 rgba(255,255,255,.22);
+  transition:opacity .22s ease, transform .22s ease, background .18s ease, box-shadow .18s ease;
+  touch-action:none;
+}
+
+.code-section:active,
+.code-section:has(.code-block.selected-block){
+  background:linear-gradient(180deg,var(--type-bg-1),var(--type-bg-2));
+  box-shadow:0 10px 28px rgba(70,45,20,.09), inset 0 1px 0 rgba(255,255,255,.26);
+}
+
+.section-label{
+  width:max-content;
+  margin:0 auto 10px;
+  padding:4px 9px;
+  border-radius:999px;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(45,33,24,.55);
+  background:rgba(255,255,255,.38);
+  border:1px solid rgba(90,65,35,.10);
+  user-select:none;
+  -webkit-user-select:none;
+  pointer-events:none;
+}
+
+.section-body{
+  width:100%;
+}
+
+.code-block{
+  width:76%;
+  max-width:360px;
+  margin:0 auto 28px;
+  padding:14px 12px;
+  border-radius:16px;
+  border:1px solid rgba(120,120,120,.10);
+  background:rgba(255,255,255,.46);
+  box-shadow:0 1px 2px rgba(0,0,0,.03);
+  cursor:default;
+  touch-action:none;
+  transition:opacity .16s ease, transform .16s ease, box-shadow .16s ease, background .16s ease;
+  user-select:none;
+  -webkit-user-select:none;
+}
+
+.code-block pre{
+  margin:0;
+  white-space:pre;
+  overflow-x:auto;
+  word-break:normal;
+  line-height:1.55;
+}
+
+.code-block.selected-block{
+  outline:3px solid rgba(0,0,0,.72);
+  outline-offset:4px;
+  background:rgba(255,255,255,.55);
+  color:#2f2f2f;
+  box-shadow:0 4px 12px rgba(0,0,0,.055), inset 0 1px 0 rgba(255,255,255,.38);
+  cursor:grab;
+  touch-action:none;
+  user-select:none;
+  -webkit-user-select:none;
+  caret-color:transparent;
+}
+
+.code-block.selected-block pre{
+  color:#2f2f2f;
+  user-select:none;
+  -webkit-user-select:none;
+}
+
+.code-block.dragging-block{
+  transition:none;
+  z-index:20;
+  cursor:grabbing;
+  will-change:transform;
+}
+
+.code-block.dragging-block pre{
+  cursor:grabbing;
+}
+
+.code-block.erasing-block{
+  opacity:0;
+  transform:scale(.92);
+}
