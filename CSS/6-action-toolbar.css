@@ -1,0 +1,78 @@
+/* 6-action-toolbar.css
+   Controls the floating REPLACE / AND / ERASE toolbar. */
+
+.selected-line-tools{
+  position:fixed;
+  left:50% !important;
+  right:auto;
+  bottom:150px !important;
+  transform:translateX(-50%) !important;
+  z-index:999 !important;
+  display:none;
+  width:max-content;
+  max-width:calc(100vw - 28px);
+  align-items:center;
+  justify-content:center;
+  gap:clamp(7px, 2vw, 10px);
+  padding:clamp(10px, 3vw, 14px) clamp(12px, 4vw, 18px);
+  border-radius:28px;
+  background:linear-gradient(180deg,rgba(255,255,255,.34),rgba(220,230,215,.22));
+  border:1px solid rgba(120,140,120,.16);
+  box-shadow:0 10px 30px rgba(0,0,0,.08), inset 0 1px 0 rgba(255,255,255,.34);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  user-select:none;
+  -webkit-user-select:none;
+  pointer-events:auto !important;
+}
+
+.selected-line-tools.show-selected-tools{
+  display:flex;
+}
+
+.selected-line-tools button{
+  border:0;
+  pointer-events:auto !important;
+  cursor:pointer;
+  padding:8px clamp(8px, 2.4vw, 10px);
+  border-radius:14px;
+  background:transparent;
+  font-size:clamp(17px, 5vw, 24px);
+  font-weight:900;
+  line-height:1.05;
+  letter-spacing:.06em;
+  white-space:nowrap;
+  transition:color .22s ease, background .22s ease, text-shadow .22s ease, transform .18s ease, opacity .22s ease;
+  touch-action:manipulation;
+  font-family:inherit;
+}
+
+.selected-line-tools button:active{
+  transform:scale(.94);
+}
+
+.selected-replace-btn{
+  color:#1847d8;
+  background:rgba(24,71,216,.10) !important;
+  text-shadow:0 0 10px rgba(24,71,216,.18);
+}
+
+.selected-and-btn{
+  color:#b89200;
+  background:rgba(184,146,0,.10) !important;
+  text-shadow:0 0 10px rgba(184,146,0,.14);
+}
+
+.selected-erase-btn{
+  color:#6a1b2b;
+  background:rgba(106,27,43,.10) !important;
+  text-shadow:0 0 10px rgba(106,27,43,.18);
+}
+
+.selected-and-btn:disabled{
+  opacity:.25;
+}
+
+.selected-and-btn.and-ready{
+  opacity:1;
+}
