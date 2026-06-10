@@ -1,0 +1,45 @@
+/* 12-minimize-logic.css
+   Controls collapsed previews and minimized code cards. */
+
+.code-section.collapsed-section .section-body{
+  cursor:pointer;
+  opacity:.84;
+}
+
+.code-section.collapsed-section .code-block{
+  min-height:44px;
+}
+
+.collapsed-preview{
+  min-height:44px;
+  padding:10px 12px;
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  overflow:hidden;
+  pointer-events:none;
+}
+
+.collapsed-preview span{
+  flex:0 0 auto;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.08em;
+  opacity:.52;
+  white-space:nowrap;
+}
+
+.collapsed-preview pre{
+  margin:0;
+  opacity:.74;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  pointer-events:none;
+}
+
+.code-section.collapsed-section .section-label::after{
+  content:" +";
+  opacity:.5;
+}
