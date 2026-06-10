@@ -1,0 +1,33 @@
+/* 5-faded-logo.css
+   Controls the faded Replace & Erase logo/title on the front page. */
+
+.ghost-title{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%) rotate(-8deg) skewX(-10deg);
+  font-size:72px;
+  font-weight:900;
+  line-height:.88;
+  letter-spacing:-.06em;
+  color:rgba(30,70,45,.08);
+  pointer-events:none;
+  user-select:none;
+  -webkit-user-select:none;
+  white-space:nowrap;
+  z-index:0;
+  text-transform:uppercase;
+  filter:blur(.2px);
+}
+
+.ghost-title div:first-child{
+  margin-left:-70px;
+}
+
+.ghost-title div:last-child{
+  margin-left:70px;
+}
+
+.center-title{
+  display:none !important;
+}
