@@ -1,0 +1,8 @@
+/* 13-front-page.css
+   Hides front-page art whenever the code editor is showing. */
+
+#codeView:not(.hidden) ~ #scene .front-art-layer,
+#codeView:not(.hidden) ~ #scene .bottom-art-layer,
+#codeView:not(.hidden) ~ .bottom-art-layer{
+  display: none;
+}
