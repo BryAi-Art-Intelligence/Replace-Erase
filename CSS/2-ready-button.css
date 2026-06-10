@@ -1,0 +1,28 @@
+/* 2-ready-button.css
+   Controls the little ready text in the corner. */
+
+.status{
+  position:absolute;
+  top:10px;
+  left:12px;
+  z-index:50;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.08em;
+  color:rgba(0,0,0,.35);
+  cursor:pointer;
+  user-select:none;
+  -webkit-user-select:none;
+  transition:color .22s ease, text-shadow .22s ease, opacity .45s ease;
+  touch-action:manipulation;
+}
+
+.status.status-green{
+  color:#00b84a;
+  text-shadow:0 0 10px rgba(0,184,74,.45);
+}
+
+.status.status-faded{
+  opacity:0;
+  pointer-events:none;
+}
