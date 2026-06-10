@@ -1,0 +1,25 @@
+/* 3-2nd-page.css
+   Controls the big scrollable code page after paste. */
+
+.code-view{
+  position:absolute;
+  inset:10px;
+  margin:0;
+  padding:28px 38px 128px;
+  box-sizing:border-box;
+  overflow:auto;
+  white-space:normal;
+  word-break:normal;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:9px;
+  line-height:1.55;
+  color:#2f2f2f;
+  border:1px solid rgba(120,120,120,.12);
+  border-radius:24px;
+  background:rgba(255,255,255,.38);
+  z-index:10;
+  -webkit-overflow-scrolling:touch;
+  -webkit-text-size-adjust:100%;
+  touch-action:pan-y;
+  overscroll-behavior:contain;
+}
