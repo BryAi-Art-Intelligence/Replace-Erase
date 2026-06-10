@@ -1,0 +1,78 @@
+/* 7-tapping-logic.css
+   Controls line taps, selected lines, function taps, and insert gaps. */
+
+.insert-gap{
+  height:42px;
+  width:100%;
+  touch-action:none;
+}
+
+.function-line{
+  display:inline-block;
+  padding:2px 6px;
+  border-radius:7px;
+  background:rgba(150,105,55,.22);
+  color:#2d2118;
+  font-weight:900;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+
+.function-line:active{
+  transform:scale(.97);
+  background:rgba(150,105,55,.32);
+}
+
+.code-lines{
+  width:100%;
+}
+
+.code-line{
+  display:grid;
+  grid-template-columns:32px minmax(0,1fr);
+  gap:7px;
+  align-items:start;
+  border-radius:10px;
+  padding:1px 2px;
+  transition:background .14s ease;
+}
+
+.code-line pre{
+  margin:0;
+  white-space:pre;
+  overflow-x:auto;
+  word-break:normal;
+  line-height:1.55;
+  min-width:0;
+}
+
+.line-number-box{
+  width:25px;
+  min-height:17px;
+  border:0;
+  border-radius:7px;
+  background:rgba(92,65,35,.18);
+  color:rgba(45,33,24,.58);
+  font-size:8px;
+  font-weight:900;
+  font-family:inherit;
+  line-height:1;
+  padding:0;
+  cursor:pointer;
+  touch-action:manipulation;
+  user-select:none;
+  -webkit-user-select:none;
+}
+
+.line-number-box:active{
+  transform:scale(.94);
+}
+
+.code-line.selected-line{
+  background:rgba(150,105,55,.18);
+}
+
+.code-line.selected-line .line-number-box{
+  background:#111;
+  color:white;
+}
