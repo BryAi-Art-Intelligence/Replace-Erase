@@ -1,0 +1,70 @@
+/* 10-swipe-bar.css
+   Controls the bottom HTML / CSS / JS / SVG swipe bar. */
+
+.type-toolbar{
+  position:fixed;
+  left:50%;
+  bottom:18px;
+  transform:translateX(-50%);
+  z-index:40;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:5px;
+  padding:6px 6px;
+  border-radius:999px;
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(120,120,120,.14);
+  box-shadow:0 10px 26px rgba(0,0,0,.10);
+  touch-action:none;
+  user-select:none;
+  -webkit-user-select:none;
+  width:calc(100vw - 34px);
+  max-width:420px;
+  overflow:hidden;
+}
+
+.type-tool{
+  border:0;
+  border-radius:999px;
+  min-width:0;
+  width:calc((100vw - 96px) / 6);
+  max-width:54px;
+  min-height:40px;
+  font-size:14px;
+  padding:0;
+  font-weight:900;
+  cursor:pointer;
+  touch-action:manipulation;
+  transition:transform .18s ease;
+  flex:0 0 auto;
+}
+
+.type-tool-empty{
+  opacity:.28;
+  filter:grayscale(1);
+  box-shadow:none !important;
+}
+
+.type-tool-empty:active{
+  transform:none;
+}
+
+.type-tool-head{color:rgba(90,70,120,.95);background:rgba(120,90,170,.10);}
+.type-tool-hidden{color:rgba(80,80,80,.95);background:rgba(0,0,0,.055);}
+.type-tool-html{color:rgba(120,90,10,.95);background:rgba(180,135,20,.10);}
+.type-tool-css{color:rgba(0,115,105,.95);background:rgba(0,150,135,.10);}
+.type-tool-js{color:rgba(130,82,0,.95);background:rgba(190,120,0,.10);}
+.type-tool-svg{color:rgba(90,60,150,.95);background:rgba(90,60,150,.10);}
+
+.type-tool.active-tool{
+  transform:scale(1.02);
+  box-shadow:0 4px 14px rgba(0,0,0,.08), inset 0 1px 0 rgba(255,255,255,.35);
+}
+
+.type-tool-head.active-tool{color:#6f56a8;background:rgba(120,90,170,.16);}
+.type-tool-html.active-tool{color:#9a7400;background:rgba(180,135,20,.16);}
+.type-tool-css.active-tool{color:#00796b;background:rgba(0,150,135,.16);}
+.type-tool-js.active-tool{color:#9b6200;background:rgba(190,120,0,.16);}
+.type-tool-svg.active-tool{color:#6e48b5;background:rgba(90,60,150,.16);}
+.type-tool-hidden.active-tool{color:#666;background:rgba(0,0,0,.08);}
