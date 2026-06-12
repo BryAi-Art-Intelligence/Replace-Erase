@@ -2,18 +2,42 @@
 // Builds the brown menu for fast function/block access.
 // Lets BryAi jump to or replace important code chunks from the top menu.
 
+function getCssSelectorName(line){
+  const s = String(line || "").trim();
+
+  if (!s.endsWith("{")) return null;
+  if (s.includes(":")) return null;
+  if (s.startsWith("@")) return null;
+
+  const name = s.replace(/\s*\{$/, "").trim();
+  if (!name) return null;
+
+  return name;
+}
+
+function getFirstCssSelector(content){
+  const lines = String(content || "").split("\n");
+
+  for (const line of lines){
+    const selector = getCssSelectorName(line);
+    if (selector) return selector;
+  }
+
+  return null;
+}
+
 function getBrownIndexLabel(part, index){
   const content = String(part.content || "").trim();
 
   const classMatch = content.match(/class=["']([^"']+)["']/i);
   const idMatch = content.match(/id=["']([^"']+)["']/i);
   const functionMatch = content.match(/function\s+([A-Za-z0-9_$]+)/);
-  const cssMatch = content.match(/([.#][A-Za-z0-9_-]+)\s*\{/);
+  const cssMatch = getFirstCssSelector(content);
 
   if (idMatch) return "#" + idMatch[1];
   if (classMatch) return "." + classMatch[1].split(/\s+/)[0];
   if (functionMatch) return functionMatch[1] + "()";
-  if (cssMatch) return cssMatch[1];
+  if (cssMatch) return cssMatch;
 
   return `${part.type}-${index + 1}`;
 }
@@ -49,6 +73,7 @@ function buildBrownIndexBar(){
     if (!part || !part.content) return;
 
     const content = String(part.content).trim();
+
     const functionMatches = [...content.matchAll(/function\s+([A-Za-z0-9_$]+)\s*\(/g)];
 
     if (part.type === "js" && functionMatches.length){
@@ -58,6 +83,22 @@ function buildBrownIndexBar(){
           label: match[1] + "()",
           startText: match[0]
         });
+      });
+    }
+
+    if (part.type === "css"){
+      const lines = content.split("\n");
+
+      lines.forEach(line => {
+        const selector = getCssSelectorName(line);
+
+        if (selector){
+          functionItems.push({
+            index,
+            label: selector,
+            startText: line.trim()
+          });
+        }
       });
     }
 
@@ -111,7 +152,7 @@ function buildBrownIndexBar(){
 
         const end = findMatchingFunctionEnd(text, start);
         if (end === null){
-          alert("Could not find function ending. Check for missing }");
+          alert("Could not find chunk ending. Check for missing }");
           return;
         }
 
@@ -126,7 +167,7 @@ function buildBrownIndexBar(){
         expandedBlocks.add(item.index);
         renderBlockMode();
       }catch(err){
-        alert("Function paste update failed.");
+        alert("Brown menu paste update failed.");
       }
     });
 
