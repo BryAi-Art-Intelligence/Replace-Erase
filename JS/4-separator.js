@@ -5,20 +5,31 @@
 function isStandaloneJS(text){
   const trimmed = text.trim();
 
+  const startsLikeHTML =
+    /^<!doctype|^<html|^<head|^<body|^<div|^<style|^<script|^<svg/i.test(trimmed);
+
+  if (startsLikeHTML) return false;
+
+  const withoutOpeningComments = trimmed
+    .replace(/^\s*\/\/.*(?:\n|$)/gm, "")
+    .replace(/^\s*\/\*[\s\S]*?\*\/\s*/g, "")
+    .trim();
+
   const startsLikeJS =
-    /^(const|let|var|function|async function|class)\b/.test(trimmed);
+    /^(const|let|var|function|async function|class)\b/.test(withoutOpeningComments);
 
   const hasJSStructure =
     /\bfunction\s+[A-Za-z0-9_$]+\s*\(/.test(trimmed) ||
     /\bconst\s+[A-Za-z0-9_$]+\s*=/.test(trimmed) ||
     /\blet\s+[A-Za-z0-9_$]+\s*=/.test(trimmed) ||
     /\bvar\s+[A-Za-z0-9_$]+\s*=/.test(trimmed) ||
-    /\bdocument\.getElementById\b/.test(trimmed);
+    /\bclass\s+[A-Za-z0-9_$]+\b/.test(trimmed) ||
+    /\b(document|window|console)\s*\./.test(trimmed) ||
+    /=>/.test(trimmed) ||
+    /addEventListener\s*\(/.test(trimmed) ||
+    /querySelector\s*\(/.test(trimmed);
 
-  const startsLikeHTML =
-    /^<!doctype|^<html|^<head|^<body|^<div|^<style|^<script|^<svg/i.test(trimmed);
-
-  return hasJSStructure && startsLikeJS && !startsLikeHTML;
+  return hasJSStructure && startsLikeJS;
 }
 
 function isStandaloneCSS(text){
