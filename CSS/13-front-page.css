@@ -86,7 +86,7 @@
   -webkit-user-select:none !important;
   user-select:none !important;
   -webkit-touch-callout:none !important;
-  touch-action:none !important;
+  touch-action:manipulation !important;
 }
 
 .brown-index-chip *{
@@ -107,4 +107,45 @@
   user-select:text !important;
   -webkit-touch-callout:default !important;
   touch-action:manipulation !important;
+}
+
+.toolbar2{
+  position:fixed;
+  left:50%;
+  bottom:92px;
+  transform:translateX(-50%);
+  z-index:998;
+  display:none;
+  width:max-content;
+  max-width:calc(100vw - 28px);
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:9px 12px;
+  border-radius:24px;
+  background:rgba(38,25,16,.74);
+  border:1px solid rgba(123,74,42,.5);
+  box-shadow:0 10px 30px rgba(0,0,0,.12);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+
+.toolbar2.show-toolbar2{
+  display:flex;
+}
+
+.toolbar2 button{
+  border:1px solid rgba(240,194,142,.24);
+  border-radius:999px;
+  padding:8px 10px;
+  background:#3a2416;
+  color:#ffd6aa;
+  font-size:11px;
+  font-weight:1000;
+  letter-spacing:.06em;
+  touch-action:manipulation;
+}
+
+.toolbar2 button:active{
+  transform:scale(.95);
 }
