@@ -1,12 +1,11 @@
 // 13-functions-menu.js
 // Builds the brown menu for fast function/block access.
-// Lets BryAi jump to or replace important code chunks from the top menu.
+// Brown chips select code chunks. The REPLACE / AND / ERASE toolbar performs the action.
 
 function getCssSelectorName(line){
   const s = String(line || "").trim();
 
   if (!s.endsWith("{")) return null;
-  if (s.includes(":")) return null;
   if (s.startsWith("@")) return null;
 
   const name = s.replace(/\s*\{$/, "").trim();
@@ -42,6 +41,62 @@ function getBrownIndexLabel(part, index){
   return `${part.type}-${index + 1}`;
 }
 
+function getLineRangeFromIndexes(text, start, end){
+  const beforeStart = String(text).slice(0, start);
+  const beforeEnd = String(text).slice(0, end);
+
+  return {
+    startLine: beforeStart.split("\n").length,
+    endLine: beforeEnd.split("\n").length
+  };
+}
+
+function getBrownItemLineKeys(item){
+  const part = currentParts[item.index];
+  if (!part || typeof part.content !== "string") return [];
+
+  const text = part.content;
+
+  if (item.wholeBlock){
+    return text.split("\n").map((_, i) => `${item.index}:${i + 1}`);
+  }
+
+  const start = text.indexOf(item.startText);
+  if (start === -1) return [];
+
+  const end = findMatchingFunctionEnd(text, start);
+  if (end === null) return [];
+
+  const range = getLineRangeFromIndexes(text, start, end);
+  const keys = [];
+
+  for (let line = range.startLine; line <= range.endLine; line++){
+    keys.push(`${item.index}:${line}`);
+  }
+
+  return keys;
+}
+
+function brownItemIsSelected(item){
+  const keys = getBrownItemLineKeys(item);
+  return keys.length > 0 && keys.every(key => selectedLines.has(key));
+}
+
+function toggleBrownItemSelection(item){
+  const keys = getBrownItemLineKeys(item);
+  if (!keys.length) return;
+
+  const shouldRemove = keys.every(key => selectedLines.has(key));
+
+  keys.forEach(key => {
+    if (shouldRemove) selectedLines.delete(key);
+    else selectedLines.add(key);
+  });
+
+  expandedBlocks.add(item.index);
+  renderBlockMode();
+}
+
 function buildBrownIndexBar(){
   const old = codeView.querySelector(".brown-index-wrap");
   if (old) old.remove();
@@ -49,7 +104,7 @@ function buildBrownIndexBar(){
   if (!currentParts.length) return;
 
   const wrap = document.createElement("div");
-  wrap.className = "brown-index-wrap";
+  wrap.className = "brown-index-wrap open-function-menu";
 
   const functionToggle = document.createElement("button");
   functionToggle.type = "button";
@@ -68,6 +123,7 @@ function buildBrownIndexBar(){
   labellessMenu.className = "brown-index-menu labelless-list";
 
   const functionItems = [];
+  const labellessItems = [];
 
   currentParts.forEach((part, index) => {
     if (!part || !part.content) return;
@@ -103,75 +159,45 @@ function buildBrownIndexBar(){
     }
 
     if (part.type === "js" && !functionMatches.length && content.length){
-      const chip = document.createElement("button");
-      chip.type = "button";
-      chip.className = "brown-index-chip";
-      chip.textContent = `js-${index + 1}`;
-
-      chip.addEventListener("click", async e => {
-        e.stopPropagation();
-
-        try{
-          const newText = await navigator.clipboard.readText();
-          if (!newText || !newText.trim()) return;
-
-          saveUndoState();
-          currentParts[index].content = newText.trim();
-          expandedBlocks.add(index);
-          renderBlockMode();
-        }catch(err){
-          alert("Labelless replace failed.");
-        }
+      labellessItems.push({
+        index,
+        label: `js-${index + 1}`,
+        wholeBlock: true
       });
-
-      labellessMenu.appendChild(chip);
     }
   });
 
   functionItems.sort((a,b) => a.label.localeCompare(b.label));
+  labellessItems.sort((a,b) => a.label.localeCompare(b.label));
 
   functionItems.forEach(item => {
     const chip = document.createElement("button");
     chip.type = "button";
     chip.className = "brown-index-chip";
+    chip.classList.toggle("brown-chip-selected", brownItemIsSelected(item));
     chip.textContent = item.label;
 
-    chip.addEventListener("click", async e => {
+    chip.addEventListener("click", e => {
       e.stopPropagation();
-
-      try{
-        const newText = await navigator.clipboard.readText();
-        if (!newText || !newText.trim()) return;
-
-        const part = currentParts[item.index];
-        if (!part) return;
-
-        const text = part.content;
-        const start = text.indexOf(item.startText);
-        if (start === -1) return;
-
-        const end = findMatchingFunctionEnd(text, start);
-        if (end === null){
-          alert("Could not find chunk ending. Check for missing }");
-          return;
-        }
-
-        saveUndoState();
-
-        part.content =
-          text.slice(0, start) +
-          newText.trim() +
-          text.slice(end);
-
-        selectedLines = new Set();
-        expandedBlocks.add(item.index);
-        renderBlockMode();
-      }catch(err){
-        alert("Brown menu paste update failed.");
-      }
+      toggleBrownItemSelection(item);
     });
 
     functionMenu.appendChild(chip);
+  });
+
+  labellessItems.forEach(item => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "brown-index-chip";
+    chip.classList.toggle("brown-chip-selected", brownItemIsSelected(item));
+    chip.textContent = item.label;
+
+    chip.addEventListener("click", e => {
+      e.stopPropagation();
+      toggleBrownItemSelection(item);
+    });
+
+    labellessMenu.appendChild(chip);
   });
 
   functionToggle.addEventListener("click", e => {
@@ -204,19 +230,30 @@ function injectCollapsedStyles(){
 .brown-index-wrap *{pointer-events:auto;}
 
 .brown-index-wrap{
-  position:sticky;
-  top:0;
-  z-index:120;
-  padding:10px;
-  background:#150d08;
-  border-bottom:1px solid #6b3f22;
+  position:fixed;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  z-index:160;
+  width:min(86vw, 430px);
+  max-height:46vh;
+  padding:12px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+  background:rgba(38,25,16,.76);
+  border:1px solid rgba(123,74,42,.56);
+  border-radius:28px;
+  box-shadow:0 22px 70px rgba(0,0,0,.22);
+  backdrop-filter:blur(18px);
 }
 
 .function-menu-toggle{
-  border:1px solid #7b4a2a;
+  border:1px solid rgba(123,74,42,.82);
   border-radius:999px;
   padding:10px 14px;
-  background:#3a2416;
+  background:rgba(58,36,22,.86);
   color:#ffd6aa;
   font-size:11px;
   font-weight:900;
@@ -226,11 +263,13 @@ function injectCollapsedStyles(){
 
 .brown-index-menu{
   display:none;
-  flex-direction:column;
+  width:100%;
+  flex-wrap:wrap;
+  justify-content:center;
   gap:8px;
-  max-height:260px;
+  max-height:31vh;
   overflow-y:auto;
-  padding-top:10px;
+  padding-top:4px;
 }
 
 .brown-index-wrap.open-function-menu .function-list{
@@ -253,6 +292,13 @@ function injectCollapsedStyles(){
   letter-spacing:.04em;
   white-space:nowrap;
   cursor:pointer;
+}
+
+.brown-index-chip.brown-chip-selected{
+  background:#100905;
+  color:#fff2dc;
+  border-color:#f0c28e;
+  box-shadow:0 0 0 2px rgba(240,194,142,.22);
 }
 
 .brown-index-chip:active{
