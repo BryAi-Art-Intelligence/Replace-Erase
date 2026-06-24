@@ -33,8 +33,11 @@
 /* Brown function menu alphabet sections.
    JS sorts alphabetically and groups each first letter into its own readable box. */
 .brown-index-wrap{
-  width:min(92vw, 620px) !important;
+  width:min(76vw, 520px) !important;
+  max-height:62vh !important;
+  top:43% !important;
   align-items:flex-start !important;
+  padding:12px !important;
 }
 
 .brown-index-wrap.open-function-menu .function-list,
@@ -43,7 +46,12 @@
   grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
   align-items:start !important;
   justify-content:stretch !important;
-  gap:10px !important;
+  gap:12px !important;
+  max-height:48vh !important;
+  overflow-y:auto !important;
+  overscroll-behavior:contain !important;
+  -webkit-overflow-scrolling:touch !important;
+  padding:4px 4px 10px !important;
 }
 
 .brown-letter-section{
