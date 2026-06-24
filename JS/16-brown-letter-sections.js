@@ -1,7 +1,7 @@
 // 16-brown-letter-sections.js
 // Overrides the brown menu layout so alphabet order reads vertically by letter sections.
 // Each first letter gets its own box, and chips stay alphabetical inside that box.
-// Double tap a brown name to rename it.
+// Single tap selects, double tap renames, hold opens the matching code behind the menu.
 
 let brownMenuScrollMemory = {
   functions: 0,
@@ -26,6 +26,43 @@ function restoreBrownMenuScroll(){
   });
 }
 
+function scrollToBrownItemCode(item){
+  const keys = getBrownItemLineKeys(item);
+  const firstKey = keys[0];
+  const firstLine = firstKey ? firstKey.split(":")[1] : null;
+
+  requestAnimationFrame(() => {
+    const section = codeView.querySelector(`.code-section[data-index="${item.index}"]`);
+    if (!section) return;
+
+    let target = section;
+
+    if (firstLine){
+      const lineButton = section.querySelector(`.line-number-box[data-line="${firstLine}"]`);
+      const row = lineButton ? lineButton.closest(".code-line") : null;
+      if (row) target = row;
+    }
+
+    const top = target.offsetTop - 90;
+    codeView.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+  });
+}
+
+function openBrownItemCode(item){
+  rememberBrownMenuScroll();
+
+  const keys = getBrownItemLineKeys(item);
+
+  selectedLines = new Set(keys);
+  expandedBlocks.add(item.index);
+  activeType = null;
+  setPanelColor(null);
+
+  renderBlockMode();
+  restoreBrownMenuScroll();
+  scrollToBrownItemCode(item);
+}
+
 function createBrownChip(item){
   const chip = document.createElement("button");
   chip.type = "button";
@@ -35,9 +72,34 @@ function createBrownChip(item){
 
   let lastTapTime = 0;
   let tapTimer = null;
+  let holdTimer = null;
+  let didHold = false;
+
+  chip.addEventListener("pointerdown", e => {
+    e.stopPropagation();
+    didHold = false;
+    clearTimeout(holdTimer);
+
+    holdTimer = setTimeout(() => {
+      didHold = true;
+      clearTimeout(tapTimer);
+      tapTimer = null;
+      openBrownItemCode(item);
+    }, 560);
+  });
+
+  ["pointerup", "pointercancel", "pointerleave"].forEach(type => {
+    chip.addEventListener(type, () => clearTimeout(holdTimer));
+  });
 
   chip.addEventListener("click", e => {
     e.stopPropagation();
+
+    if (didHold){
+      didHold = false;
+      lastTapTime = 0;
+      return;
+    }
 
     const now = Date.now();
     const isDoubleTap = now - lastTapTime < 360;
