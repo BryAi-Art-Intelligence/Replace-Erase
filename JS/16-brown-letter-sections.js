@@ -2,6 +2,29 @@
 // Overrides the brown menu layout so alphabet order reads vertically by letter sections.
 // Each first letter gets its own box, and chips stay alphabetical inside that box.
 
+let brownMenuScrollMemory = {
+  functions: 0,
+  labelless: 0
+};
+
+function rememberBrownMenuScroll(){
+  const functionMenu = document.querySelector(".brown-index-menu.function-list");
+  const labellessMenu = document.querySelector(".brown-index-menu.labelless-list");
+
+  if (functionMenu) brownMenuScrollMemory.functions = functionMenu.scrollTop;
+  if (labellessMenu) brownMenuScrollMemory.labelless = labellessMenu.scrollTop;
+}
+
+function restoreBrownMenuScroll(){
+  requestAnimationFrame(() => {
+    const functionMenu = document.querySelector(".brown-index-menu.function-list");
+    const labellessMenu = document.querySelector(".brown-index-menu.labelless-list");
+
+    if (functionMenu) functionMenu.scrollTop = brownMenuScrollMemory.functions || 0;
+    if (labellessMenu) labellessMenu.scrollTop = brownMenuScrollMemory.labelless || 0;
+  });
+}
+
 function getBrownSectionLetter(label){
   const clean = String(label || "")
     .replace(/^[.#]/, "")
@@ -42,6 +65,24 @@ function makeBrownLetterSections(items, menu){
   });
 }
 
+function toggleBrownItemSelection(item){
+  rememberBrownMenuScroll();
+
+  const keys = getBrownItemLineKeys(item);
+  if (!keys.length) return;
+
+  const shouldRemove = keys.every(key => selectedLines.has(key));
+
+  keys.forEach(key => {
+    if (shouldRemove) selectedLines.delete(key);
+    else selectedLines.add(key);
+  });
+
+  expandedBlocks.add(item.index);
+  renderBlockMode();
+  restoreBrownMenuScroll();
+}
+
 function buildBrownIndexBar(){
   const old = codeView.querySelector(".brown-index-wrap");
   if (old) old.remove();
@@ -66,6 +107,14 @@ function buildBrownIndexBar(){
 
   const labellessMenu = document.createElement("div");
   labellessMenu.className = "brown-index-menu labelless-list";
+
+  functionMenu.addEventListener("scroll", () => {
+    brownMenuScrollMemory.functions = functionMenu.scrollTop;
+  }, { passive:true });
+
+  labellessMenu.addEventListener("scroll", () => {
+    brownMenuScrollMemory.labelless = labellessMenu.scrollTop;
+  }, { passive:true });
 
   const functionItems = [];
   const labellessItems = [];
@@ -119,14 +168,18 @@ function buildBrownIndexBar(){
 
   functionToggle.addEventListener("click", e => {
     e.stopPropagation();
+    rememberBrownMenuScroll();
     wrap.classList.toggle("open-function-menu");
     wrap.classList.remove("open-labelless-menu");
+    restoreBrownMenuScroll();
   });
 
   labellessToggle.addEventListener("click", e => {
     e.stopPropagation();
+    rememberBrownMenuScroll();
     wrap.classList.toggle("open-labelless-menu");
     wrap.classList.remove("open-function-menu");
+    restoreBrownMenuScroll();
   });
 
   wrap.appendChild(functionToggle);
@@ -135,4 +188,5 @@ function buildBrownIndexBar(){
   wrap.appendChild(labellessMenu);
 
   codeView.prepend(wrap);
+  restoreBrownMenuScroll();
 }
