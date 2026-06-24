@@ -1,17 +1,14 @@
 // 16-brown-letter-sections.js
 // Overrides the brown menu layout so alphabet order reads vertically by letter sections.
 // Each first letter gets its own box, and chips stay alphabetical inside that box.
-// Single tap selects, double tap renames, hold opens the matching code behind the menu.
+// Single tap selects and opens Toolbar 2. Rename / Review now live in Toolbar 2.
 
 let brownMenuScrollMemory = {
   functions: 0,
   labelless: 0
 };
 
-let brownLastTap = {
-  chip: null,
-  time: 0
-};
+let currentBrownToolbarItem = null;
 
 function rememberBrownMenuScroll(){
   const functionMenu = document.querySelector(".brown-index-menu.function-list");
@@ -68,6 +65,15 @@ function openBrownItemCode(item){
   scrollToBrownItemCode(item);
 }
 
+function selectBrownItemAndShowToolbar2(item){
+  currentBrownToolbarItem = item;
+  toggleBrownItemSelection(item);
+
+  if (typeof showToolbar2 === "function"){
+    showToolbar2(item);
+  }
+}
+
 function createBrownChip(item){
   const chip = document.createElement("button");
   chip.type = "button";
@@ -75,92 +81,15 @@ function createBrownChip(item){
   chip.classList.toggle("brown-chip-selected", brownItemIsSelected(item));
   chip.textContent = item.label;
 
-  let holdTimer = null;
-  let didHold = false;
-  let startX = 0;
-  let startY = 0;
-  let pointerId = null;
-
-  function cancelHold(){
-    clearTimeout(holdTimer);
-    holdTimer = null;
-  }
-
   chip.addEventListener("contextmenu", e => {
     e.preventDefault();
     e.stopPropagation();
   });
 
-  chip.addEventListener("pointerdown", e => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    didHold = false;
-    pointerId = e.pointerId;
-    startX = e.clientX;
-    startY = e.clientY;
-    cancelHold();
-
-    try{ chip.setPointerCapture(e.pointerId); }catch(err){}
-
-    holdTimer = setTimeout(() => {
-      didHold = true;
-      brownLastTap.chip = null;
-      brownLastTap.time = 0;
-      openBrownItemCode(item);
-    }, 540);
-  });
-
-  chip.addEventListener("pointermove", e => {
-    if (pointerId !== e.pointerId) return;
-
-    const distance = Math.hypot(e.clientX - startX, e.clientY - startY);
-    if (distance > 10) cancelHold();
-  });
-
-  chip.addEventListener("pointerup", e => {
-    if (pointerId !== e.pointerId) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-    cancelHold();
-
-    try{ chip.releasePointerCapture(e.pointerId); }catch(err){}
-    pointerId = null;
-
-    if (didHold){
-      didHold = false;
-      return;
-    }
-
-    const now = Date.now();
-    const isDoubleTap = brownLastTap.chip === chip && now - brownLastTap.time < 360;
-
-    brownLastTap.chip = chip;
-    brownLastTap.time = now;
-
-    if (isDoubleTap){
-      brownLastTap.chip = null;
-      brownLastTap.time = 0;
-      rememberBrownMenuScroll();
-      startBrownChipRename(chip, item);
-      return;
-    }
-
-    toggleBrownItemSelection(item);
-  });
-
-  ["pointercancel", "lostpointercapture"].forEach(type => {
-    chip.addEventListener(type, () => {
-      cancelHold();
-      pointerId = null;
-      didHold = false;
-    });
-  });
-
   chip.addEventListener("click", e => {
     e.preventDefault();
     e.stopPropagation();
+    selectBrownItemAndShowToolbar2(item);
   });
 
   return chip;
