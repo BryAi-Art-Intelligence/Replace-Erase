@@ -1,5 +1,5 @@
 /* 4-start-art.css
-   Controls the opening art, paste area, front images, and bottom art. */
+   Controls the opening scene, paste area, and start message. */
 
 .scene{
   position:absolute;
@@ -28,67 +28,6 @@
   transform:scale(.985);
 }
 
-.front-art-layer{
-  position:absolute;
-  inset:0;
-  z-index:3;
-  pointer-events:none;
-  user-select:none;
-  -webkit-user-select:none;
-}
-
-.front-art{
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  display:block;
-  object-fit:contain;
-  pointer-events:none;
-  user-select:none;
-  -webkit-user-select:none;
-}
-
-.front-art-rat{
-  top:18%;
-  width:min(86vw, 620px);
-  max-height:42vh;
-  opacity:.98;
-  filter:drop-shadow(0 18px 42px rgba(0,0,0,.12));
-}
-
-.front-art-photo{
-  top:50%;
-  width:min(78vw, 520px);
-  max-height:34vh;
-  opacity:.88;
-  filter:drop-shadow(0 18px 44px rgba(0,0,0,.10));
-}
-
-.front-photo-wrap{
-  position:absolute;
-  left:50%;
-  top:47%;
-  transform:translate(-50%,-50%);
-  z-index:2;
-  width:min(88vw, 760px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  pointer-events:none;
-  user-select:none;
-  -webkit-user-select:none;
-}
-
-.front-photo{
-  width:100%;
-  height:auto;
-  max-height:58vh;
-  object-fit:contain;
-  display:block;
-  filter:drop-shadow(0 20px 50px rgba(0,0,0,.14));
-  opacity:.98;
-}
-
 .start-message{
   position:absolute;
   top:6%;
@@ -104,19 +43,4 @@
   user-select:none;
   -webkit-user-select:none;
   z-index:2;
-}
-
-.bottom-art-layer{
-  position: absolute;
-  z-index: 26;
-  left: 95px;
-  top: 610px;
-  pointer-events: none;
-}
-
-.bottom-art{
-  width: 190px;
-  height: auto;
-  display: block;
-  object-fit: contain;
 }
