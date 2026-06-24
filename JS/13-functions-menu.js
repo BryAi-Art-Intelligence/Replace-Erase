@@ -1,6 +1,7 @@
 // 13-functions-menu.js
 // Builds the brown menu for fast function/block access.
 // Brown chips select code chunks. The REPLACE / AND / ERASE toolbar performs the action.
+// Hold a brown name to rename it in the code before final build.
 
 function getCssSelectorName(line){
   const s = String(line || "").trim();
@@ -97,6 +98,232 @@ function toggleBrownItemSelection(item){
   renderBlockMode();
 }
 
+function escapeBrownRenameRegex(text){
+  return String(text).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function getBrownRenameInfo(item){
+  const label = String(item.label || "").trim();
+
+  if (label.startsWith(".")){
+    const match = label.match(/^\.([A-Za-z0-9_-]+)/);
+    if (!match) return null;
+
+    return {
+      type: "class",
+      prefix: ".",
+      oldName: match[1]
+    };
+  }
+
+  if (label.startsWith("#")){
+    const match = label.match(/^#([A-Za-z0-9_-]+)/);
+    if (!match) return null;
+
+    return {
+      type: "id",
+      prefix: "#",
+      oldName: match[1]
+    };
+  }
+
+  return null;
+}
+
+function replaceClassNameInCode(text, oldName, newName){
+  const oldEsc = escapeBrownRenameRegex(oldName);
+
+  let out = String(text);
+
+  out = out.replace(
+    new RegExp(`\\.(${oldEsc})(?=[\\s\\.#:\\[,>+~\\{\\)]|$)`, "g"),
+    "." + newName
+  );
+
+  out = out.replace(
+    /(class\s*=\s*["'])([^"']*)(["'])/gi,
+    (match, open, names, close) => {
+      const replaced = String(names)
+        .split(/\s+/)
+        .map(name => name === oldName ? newName : name)
+        .join(" ");
+
+      return open + replaced + close;
+    }
+  );
+
+  out = out.replace(
+    new RegExp(`(classList\\.(?:add|remove|toggle|contains)\\s*\\(\\s*["'\`])${oldEsc}(["'\`]\\s*\\))`, "g"),
+    "$1" + newName + "$2"
+  );
+
+  return out;
+}
+
+function replaceIdNameInCode(text, oldName, newName){
+  const oldEsc = escapeBrownRenameRegex(oldName);
+
+  let out = String(text);
+
+  out = out.replace(
+    new RegExp(`#${oldEsc}(?=[\\s\\.#:\\[,>+~\\{\\)]|$)`, "g"),
+    "#" + newName
+  );
+
+  out = out.replace(
+    new RegExp(`(id\\s*=\\s*["'])${oldEsc}(["'])`, "gi"),
+    "$1" + newName + "$2"
+  );
+
+  out = out.replace(
+    new RegExp(`(getElementById\\s*\\(\\s*["'\`])${oldEsc}(["'\`]\\s*\\))`, "g"),
+    "$1" + newName + "$2"
+  );
+
+  return out;
+}
+
+function renameBrownItemInCode(item, typedValue){
+  const info = getBrownRenameInfo(item);
+  if (!info) return;
+
+  const newName = String(typedValue || "")
+    .replace(info.prefix, "")
+    .trim()
+    .replace(/[^A-Za-z0-9_-]/g, "");
+
+  if (!newName || newName === info.oldName) return;
+
+  saveUndoState();
+
+  currentParts = currentParts.map(part => {
+    if (!part || typeof part.content !== "string") return part;
+
+    const next = { ...part };
+
+    if (info.type === "class"){
+      next.content = replaceClassNameInCode(next.content, info.oldName, newName);
+    }
+
+    if (info.type === "id"){
+      next.content = replaceIdNameInCode(next.content, info.oldName, newName);
+    }
+
+    return next;
+  });
+
+  selectedLines = new Set();
+  expandedBlocks.add(item.index);
+  renderBlockMode();
+}
+
+function startBrownChipRename(chip, item){
+  const info = getBrownRenameInfo(item);
+  if (!info) return;
+
+  chip.classList.add("brown-chip-renaming");
+  chip.textContent = "";
+
+  const input = document.createElement("input");
+  input.className = "brown-rename-input";
+  input.value = info.prefix;
+  input.autocapitalize = "none";
+  input.autocomplete = "off";
+  input.spellcheck = false;
+
+  let finished = false;
+
+  function finishRename(save){
+    if (finished) return;
+    finished = true;
+
+    const value = input.value;
+
+    if (save) renameBrownItemInCode(item, value);
+    else renderBlockMode();
+  }
+
+  input.addEventListener("pointerdown", e => e.stopPropagation());
+  input.addEventListener("click", e => e.stopPropagation());
+
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter"){
+      e.preventDefault();
+      finishRename(true);
+    }
+
+    if (e.key === "Escape"){
+      e.preventDefault();
+      finishRename(false);
+    }
+
+    if (
+      (e.key === "Backspace" || e.key === "Delete") &&
+      input.selectionStart <= info.prefix.length &&
+      input.selectionEnd <= info.prefix.length
+    ){
+      e.preventDefault();
+    }
+  });
+
+  input.addEventListener("input", () => {
+    if (!input.value.startsWith(info.prefix)){
+      input.value = info.prefix + input.value.replace(info.prefix, "");
+    }
+  });
+
+  input.addEventListener("blur", () => finishRename(true));
+
+  chip.appendChild(input);
+
+  requestAnimationFrame(() => {
+    input.focus();
+    input.setSelectionRange(info.prefix.length, info.prefix.length);
+  });
+}
+
+function createBrownChip(item){
+  const chip = document.createElement("button");
+  chip.type = "button";
+  chip.className = "brown-index-chip";
+  chip.classList.toggle("brown-chip-selected", brownItemIsSelected(item));
+  chip.textContent = item.label;
+
+  let holdTimer = null;
+  let didLongPress = false;
+
+  chip.addEventListener("pointerdown", e => {
+    e.stopPropagation();
+
+    didLongPress = false;
+    clearTimeout(holdTimer);
+
+    holdTimer = setTimeout(() => {
+      didLongPress = true;
+      startBrownChipRename(chip, item);
+    }, 560);
+  });
+
+  ["pointerup", "pointercancel", "pointerleave"].forEach(type => {
+    chip.addEventListener(type, () => {
+      clearTimeout(holdTimer);
+    });
+  });
+
+  chip.addEventListener("click", e => {
+    e.stopPropagation();
+
+    if (didLongPress){
+      didLongPress = false;
+      return;
+    }
+
+    toggleBrownItemSelection(item);
+  });
+
+  return chip;
+}
+
 function buildBrownIndexBar(){
   const old = codeView.querySelector(".brown-index-wrap");
   if (old) old.remove();
@@ -171,33 +398,11 @@ function buildBrownIndexBar(){
   labellessItems.sort((a,b) => a.label.localeCompare(b.label));
 
   functionItems.forEach(item => {
-    const chip = document.createElement("button");
-    chip.type = "button";
-    chip.className = "brown-index-chip";
-    chip.classList.toggle("brown-chip-selected", brownItemIsSelected(item));
-    chip.textContent = item.label;
-
-    chip.addEventListener("click", e => {
-      e.stopPropagation();
-      toggleBrownItemSelection(item);
-    });
-
-    functionMenu.appendChild(chip);
+    functionMenu.appendChild(createBrownChip(item));
   });
 
   labellessItems.forEach(item => {
-    const chip = document.createElement("button");
-    chip.type = "button";
-    chip.className = "brown-index-chip";
-    chip.classList.toggle("brown-chip-selected", brownItemIsSelected(item));
-    chip.textContent = item.label;
-
-    chip.addEventListener("click", e => {
-      e.stopPropagation();
-      toggleBrownItemSelection(item);
-    });
-
-    labellessMenu.appendChild(chip);
+    labellessMenu.appendChild(createBrownChip(item));
   });
 
   functionToggle.addEventListener("click", e => {
@@ -299,6 +504,23 @@ function injectCollapsedStyles(){
   color:#fff2dc;
   border-color:#f0c28e;
   box-shadow:0 0 0 2px rgba(240,194,142,.22);
+}
+
+.brown-index-chip.brown-chip-renaming{
+  padding:6px 10px;
+}
+
+.brown-rename-input{
+  width:92px;
+  max-width:34vw;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:#fff2dc;
+  font:inherit;
+  font-weight:900;
+  letter-spacing:.04em;
+  text-align:left;
 }
 
 .brown-index-chip:active{
