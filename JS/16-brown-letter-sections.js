@@ -1,6 +1,7 @@
 // 16-brown-letter-sections.js
 // Overrides the brown menu layout so alphabet order reads vertically by letter sections.
 // Each first letter gets its own box, and chips stay alphabetical inside that box.
+// Double tap a brown name to rename it.
 
 let brownMenuScrollMemory = {
   functions: 0,
@@ -23,6 +24,41 @@ function restoreBrownMenuScroll(){
     if (functionMenu) functionMenu.scrollTop = brownMenuScrollMemory.functions || 0;
     if (labellessMenu) labellessMenu.scrollTop = brownMenuScrollMemory.labelless || 0;
   });
+}
+
+function createBrownChip(item){
+  const chip = document.createElement("button");
+  chip.type = "button";
+  chip.className = "brown-index-chip";
+  chip.classList.toggle("brown-chip-selected", brownItemIsSelected(item));
+  chip.textContent = item.label;
+
+  let lastTapTime = 0;
+  let tapTimer = null;
+
+  chip.addEventListener("click", e => {
+    e.stopPropagation();
+
+    const now = Date.now();
+    const isDoubleTap = now - lastTapTime < 360;
+    lastTapTime = now;
+
+    if (isDoubleTap){
+      clearTimeout(tapTimer);
+      tapTimer = null;
+      rememberBrownMenuScroll();
+      startBrownChipRename(chip, item);
+      return;
+    }
+
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(() => {
+      toggleBrownItemSelection(item);
+      tapTimer = null;
+    }, 220);
+  });
+
+  return chip;
 }
 
 function getBrownSectionLetter(label){
