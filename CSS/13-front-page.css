@@ -29,3 +29,33 @@
 .stack{
   position:relative;
 }
+
+/* Brown function menu readability override.
+   JS already sorts the brown chips alphabetically before rendering.
+   This forces the menu into straight readable rows. */
+.brown-index-wrap{
+  width:min(92vw, 560px) !important;
+  align-items:flex-start !important;
+}
+
+.brown-index-wrap.open-function-menu .function-list,
+.brown-index-wrap.open-labelless-menu .labelless-list{
+  display:grid !important;
+  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+  align-items:start !important;
+  justify-content:stretch !important;
+  gap:8px !important;
+}
+
+.brown-index-chip{
+  width:100% !important;
+  min-width:0 !important;
+  text-align:left !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+
+.brown-rename-input{
+  width:100% !important;
+  max-width:none !important;
+}
