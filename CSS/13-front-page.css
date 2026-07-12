@@ -31,8 +31,8 @@
 }
 
 /* Full-canvas function menu.
-   The large brown container and alphabet boxes are removed so every
-   pasted function can use the available screen in four columns. */
+   The large brown container is removed so every pasted function
+   can use the available screen in four columns. */
 .brown-index-wrap{
   left:22px !important;
   right:22px !important;
@@ -70,11 +70,11 @@
   grid-column:1 / -1 !important;
   grid-row:2 !important;
   display:grid !important;
-  grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+  grid-template-columns:minmax(0, 1fr) !important;
   align-content:start !important;
   align-items:stretch !important;
   justify-content:stretch !important;
-  gap:8px !important;
+  gap:14px !important;
   width:100% !important;
   max-height:none !important;
   min-height:0 !important;
@@ -84,14 +84,44 @@
   padding:2px 0 12px !important;
 }
 
-/* Keep alphabetical sorting, but remove the separate letter boxes. */
-.brown-letter-section,
-.brown-letter-rows{
-  display:contents !important;
+/* Alphabet sections stay open and light: letter + line, then four buttons per row. */
+.brown-letter-section{
+  display:grid !important;
+  grid-template-columns:minmax(0, 1fr) !important;
+  gap:8px !important;
+  min-width:0 !important;
+  padding:0 0 14px !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
 }
 
 .brown-letter-title{
-  display:none !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:10px !important;
+  width:100% !important;
+  padding:0 !important;
+  color:#7b4a2a !important;
+  font-size:11px !important;
+  font-weight:1000 !important;
+  letter-spacing:.16em !important;
+  opacity:.9 !important;
+}
+
+.brown-letter-title::after{
+  content:"";
+  flex:1 1 auto;
+  height:2px;
+  border-radius:999px;
+  background:rgba(123,74,42,.42);
+}
+
+.brown-letter-rows{
+  display:grid !important;
+  grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+  align-items:stretch !important;
+  gap:8px !important;
 }
 
 .brown-index-chip{
