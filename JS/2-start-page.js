@@ -68,10 +68,6 @@ function buildStartUI(){
 async function handleWholeScreenPaste(e){
   if (e.target.closest("#status")) return;
 
-  if (pasteBox){
-    pasteBox.focus();
-  }
-
   try{
     if (!navigator.clipboard || !navigator.clipboard.readText){
       return;
@@ -83,9 +79,7 @@ async function handleWholeScreenPaste(e){
 
     beginCodeLoad(text);
   }catch(err){
-    if (pasteBox){
-      pasteBox.focus();
-    }
+    console.warn("Clipboard paste was not available.", err);
   }
 }
 
