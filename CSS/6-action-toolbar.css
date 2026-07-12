@@ -1,14 +1,14 @@
 /* 6-action-toolbar.css
-   Controls the floating REPLACE / AND / ERASE toolbar. */
+   Controls the permanent REPLACE / AND / ERASE toolbar. */
 
 .selected-line-tools{
   position:fixed;
   left:50% !important;
   right:auto;
-  bottom:18px !important;
+  bottom:82px !important;
   transform:translateX(-50%) !important;
   z-index:999 !important;
-  display:none;
+  display:flex;
   width:calc(100vw - 34px);
   max-width:420px;
   box-sizing:border-box;
@@ -28,15 +28,6 @@
   pointer-events:auto !important;
 }
 
-.selected-line-tools.show-selected-tools{
-  display:flex;
-}
-
-/* The action toolbar temporarily takes the type toolbar's bottom position. */
-body:has(.selected-line-tools.show-selected-tools) .type-toolbar{
-  display:none !important;
-}
-
 .selected-line-tools button{
   border:0;
   pointer-events:auto !important;
@@ -49,7 +40,7 @@ body:has(.selected-line-tools.show-selected-tools) .type-toolbar{
   line-height:1.05;
   letter-spacing:.06em;
   white-space:nowrap;
-  transition:color .22s ease, background .22s ease, text-shadow .22s ease, transform .18s ease, opacity .22s ease;
+  transition:color .22s ease, background .22s ease, text-shadow .22s ease, transform .18s ease, opacity .22s ease, filter .22s ease;
   touch-action:manipulation;
   font-family:inherit;
 }
@@ -76,10 +67,24 @@ body:has(.selected-line-tools.show-selected-tools) .type-toolbar{
   text-shadow:0 0 10px rgba(106,27,43,.18);
 }
 
-.selected-and-btn:disabled{
+/* REPLACE and ERASE wait for a selected function. */
+.selected-line-tools:not(.show-selected-tools) .selected-replace-btn,
+.selected-line-tools:not(.show-selected-tools) .selected-erase-btn{
   opacity:.25;
+  filter:grayscale(.35);
+  pointer-events:none !important;
+  cursor:default;
+}
+
+/* AND keeps its stricter two-adjacent-lines condition. */
+.selected-line-tools button:disabled{
+  opacity:.25;
+  filter:grayscale(.35);
+  pointer-events:none !important;
+  cursor:default;
 }
 
 .selected-and-btn.and-ready{
   opacity:1;
+  filter:none;
 }
