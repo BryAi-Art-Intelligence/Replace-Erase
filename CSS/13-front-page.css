@@ -31,13 +31,12 @@
 }
 
 /* Full-canvas function index.
-   The two menu buttons are removed; the alphabetized function list
-   stays visible until a bottom type button opens its code view. */
+   The alphabetized list stays above the permanent bottom toolbars. */
 .brown-index-wrap{
   left:22px !important;
   right:22px !important;
   top:46px !important;
-  bottom:82px !important;
+  bottom:146px !important;
   transform:none !important;
   width:auto !important;
   max-height:none !important;
@@ -160,10 +159,11 @@
   touch-action:manipulation !important;
 }
 
+/* Brown toolbar becomes the third level above both permanent bars. */
 .toolbar2{
   position:fixed;
   left:50%;
-  bottom:92px;
+  bottom:146px;
   transform:translateX(-50%);
   z-index:998;
   display:none;
@@ -183,6 +183,10 @@
 
 .toolbar2.show-toolbar2{
   display:flex;
+}
+
+body:has(.toolbar2.show-toolbar2) .brown-index-wrap{
+  bottom:205px !important;
 }
 
 .toolbar2 button{
