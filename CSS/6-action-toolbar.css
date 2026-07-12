@@ -5,20 +5,22 @@
   position:fixed;
   left:50% !important;
   right:auto;
-  bottom:150px !important;
+  bottom:18px !important;
   transform:translateX(-50%) !important;
   z-index:999 !important;
   display:none;
-  width:max-content;
-  max-width:calc(100vw - 28px);
+  width:calc(100vw - 34px);
+  max-width:420px;
+  box-sizing:border-box;
+  min-height:54px;
   align-items:center;
   justify-content:center;
   gap:clamp(7px, 2vw, 10px);
-  padding:clamp(10px, 3vw, 14px) clamp(12px, 4vw, 18px);
-  border-radius:28px;
-  background:linear-gradient(180deg,rgba(255,255,255,.34),rgba(220,230,215,.22));
+  padding:6px;
+  border-radius:999px;
+  background:linear-gradient(180deg,rgba(255,255,255,.76),rgba(235,239,232,.68));
   border:1px solid rgba(120,140,120,.16);
-  box-shadow:0 10px 30px rgba(0,0,0,.08), inset 0 1px 0 rgba(255,255,255,.34);
+  box-shadow:0 10px 30px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.42);
   backdrop-filter:blur(10px);
   -webkit-backdrop-filter:blur(10px);
   user-select:none;
@@ -28,6 +30,11 @@
 
 .selected-line-tools.show-selected-tools{
   display:flex;
+}
+
+/* The action toolbar temporarily takes the type toolbar's bottom position. */
+body:has(.selected-line-tools.show-selected-tools) .type-toolbar{
+  display:none !important;
 }
 
 .selected-line-tools button{
