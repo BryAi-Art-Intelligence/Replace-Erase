@@ -30,9 +30,9 @@
   position:relative;
 }
 
-/* Full-canvas function menu.
-   The large brown container is removed so every pasted function
-   can use the available screen in four columns. */
+/* Full-canvas function index.
+   The two menu buttons are removed; the alphabetized function list
+   stays visible until a bottom type button opens its code view. */
 .brown-index-wrap{
   left:22px !important;
   right:22px !important;
@@ -43,12 +43,12 @@
   max-height:none !important;
   padding:0 !important;
   display:grid !important;
-  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-  grid-template-rows:auto minmax(0, 1fr) !important;
+  grid-template-columns:minmax(0, 1fr) !important;
+  grid-template-rows:minmax(0, 1fr) !important;
   justify-content:stretch !important;
   align-content:stretch !important;
   align-items:start !important;
-  gap:10px 8px !important;
+  gap:0 !important;
   background:transparent !important;
   border:0 !important;
   border-radius:0 !important;
@@ -57,18 +57,18 @@
   -webkit-backdrop-filter:none !important;
 }
 
-.brown-index-wrap .function-menu-toggle:first-of-type{
-  justify-self:end !important;
+.function-menu-toggle{
+  display:none !important;
 }
 
-.brown-index-wrap .function-menu-toggle:nth-of-type(2){
-  justify-self:start !important;
+/* A selected HEAD / HTML / CSS / JS / SVG / SRC view replaces the index. */
+.code-view:has(.code-section) .brown-index-wrap{
+  display:none !important;
 }
 
-.brown-index-wrap.open-function-menu .function-list,
-.brown-index-wrap.open-labelless-menu .labelless-list{
-  grid-column:1 / -1 !important;
-  grid-row:2 !important;
+.brown-index-wrap.open-function-menu .function-list{
+  grid-column:1 !important;
+  grid-row:1 !important;
   display:grid !important;
   grid-template-columns:minmax(0, 1fr) !important;
   align-content:start !important;
