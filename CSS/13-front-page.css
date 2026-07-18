@@ -227,3 +227,52 @@ body:has(.toolbar2.show-toolbar2) .brown-index-wrap{
 .toolbar2 button:active{
   transform:scale(.95);
 }
+
+
+/* Function appearance controls. */
+.toolbar2{
+  position:relative !important;
+}
+
+.toolbar2-color-menu,
+.toolbar2-size-menu{
+  position:absolute;
+  left:50%;
+  bottom:calc(100% + 8px);
+  transform:translateX(-50%);
+  display:none;
+  gap:6px;
+  padding:7px;
+  border:1px solid rgba(123,74,42,.6);
+  border-radius:14px;
+  background:rgba(38,25,16,.94);
+  box-shadow:0 10px 28px rgba(0,0,0,.2);
+}
+
+.toolbar2.show-color-menu .toolbar2-color-menu,
+.toolbar2.show-size-menu .toolbar2-size-menu{
+  display:grid;
+}
+
+.toolbar2-color-menu button,
+.toolbar2-size-menu button{
+  min-width:76px;
+  border:1px solid rgba(240,194,142,.24);
+  border-radius:9px;
+  padding:7px 8px;
+  color:#ffd6aa;
+  background:#3a2416;
+  font-size:10px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.toolbar2-color-menu button:active,
+.toolbar2-size-menu button:active{
+  transform:scale(.95);
+}
+
+.code-line[data-function-color] pre,
+.code-line[data-function-size] pre{
+  transition:color .14s ease, font-size .14s ease;
+}
