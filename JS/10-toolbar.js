@@ -187,6 +187,125 @@ function buildChangeReceiptHTML(beforeText, afterText){
   `;
 }
 
+function buildPlaybackView(){
+  const beforeLines = String(beforeCode).split("\n");
+  const afterLines = String(getUnifiedCleanText()).split("\n");
+  const count = Math.max(beforeLines.length, afterLines.length);
+
+  codeView.innerHTML = `
+    <div class="playback-view">
+      <div class="playback-heading">
+        <span>CHANGE PLAYBACK</span>
+        <span class="playback-status">READY</span>
+      </div>
+      <pre class="playback-code"></pre>
+      <div class="playback-controls">
+        <button type="button" class="playback-play">PLAY</button>
+        <button type="button" class="playback-restart">RESTART</button>
+        <button type="button" class="playback-back">BACK TO CODE</button>
+      </div>
+    </div>
+  `;
+
+  const pre = codeView.querySelector(".playback-code");
+  const status = codeView.querySelector(".playback-status");
+  const rows = [];
+
+  for (let i = 0; i < count; i++){
+    const row = document.createElement("span");
+    const beforeLine = beforeLines[i] ?? "";
+    const afterLine = afterLines[i] ?? "";
+
+    row.className =
+      "playback-line" +
+      (beforeLine !== afterLine ? " playback-changed" : "");
+
+    row.textContent = beforeLine || " ";
+    row.dataset.before = beforeLine;
+    row.dataset.after = afterLine;
+
+    pre.appendChild(row);
+    pre.appendChild(document.createTextNode("\n"));
+    rows.push(row);
+  }
+
+  let timerIds = [];
+
+  function clearPlaybackTimers(){
+    timerIds.forEach(id => clearTimeout(id));
+    timerIds = [];
+  }
+
+  function resetPlayback(){
+    clearPlaybackTimers();
+    rows.forEach(row => {
+      row.textContent = row.dataset.before || " ";
+      row.classList.remove("playback-changing", "playback-arrived");
+    });
+    status.textContent = "READY";
+  }
+
+  function playPlayback(){
+    clearPlaybackTimers();
+    resetPlayback();
+    status.textContent = "PLAYING";
+
+    const changedRows = rows.filter(row =>
+      row.dataset.before !== row.dataset.after
+    );
+
+    changedRows.forEach((row, index) => {
+      const start = setTimeout(() => {
+        row.classList.add("playback-changing");
+
+        const finish = setTimeout(() => {
+          row.textContent = row.dataset.after || " ";
+          row.classList.remove("playback-changing");
+          row.classList.add("playback-arrived");
+
+          if (index === changedRows.length - 1){
+            status.textContent = "COMPLETE";
+          }
+        }, 360);
+
+        timerIds.push(finish);
+      }, index * 430);
+
+      timerIds.push(start);
+    });
+
+    if (!changedRows.length){
+      status.textContent = "NO CHANGES";
+    }
+  }
+
+  codeView.querySelector(".playback-play")
+    .addEventListener("click", playPlayback);
+
+  codeView.querySelector(".playback-restart")
+    .addEventListener("click", resetPlayback);
+
+  codeView.querySelector(".playback-back")
+    .addEventListener("click", e => {
+      e.stopPropagation();
+      enterUnifiedMode();
+    });
+}
+
+function buildPlaybackButton(){
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "playback-button";
+  button.textContent = "PLAYBACK";
+
+  button.addEventListener("click", e => {
+    e.stopPropagation();
+    buildPlaybackView();
+  });
+
+  return button;
+}
+
 function buildBeforeAfterView(){
   const afterText = getUnifiedCleanText();
   const rows = buildBeforeAfterRows(beforeCode, afterText);
@@ -240,6 +359,7 @@ function enterUnifiedMode(){
   codeView.innerHTML = `<pre>${escapeHTML(clean)}</pre>`;
   codeView.appendChild(buildCopyFinalButton());
   codeView.appendChild(buildBeforeAfterButton());
+  codeView.appendChild(buildPlaybackButton());
   buildTypeToolbar();
   enableToolbarSwipe();
 }
