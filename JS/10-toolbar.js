@@ -320,6 +320,122 @@ function buildPlaybackView(){
     });
 }
 
+
+function getSectionFileExtension(type){
+  if (type === "html") return "html";
+  if (type === "css") return "css";
+  if (type === "js") return "js";
+  return "txt";
+}
+
+function saveSeparatedSection(part, index){
+  const type = part && part.type ? part.type : "section";
+  const extension = getSectionFileExtension(type);
+  const blob = new Blob([String(part && part.content || "")], {
+    type: "text/plain;charset=utf-8"
+  });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = `section-${index + 1}.${extension}`;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 500);
+}
+
+function openSeparatedSection(part, index){
+  const type = part && part.type ? part.type : "section";
+  const view = document.querySelector(".section-save-view");
+  if (!view) return;
+
+  view.innerHTML = `
+    <div class="section-code-popup">
+      <div class="section-code-heading">
+        <span>${type.toUpperCase()} SECTION ${index + 1}</span>
+        <button type="button" class="section-code-close">BACK</button>
+      </div>
+      <pre>${escapeHTML(String(part && part.content || ""))}</pre>
+      <button type="button" class="section-save-one">SAVE THIS SECTION</button>
+    </div>
+  `;
+
+  view.querySelector(".section-code-close")
+    .addEventListener("click", e => {
+      e.stopPropagation();
+      buildSeparatedSectionsView();
+    });
+
+  view.querySelector(".section-save-one")
+    .addEventListener("click", e => {
+      e.stopPropagation();
+      saveSeparatedSection(part, index);
+    });
+
+  buildTypeToolbar();
+  enableToolbarSwipe();
+}
+
+function buildSeparatedSectionsView(){
+  codeView.innerHTML = `
+    <div class="section-save-view">
+      <div class="section-save-heading">
+        <span>SEPARATE SECTIONS</span>
+        <span class="section-save-subtitle">Tap one to open and save it</span>
+      </div>
+      <div class="section-save-list"></div>
+      <button type="button" class="section-save-back">BACK TO CODE</button>
+    </div>
+  `;
+
+  const list = codeView.querySelector(".section-save-list");
+
+  currentParts.forEach((part, index) => {
+    if (!part) return;
+
+    const type = part.type || "section";
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = `section-save-card section-save-card-${type}`;
+    card.innerHTML = `
+      <span class="section-save-card-type">${type.toUpperCase()}</span>
+      <span class="section-save-card-name">SECTION ${index + 1}</span>
+      <span class="section-save-card-lines">${String(part.content || "").split("\\n").length} lines · TAP TO OPEN</span>
+    `;
+
+    card.addEventListener("click", e => {
+      e.stopPropagation();
+      openSeparatedSection(part, index);
+    });
+
+    list.appendChild(card);
+  });
+
+  codeView.querySelector(".section-save-back")
+    .addEventListener("click", e => {
+      e.stopPropagation();
+      enterUnifiedMode();
+    });
+
+  buildTypeToolbar();
+  enableToolbarSwipe();
+}
+
+function buildSeparatedSectionsButton(){
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "sections-save-button";
+  button.textContent = "SECTIONS";
+
+  button.addEventListener("click", e => {
+    e.stopPropagation();
+    buildSeparatedSectionsView();
+  });
+
+  return button;
+}
+
 function buildPlaybackButton(){
   const button = document.createElement("button");
   button.type = "button";
@@ -387,6 +503,7 @@ function enterUnifiedMode(){
   codeView.innerHTML = `<pre>${escapeHTML(clean)}</pre>`;
   codeView.appendChild(buildCopyFinalButton());
   codeView.appendChild(buildBeforeAfterButton());
+  codeView.appendChild(buildSeparatedSectionsButton());
   codeView.appendChild(buildPlaybackButton());
   buildTypeToolbar();
   enableToolbarSwipe();
