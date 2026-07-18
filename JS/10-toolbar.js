@@ -72,6 +72,34 @@ function updateSelectedLineTools(){
   andBtn.classList.toggle("and-ready", canAnd);
 }
 
+function focusTypePanel(type){
+  requestAnimationFrame(() => {
+    const section = codeView.querySelector(
+      `.code-section[data-type="${type}"]`
+    );
+
+    if (!section) return;
+
+    const block = section.querySelector(".code-block");
+
+    codeView.querySelectorAll(".code-block.selected-block")
+      .forEach(other => {
+        if (other !== block){
+          other.classList.remove("selected-block");
+        }
+      });
+
+    if (block){
+      block.classList.add("selected-block");
+    }
+
+    section.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+  });
+}
+
 function buildTypeToolbar(){
   const bar = document.createElement("div");
   bar.className = "type-toolbar";
@@ -81,6 +109,7 @@ function buildTypeToolbar(){
     button.className = `type-tool type-tool-${type}`;
     button.dataset.type = type;
     button.textContent = type === "hidden" ? "SRC" : type.toUpperCase();
+    button.classList.toggle("active-tool", activeType === type);
 
     const count = currentParts.filter(part => part && part.type === type).length;
 
@@ -98,20 +127,17 @@ function buildTypeToolbar(){
 
       if (!indexes.length) return;
 
-      const allOpen = indexes.every(index => expandedBlocks.has(index));
-
-      if (allOpen){
-        indexes.forEach(index => expandedBlocks.delete(index));
-        activeType = null;
-        setPanelColor(null);
-      } else {
-        expandedBlocks.clear();
-        indexes.forEach(index => expandedBlocks.add(index));
-        activeType = type;
-        setPanelColor(type);
-      }
+      /*
+        A type tap is a command:
+        select that type, open its blocks, and center the first one.
+      */
+      expandedBlocks.clear();
+      indexes.forEach(index => expandedBlocks.add(index));
+      activeType = type;
+      setPanelColor(type);
 
       renderBlockMode();
+      focusTypePanel(type);
     });
 
     bar.appendChild(button);
