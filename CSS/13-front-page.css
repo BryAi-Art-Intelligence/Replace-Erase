@@ -62,10 +62,6 @@
   display:none !important;
 }
 
-.code-view:has(.code-section){
-  padding-right:82px !important;
-}
-
 .function-menu-toggle{
   display:none !important;
 }
