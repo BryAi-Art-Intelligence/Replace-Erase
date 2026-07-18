@@ -8,8 +8,8 @@
 
       window.ReplaceEraseHistory.record({
         label: "Paste",
-        undo: function () { /* remove the pasted item */ },
-        redo: function () { /* restore the pasted item */ }
+        undo: function () { remove the pasted item; },
+        redo: function () { restore the pasted item; }
       });
 
     The action object must contain undo() and redo() functions.
