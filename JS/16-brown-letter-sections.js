@@ -55,7 +55,19 @@ function openBrownItemCode(item){
 
   const keys = getBrownItemLineKeys(item);
 
-  selectedLines = new Set(keys);
+  const alreadySelected =
+    keys.length > 0 &&
+    keys.every(key => selectedLines.has(key));
+
+  /*
+    Every function keeps its own selection field.
+    Selecting another function adds to the existing set.
+    Tapping an already-selected function removes only that function.
+  */
+  keys.forEach(key => {
+    if (alreadySelected) selectedLines.delete(key);
+    else selectedLines.add(key);
+  });
 
   const part = currentParts[item.index];
   activeType = part ? part.type : null;
