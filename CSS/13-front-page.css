@@ -66,11 +66,7 @@
   display:none !important;
 }
 
-/* A selected HEAD / HTML / CSS / JS / SVG / SRC view replaces the index. */
-.code-view:has(.code-section) .brown-index-wrap{
-  display:none !important;
-}
-
+/* The function rail stays visible while the code and bottom type toolbar are active. */
 .brown-index-wrap.open-function-menu .function-list{
   display:flex !important;
   flex-direction:column !important;
