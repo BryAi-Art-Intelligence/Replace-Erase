@@ -151,6 +151,42 @@ function buildBeforeAfterRows(beforeText, afterText){
   return { beforeHTML, afterHTML };
 }
 
+function buildChangeReceiptHTML(beforeText, afterText){
+  const history =
+    window.ReplaceEraseHistory &&
+    Array.isArray(window.ReplaceEraseHistory.undoStack)
+      ? window.ReplaceEraseHistory.undoStack
+      : [];
+
+  const entries = history
+    .map(action => String(action.label || "Changed"))
+    .filter(Boolean);
+
+  if (!entries.length && String(beforeText) !== String(afterText)){
+    entries.push("Changed code");
+  }
+
+  if (!entries.length){
+    return `
+      <section class="change-receipt">
+        <h2>CHANGED &amp; RENAMED</h2>
+        <p class="receipt-empty">No changes yet.</p>
+      </section>
+    `;
+  }
+
+  return `
+    <section class="change-receipt">
+      <h2>CHANGED &amp; RENAMED</h2>
+      <ol>
+        ${entries.map((entry, index) =>
+          `<li><span>${index + 1}</span>${escapeHTML(entry)}</li>`
+        ).join("")}
+      </ol>
+    </section>
+  `;
+}
+
 function buildBeforeAfterView(){
   const afterText = getUnifiedCleanText();
   const rows = buildBeforeAfterRows(beforeCode, afterText);
@@ -165,6 +201,7 @@ function buildBeforeAfterView(){
         <h2>AFTER</h2>
         <pre>${rows.afterHTML}</pre>
       </section>
+      ${buildChangeReceiptHTML(beforeCode, afterText)}
       <button type="button" class="before-after-back">BACK TO CODE</button>
     </div>
   `;
