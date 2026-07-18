@@ -192,6 +192,13 @@ function rewindToOriginal(){
 
   currentParts = splitCode(beforeCode);
   selectedLines = new Set();
+  undoStack = [];
+
+  if (window.ReplaceEraseHistory){
+    window.ReplaceEraseHistory.undoStack.length = 0;
+    window.ReplaceEraseHistory.redoStack.length = 0;
+    window.ReplaceEraseHistory.update();
+  }
   expandedBlocks = new Set(
     currentParts.map((part, index) => index)
   );
