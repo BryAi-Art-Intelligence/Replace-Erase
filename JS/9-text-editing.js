@@ -23,6 +23,7 @@ function saveTextareaBlock(block){
   if (!editor) return;
 
   const index = Number(block.dataset.index);
+  const oldText = currentParts[index] ? currentParts[index].content : "";
   const newText = editor.value;
 
   if (currentParts[index]) currentParts[index].content = newText;
@@ -32,6 +33,31 @@ function saveTextareaBlock(block){
   clearTextSelection();
   enableLineNumberToggle();
   enableFunctionLineTap();
+
+  if (oldText !== newText && window.ReplaceEraseHistory){
+    const before = {
+      parts: currentParts.map((part, partIndex) =>
+        partIndex === index ? { ...part, content: oldText } : { ...part }
+      ),
+      selected: [...selectedLines],
+      expanded: [...expandedBlocks],
+      active: activeType
+    };
+
+    const after = captureUndoState();
+
+    window.ReplaceEraseHistory.record({
+      label: "Text Edit",
+
+      undo: function(){
+        restoreUndoState(before);
+      },
+
+      redo: function(){
+        restoreUndoState(after);
+      }
+    });
+  }
 }
 
 function convertBlockToTextarea(block, start = 0, end = 0){
