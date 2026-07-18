@@ -68,3 +68,107 @@
 .type-tool-js.active-tool{color:#9b6200;background:rgba(190,120,0,.16);}
 .type-tool-svg.active-tool{color:#6e48b5;background:rgba(90,60,150,.16);}
 .type-tool-hidden.active-tool{color:#666;background:rgba(0,0,0,.08);}
+
+
+.before-after-button{
+  position:fixed;
+  left:50%;
+  bottom:76px;
+  transform:translateX(-50%);
+  z-index:41;
+  min-height:38px;
+  padding:8px 14px;
+  border:1px solid rgba(120,120,120,.18);
+  border-radius:999px;
+  color:#4b4036;
+  background:rgba(255,255,255,.82);
+  box-shadow:0 8px 22px rgba(0,0,0,.12);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.08em;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+
+.before-after-button:active,
+.before-after-back:active{
+  transform:translateX(-50%) scale(.96);
+}
+
+.before-after-view{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:10px;
+  min-width:0;
+  padding:8px 4px 86px;
+}
+
+.before-after-column{
+  min-width:0;
+  overflow:hidden;
+  border:1px solid rgba(120,120,120,.18);
+  border-radius:12px;
+  background:rgba(255,255,255,.28);
+}
+
+.before-after-column h2{
+  margin:0;
+  padding:8px;
+  color:#6b594a;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.1em;
+  text-align:center;
+}
+
+.before-after-column pre{
+  margin:0;
+  overflow:auto;
+  padding:6px;
+  white-space:pre;
+  font:inherit;
+  line-height:1.55;
+  color:#5f5f5f;
+}
+
+.compare-line{
+  display:block;
+  min-height:1.55em;
+  padding:0 3px;
+  border-radius:4px;
+}
+
+.compare-line.compare-changed{
+  color:#6b341f;
+  background:rgba(210,125,68,.24);
+}
+
+.before-after-back{
+  position:fixed;
+  left:50%;
+  bottom:18px;
+  transform:translateX(-50%);
+  z-index:42;
+  min-height:38px;
+  padding:8px 14px;
+  border:1px solid rgba(120,120,120,.18);
+  border-radius:999px;
+  color:#4b4036;
+  background:rgba(255,255,255,.86);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.08em;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+
+@media (max-width:560px){
+  .before-after-view{
+    gap:6px;
+  }
+
+  .before-after-column pre{
+    font-size:8px;
+  }
+}
