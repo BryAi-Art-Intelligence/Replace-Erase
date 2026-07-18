@@ -53,7 +53,23 @@ function buildStartUI(){
   stack.appendChild(ghostTitle);
   stack.appendChild(centerTitle);
   stack.appendChild(pasteHint);
+  const colorButton = document.createElement("button");
+  colorButton.type = "button";
+  colorButton.className = "start-color-button";
+  colorButton.textContent = "COLOR";
+  colorButton.setAttribute("aria-pressed", "false");
+
+  colorButton.addEventListener("click", e => {
+    e.stopPropagation();
+    colorOnlyMode = !colorOnlyMode;
+    colorButton.classList.toggle("is-active", colorOnlyMode);
+    colorButton.textContent = colorOnlyMode ? "COLOR ON" : "COLOR";
+    colorButton.setAttribute("aria-pressed", String(colorOnlyMode));
+  });
+
   stack.appendChild(pasteBox);
+
+  stack.appendChild(colorButton);
 
   stack.removeEventListener("click", handleWholeScreenPaste);
   stack.addEventListener("click", handleWholeScreenPaste);
