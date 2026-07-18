@@ -67,7 +67,13 @@ function openBrownItemCode(item){
 
 function selectBrownItemAndShowToolbar2(item){
   currentBrownToolbarItem = item;
-  toggleBrownItemSelection(item);
+
+  /*
+    A function tap is a command:
+    open the real code, select the function's lines,
+    and scroll directly to where it lives.
+  */
+  openBrownItemCode(item);
 
   if (typeof showToolbar2 === "function"){
     showToolbar2(item);
