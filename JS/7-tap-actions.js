@@ -26,30 +26,67 @@ function replaceSelectedLinesWithText(newText){
 
   const pasteLines = String(newText).split("\n");
   const firstBlock = blockIndexes[0];
+  const selectedKeys = [...selectedLines];
 
-  blockIndexes.forEach(blockIndex => {
-    const part = currentParts[blockIndex];
-    if (!part) return;
+  /*
+    Let the old selection visibly leave first.
+    The actual edit follows immediately after the blur-out.
+  */
+  selectedKeys.forEach(key => {
+    const [blockIndex, lineNumber] = key.split(":").map(Number);
+    const row = codeView.querySelector(
+      `.code-line[data-line="${lineNumber}"]`
+    );
 
-    const lines = part.content.split("\n");
-    const selected = new Set(groups[blockIndex]);
-    const minLine = Math.min(...groups[blockIndex]);
-    const insertAt = Math.max(0, minLine - 1);
-
-    const kept = lines.filter((line, i) => !selected.has(i + 1));
-
-    if (blockIndex === firstBlock && newText !== ""){
-      kept.splice(insertAt, 0, ...pasteLines);
+    if (row && Number(row.closest(".code-section")?.dataset.index) === blockIndex){
+      row.classList.add("replace-exit");
     }
-
-    part.content = kept.join("\n");
   });
 
-  selectedLines = new Set();
-  renderBlockMode();
-  commitUndoState(newText === "" ? "Erase" : "Replace / Paste");
-}
+  setTimeout(() => {
+    blockIndexes.forEach(blockIndex => {
+      const part = currentParts[blockIndex];
+      if (!part) return;
 
+      const lines = part.content.split("\n");
+      const selected = new Set(groups[blockIndex]);
+      const minLine = Math.min(...groups[blockIndex]);
+      const insertAt = Math.max(0, minLine - 1);
+      const kept = lines.filter((line, i) => !selected.has(i + 1));
+
+      if (blockIndex === firstBlock && newText !== ""){
+        kept.splice(insertAt, 0, ...pasteLines);
+      }
+
+      part.content = kept.join("\n");
+    });
+
+    selectedLines = new Set();
+    renderBlockMode();
+    commitUndoState(newText === "" ? "Erase" : "Replace / Paste");
+
+    if (newText !== ""){
+      requestAnimationFrame(() => {
+        const section = codeView.querySelector(
+          `.code-section[data-index="${firstBlock}"]`
+        );
+
+        if (!section) return;
+
+        pasteLines.forEach((line, offset) => {
+          const row = section.querySelector(
+            `.code-line[data-line="${insertAt + offset + 1}"]`
+          );
+
+          if (row){
+            row.classList.add("replace-enter");
+            setTimeout(() => row.classList.remove("replace-enter"), 430);
+          }
+        });
+      });
+    }
+  }, 220);
+}
 function eraseSelectedLines(){
   replaceSelectedLinesWithText("");
 }
