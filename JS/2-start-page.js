@@ -108,6 +108,8 @@ function handlePasteBoxInput(){
 function beginCodeLoad(text){
   stack.classList.add("fade-out-start");
 
+  beforeCode = String(text);
+
   setTimeout(() => {
     currentParts = splitCode(text);
     selectedLines = new Set();
