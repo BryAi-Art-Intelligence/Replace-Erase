@@ -131,6 +131,65 @@ function buildCopyFinalButton(){
   return button;
 }
 
+function buildBeforeAfterRows(beforeText, afterText){
+  const beforeLines = String(beforeText).split("\n");
+  const afterLines = String(afterText).split("\n");
+  const count = Math.max(beforeLines.length, afterLines.length);
+  let beforeHTML = "";
+  let afterHTML = "";
+
+  for (let i = 0; i < count; i++){
+    const beforeLine = beforeLines[i] ?? "";
+    const afterLine = afterLines[i] ?? "";
+    const changed = beforeLine !== afterLine;
+    const className = changed ? " compare-changed" : "";
+
+    beforeHTML += `<span class="compare-line${className}">${escapeHTML(beforeLine) || " "}</span>\n`;
+    afterHTML += `<span class="compare-line${className}">${escapeHTML(afterLine) || " "}</span>\n`;
+  }
+
+  return { beforeHTML, afterHTML };
+}
+
+function buildBeforeAfterView(){
+  const afterText = getUnifiedCleanText();
+  const rows = buildBeforeAfterRows(beforeCode, afterText);
+
+  codeView.innerHTML = `
+    <div class="before-after-view">
+      <section class="before-after-column">
+        <h2>BEFORE</h2>
+        <pre>${rows.beforeHTML}</pre>
+      </section>
+      <section class="before-after-column">
+        <h2>AFTER</h2>
+        <pre>${rows.afterHTML}</pre>
+      </section>
+      <button type="button" class="before-after-back">BACK TO CODE</button>
+    </div>
+  `;
+
+  codeView.querySelector(".before-after-back")
+    .addEventListener("click", e => {
+      e.stopPropagation();
+      enterUnifiedMode();
+    });
+}
+
+function buildBeforeAfterButton(){
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "before-after-button";
+  button.textContent = "BEFORE & AFTER";
+
+  button.addEventListener("click", e => {
+    e.stopPropagation();
+    buildBeforeAfterView();
+  });
+
+  return button;
+}
+
 function enterUnifiedMode(){
   closeOtherEditors();
 
@@ -143,6 +202,7 @@ function enterUnifiedMode(){
 
   codeView.innerHTML = `<pre>${escapeHTML(clean)}</pre>`;
   codeView.appendChild(buildCopyFinalButton());
+  codeView.appendChild(buildBeforeAfterButton());
   buildTypeToolbar();
   enableToolbarSwipe();
 }
