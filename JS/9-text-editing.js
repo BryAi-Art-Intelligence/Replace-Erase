@@ -23,8 +23,11 @@ function saveTextareaBlock(block){
   if (!editor) return;
 
   const index = Number(block.dataset.index);
-  const oldText = currentParts[index] ? currentParts[index].content : "";
   const newText = editor.value;
+  const before = block.__undoBefore;
+  const oldText = before && before.parts[index]
+    ? before.parts[index].content
+    : newText;
 
   if (currentParts[index]) currentParts[index].content = newText;
 
@@ -35,15 +38,6 @@ function saveTextareaBlock(block){
   enableFunctionLineTap();
 
   if (oldText !== newText && window.ReplaceEraseHistory){
-    const before = {
-      parts: currentParts.map((part, partIndex) =>
-        partIndex === index ? { ...part, content: oldText } : { ...part }
-      ),
-      selected: [...selectedLines],
-      expanded: [...expandedBlocks],
-      active: activeType
-    };
-
     const after = captureUndoState();
 
     window.ReplaceEraseHistory.record({
@@ -58,6 +52,8 @@ function saveTextareaBlock(block){
       }
     });
   }
+
+  delete block.__undoBefore;
 }
 
 function convertBlockToTextarea(block, start = 0, end = 0){
@@ -69,6 +65,7 @@ function convertBlockToTextarea(block, start = 0, end = 0){
   expandedBlocks.add(index);
 
   const text = currentParts[index] ? currentParts[index].content : block.textContent;
+  block.__undoBefore = captureUndoState();
 
   start = clampNumber(start, 0, text.length);
   end = clampNumber(end, 0, text.length);
