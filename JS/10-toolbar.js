@@ -373,6 +373,9 @@ function openSeparatedSection(part, index){
       saveSeparatedSection(part, index);
     });
 
+  const oldToolbar = codeView.querySelector(".type-toolbar");
+  if (oldToolbar) oldToolbar.remove();
+
   buildTypeToolbar();
   enableToolbarSwipe();
 }
