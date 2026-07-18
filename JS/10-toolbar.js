@@ -72,34 +72,6 @@ function updateSelectedLineTools(){
   andBtn.classList.toggle("and-ready", canAnd);
 }
 
-function focusTypePanel(type){
-  requestAnimationFrame(() => {
-    const section = codeView.querySelector(
-      `.code-section[data-type="${type}"]`
-    );
-
-    if (!section) return;
-
-    const block = section.querySelector(".code-block");
-
-    codeView.querySelectorAll(".code-block.selected-block")
-      .forEach(other => {
-        if (other !== block){
-          other.classList.remove("selected-block");
-        }
-      });
-
-    if (block){
-      block.classList.add("selected-block");
-    }
-
-    section.scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    });
-  });
-}
-
 function buildTypeToolbar(){
   const bar = document.createElement("div");
   bar.className = "type-toolbar";
@@ -137,7 +109,6 @@ function buildTypeToolbar(){
       setPanelColor(type);
 
       renderBlockMode();
-      focusTypePanel(type);
     });
 
     bar.appendChild(button);
