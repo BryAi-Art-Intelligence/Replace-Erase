@@ -111,8 +111,10 @@ function beginCodeLoad(text){
   setTimeout(() => {
     currentParts = splitCode(text);
     selectedLines = new Set();
-    expandedBlocks = new Set();
-    activeType = null;
+    expandedBlocks = new Set(
+      currentParts.map((part, index) => index)
+    );
+    activeType = "all";
     setPanelColor(null);
 
     if (statusWasPressed && status) status.classList.add("status-faded");
