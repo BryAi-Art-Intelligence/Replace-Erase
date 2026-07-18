@@ -72,7 +72,10 @@ function openBrownItemCode(item){
   const part = currentParts[item.index];
   activeType = part ? part.type : null;
 
-  expandedBlocks.clear();
+  /*
+    Keep previously opened blocks visible so their
+    independent highlights remain visible together.
+  */
   expandedBlocks.add(item.index);
   setPanelColor(activeType);
 
