@@ -47,6 +47,7 @@ function replaceSelectedLinesWithText(newText){
 
   selectedLines = new Set();
   renderBlockMode();
+  commitUndoState(newText === "" ? "Erase" : "Replace / Paste");
 }
 
 function eraseSelectedLines(){
@@ -55,6 +56,7 @@ function eraseSelectedLines(){
 
 async function pasteIntoSelectedLines(){
   if (!selectedLines.size) return;
+
   try{
     const text = await navigator.clipboard.readText();
     replaceSelectedLinesWithText(text);
