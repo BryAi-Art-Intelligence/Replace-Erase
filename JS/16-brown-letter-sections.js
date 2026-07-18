@@ -118,9 +118,11 @@ function makeBrownLetterSections(items, menu){
     const section = document.createElement("div");
     section.className = "brown-letter-section";
 
-    const title = document.createElement("div");
+    const title = document.createElement("button");
+    title.type = "button";
     title.className = "brown-letter-title";
     title.textContent = letter;
+    title.setAttribute("aria-expanded", "false");
 
     const rows = document.createElement("div");
     rows.className = "brown-letter-rows";
@@ -128,6 +130,13 @@ function makeBrownLetterSections(items, menu){
     groups.get(letter)
       .sort((a,b) => String(a.label).localeCompare(String(b.label)))
       .forEach(item => rows.appendChild(createBrownChip(item)));
+
+    title.addEventListener("click", e => {
+      e.stopPropagation();
+
+      const isOpen = section.classList.toggle("brown-letter-open");
+      title.setAttribute("aria-expanded", String(isOpen));
+    });
 
     section.appendChild(title);
     section.appendChild(rows);
