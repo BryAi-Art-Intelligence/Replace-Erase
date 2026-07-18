@@ -343,6 +343,13 @@ function renderSeparatedBlocks(text){
 function renderCodeBlockHTML(text, blockIndex, collapsed = false){
   const lines = String(text).split("\n");
 
+  const visibleLines = colorOnlyMode
+    ? lines
+        .map((line, index) => ({ line, index }))
+        .filter(item => /color|background|border.*color|fill|stroke|shadow|opacity|gradient|filter/i.test(item.line))
+    : lines.map((line, index) => ({ line, index }));
+
+
   if (collapsed){
     const preview = lines.find(line => line.trim()) || "(empty block)";
 
@@ -354,8 +361,9 @@ function renderCodeBlockHTML(text, blockIndex, collapsed = false){
     `;
   }
 
-  const rows = lines.map((line, i) => {
-    const lineNumber = i + 1;
+  const rows = visibleLines.map(item => {
+    const line = item.line;
+    const lineNumber = item.index + 1;
     const key = `${blockIndex}:${lineNumber}`;
     const selected = selectedLines.has(key) ? " selected-line" : "";
 
