@@ -14,6 +14,7 @@ document.addEventListener("gestureend", e => e.preventDefault());
 let activeType = null;
 let currentParts = [];
 let beforeCode = "";
+let colorOnlyMode = false;
 let statusWasPressed = false;
 let selectedLines = new Set();
 let expandedBlocks = new Set();
