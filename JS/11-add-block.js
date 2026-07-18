@@ -20,6 +20,7 @@ function insertEmptyBlock(index){
   expandedBlocks.add(index);
 
   renderBlockMode();
+  commitUndoState("Insert Block");
 
   requestAnimationFrame(() => {
     const block = codeView.querySelector(`.code-block[data-index="${index}"]`);
