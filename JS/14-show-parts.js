@@ -348,8 +348,8 @@ function renderColorSwatches(line){
   const uniqueTokens = [...new Set(tokens)];
 
   return uniqueTokens.map(token => {
-    const safeToken = token.replaceAll("\\\\", "").replaceAll('"', "&quot;");
-    return \`<span class="color-swatch" style="background:${safeToken}" title="${safeToken}" aria-label="Color ${safeToken}"></span>\`;
+    const safeToken = token.replaceAll('"', "&quot;");
+    return '<span class="color-swatch" style="background:' + safeToken + '" title="' + safeToken + '" aria-label="Color ' + safeToken + '"></span>';
   }).join("");
 }
 
