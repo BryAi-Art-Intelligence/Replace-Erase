@@ -340,6 +340,19 @@ function renderSeparatedBlocks(text){
   renderBlockMode();
 }
 
+function renderColorSwatches(line){
+  const tokens = String(line).match(
+    /#[0-9a-fA-F]{3,8}|rgba?\\([^)]*\\)|hsla?\\([^)]*\\)|\\b(?:transparent|currentColor|black|white|red|blue|green|yellow|orange|purple|gray|grey)\\b/g
+  ) || [];
+
+  const uniqueTokens = [...new Set(tokens)];
+
+  return uniqueTokens.map(token => {
+    const safeToken = token.replaceAll("\\", "").replaceAll('"', "&quot;");
+    return \\`<span class="color-swatch" style="background:${safeToken}" title="${safeToken}" aria-label="Color ${safeToken}"></span>\\`;
+  }).join("");
+}
+
 function renderCodeBlockHTML(text, blockIndex, collapsed = false){
   const lines = String(text).split("\n");
 
@@ -368,10 +381,11 @@ function renderCodeBlockHTML(text, blockIndex, collapsed = false){
     const selected = selectedLines.has(key) ? " selected-line" : "";
 
     return `
-      <div class="code-line${selected}" data-line="${lineNumber}">
+      <div class="code-line${selected}${/background(?:-color)?\\s*:/i.test(line) ? " color-background-line" : ""}" data-line="${lineNumber}">
         <button class="line-number-box" data-block="${blockIndex}" data-line="${lineNumber}" type="button">
           ${lineNumber}
         </button>
+        ${colorOnlyMode ? `<span class="color-swatches">${renderColorSwatches(line)}</span>` : ""}
         <pre>${renderCodeHTML(line)}</pre>
       </div>
     `;
