@@ -56,9 +56,13 @@ function openBrownItemCode(item){
   const keys = getBrownItemLineKeys(item);
 
   selectedLines = new Set(keys);
+
+  const part = currentParts[item.index];
+  activeType = part ? part.type : null;
+
+  expandedBlocks.clear();
   expandedBlocks.add(item.index);
-  activeType = null;
-  setPanelColor(null);
+  setPanelColor(activeType);
 
   renderBlockMode();
   restoreBrownMenuScroll();
