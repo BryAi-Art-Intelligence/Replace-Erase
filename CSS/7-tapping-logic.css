@@ -76,3 +76,46 @@
   background:#111;
   color:white;
 }
+
+
+@keyframes replaceEraseBlurOut{
+  0%{
+    opacity:1;
+    filter:blur(0);
+    transform:translateX(0);
+  }
+  100%{
+    opacity:0;
+    filter:blur(7px);
+    transform:translateX(10px);
+  }
+}
+
+@keyframes replaceEraseBlurIn{
+  0%{
+    opacity:0;
+    filter:blur(7px);
+    transform:translateX(-10px);
+  }
+  100%{
+    opacity:1;
+    filter:blur(0);
+    transform:translateX(0);
+  }
+}
+
+.code-line.replace-exit{
+  animation:replaceEraseBlurOut .22s ease forwards;
+  pointer-events:none;
+}
+
+.code-line.replace-enter{
+  animation:replaceEraseBlurIn .4s ease both;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .code-line.replace-exit,
+  .code-line.replace-enter{
+    animation:none;
+  }
+}
