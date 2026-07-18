@@ -187,6 +187,20 @@ function buildChangeReceiptHTML(beforeText, afterText){
   `;
 }
 
+function rewindToOriginal(){
+  if (!beforeCode) return;
+
+  currentParts = splitCode(beforeCode);
+  selectedLines = new Set();
+  expandedBlocks = new Set(
+    currentParts.map((part, index) => index)
+  );
+  activeType = "all";
+  setPanelColor(null);
+
+  renderBlockMode(true);
+}
+
 function buildPlaybackView(){
   const beforeLines = String(beforeCode).split("\n");
   const afterLines = String(getUnifiedCleanText()).split("\n");
@@ -195,13 +209,14 @@ function buildPlaybackView(){
   codeView.innerHTML = `
     <div class="playback-view">
       <div class="playback-heading">
-        <span>CHANGE PLAYBACK</span>
+        <span>REWIND</span>
         <span class="playback-status">READY</span>
       </div>
       <pre class="playback-code"></pre>
       <div class="playback-controls">
         <button type="button" class="playback-play">PLAY</button>
         <button type="button" class="playback-restart">RESTART</button>
+        <button type="button" class="playback-rewind">REWIND TO ORIGINAL</button>
         <button type="button" class="playback-back">BACK TO CODE</button>
       </div>
     </div>
@@ -285,6 +300,12 @@ function buildPlaybackView(){
   codeView.querySelector(".playback-restart")
     .addEventListener("click", resetPlayback);
 
+  codeView.querySelector(".playback-rewind")
+    .addEventListener("click", e => {
+      e.stopPropagation();
+      rewindToOriginal();
+    });
+
   codeView.querySelector(".playback-back")
     .addEventListener("click", e => {
       e.stopPropagation();
@@ -296,7 +317,7 @@ function buildPlaybackButton(){
   const button = document.createElement("button");
   button.type = "button";
   button.className = "playback-button";
-  button.textContent = "PLAYBACK";
+  button.textContent = "REWIND";
 
   button.addEventListener("click", e => {
     e.stopPropagation();
