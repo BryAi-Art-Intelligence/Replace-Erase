@@ -62,6 +62,7 @@ function buildStartUI(){
   colorButton.addEventListener("click", e => {
     e.stopPropagation();
     colorOnlyMode = !colorOnlyMode;
+    document.body.classList.toggle("color-only-mode", colorOnlyMode);
     colorButton.classList.toggle("is-active", colorOnlyMode);
     colorButton.textContent = colorOnlyMode ? "COLOR ON" : "COLOR";
     colorButton.setAttribute("aria-pressed", String(colorOnlyMode));
