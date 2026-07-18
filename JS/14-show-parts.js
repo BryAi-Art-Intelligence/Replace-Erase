@@ -287,7 +287,10 @@ function renderBlockMode(animated = false){
 
   currentParts.forEach((part, index) => {
     if (!part) return;
-    if (!activeType || part.type !== activeType) return;
+    if (
+      activeType !== "all" &&
+      (!activeType || part.type !== activeType)
+    ) return;
 
     const isExpanded = expandedBlocks.has(index);
     const blockMinClass = isExpanded ? "" : " minimized-block";
@@ -328,9 +331,11 @@ function renderBlockMode(animated = false){
 
 function renderSeparatedBlocks(text){
   currentParts = splitCode(text);
-  activeType = null;
+  activeType = "all";
   selectedLines = new Set();
-  expandedBlocks = new Set();
+  expandedBlocks = new Set(
+    currentParts.map((part, index) => index)
+  );
   setPanelColor(null);
   renderBlockMode();
 }
