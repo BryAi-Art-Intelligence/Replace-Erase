@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Replace-Erase Fragment Normalizer Test</title>
+  <script src="fragment-normalizer.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: sans-serif;
+      background: #15151b;
+      color: #f2f2f2;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 220px;
+      box-sizing: border-box;
+      padding: 14px;
+      font: 14px/1.45 monospace;
+      background: #24242d;
+      color: #ffffff;
+      border: 1px solid #646477;
+      border-radius: 8px;
+    }
+
+    button {
+      margin-top: 12px;
+      padding: 10px 14px;
+      cursor: pointer;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      padding: 14px;
+      background: #24242d;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Fragment normalizer test</h1>
+
+  <textarea id="source"><button class="jobsite-button">
+  <span>JOBSITE</span>
+</button>
+
+<style>
+.jobsite-button {
+  width: 260px;
+  height: 105px;
+  background: white;
+}
+
+.jobsite-button span {
+  color: #ffd83d;
+}
+</style></textarea>
+
+  <button id="normalize" type="button">NORMALIZE</button>
+  <pre id="output"></pre>
+
+  <script>
+    const source = document.getElementById("source");
+    const output = document.getElementById("output");
+    const normalize = document.getElementById("normalize");
+
+    normalize.addEventListener("click", () => {
+      output.textContent = normalizeForReplaceErase(source.value);
+    });
+  </script>
+</body>
+</html>
