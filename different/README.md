@@ -16,6 +16,6 @@ These files are intentionally not connected to the main index and are not loaded
 When a new visual scenario is saved here:
 
 1. Start with `<!DOCTYPE html>`.
-2. Include the complete `<html>`, `<head>`, and `<body>) structure.
+2. Include the complete `<html>`, `<head>`, and `<body>` structure.
 3. Keep the CSS and JavaScript inside that file unless the scenario specifically needs an asset.
 4. Do not add it to the main index until the final build is ready.
