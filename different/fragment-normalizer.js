@@ -97,7 +97,7 @@
       ...DEFAULT_HEAD,
       title,
       remainingHead,
-      ...styles.map(css => `<style>\\n${css}\\n</style>`),
+      ...styles.map(css => `<style>\n${css}\n</style>`),
       "</head>",
       "<body>",
       bodyContent,
