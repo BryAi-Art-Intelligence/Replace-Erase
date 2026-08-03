@@ -346,3 +346,37 @@ body:has(.toolbar2.show-toolbar2) .brown-index-wrap{
 .color-only-mode .color-background-line pre{
   font-weight:800;
 }
+
+/* Keep the left alphabet/function rail vertically scrollable on mobile. */
+.brown-index-wrap{
+  max-height:min(78vh, calc(100dvh - 150px)) !important;
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+  overscroll-behavior-y:contain !important;
+  -webkit-overflow-scrolling:touch !important;
+  touch-action:pan-y !important;
+  scrollbar-width:none;
+}
+
+.brown-index-wrap::-webkit-scrollbar{
+  display:none;
+}
+
+.brown-index-menu,
+.brown-index-wrap.open-function-menu .function-list,
+.brown-index-wrap.open-labelless-menu .labelless-list{
+  min-height:0 !important;
+  overflow:visible !important;
+  touch-action:pan-y !important;
+}
+
+.brown-letter-section,
+.brown-letter-title,
+.brown-letter-rows,
+.brown-index-chip{
+  touch-action:pan-y manipulation !important;
+}
+
+.brown-index-wrap:has(.brown-letter-open){
+  max-height:min(82vh, calc(100dvh - 132px)) !important;
+}
