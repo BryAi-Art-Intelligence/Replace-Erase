@@ -156,12 +156,84 @@ function makeBrownLetterSections(items, menu){
       .sort((a,b) => String(a.label).localeCompare(String(b.label)))
       .forEach(item => rows.appendChild(createBrownChip(item)));
 
-    title.addEventListener("click", e => {
-      e.stopPropagation();
+ let brownDialTimer = null;
+let brownDialActive = false;
+let brownDialMoved = false;
+let brownDialLastY = 0;
+let suppressBrownTitleClick = false;
 
-      const isOpen = section.classList.toggle("brown-letter-open");
-      title.setAttribute("aria-expanded", String(isOpen));
-    });
+title.style.touchAction = "none";
+
+title.addEventListener("pointerdown", e => {
+  brownDialActive = false;
+  brownDialMoved = false;
+  brownDialLastY = e.clientY;
+
+  clearTimeout(brownDialTimer);
+
+  brownDialTimer = setTimeout(() => {
+    brownDialActive = true;
+    suppressBrownTitleClick = true;
+
+    try {
+      title.setPointerCapture(e.pointerId);
+    } catch (error) {
+      /* Pointer capture is optional. */
+    }
+  }, 260);
+});
+
+title.addEventListener("pointermove", e => {
+  if (!brownDialActive) return;
+
+  const distance = brownDialLastY - e.clientY;
+
+  if (Math.abs(distance) > 1) {
+    brownDialMoved = true;
+    menu.scrollTop += distance;
+    brownDialLastY = e.clientY;
+
+    e.preventDefault();
+    e.stopPropagation();
+  }
+});
+
+function finishBrownDial(e) {
+  clearTimeout(brownDialTimer);
+
+  if (brownDialActive || brownDialMoved) {
+    suppressBrownTitleClick = true;
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  brownDialActive = false;
+  brownDialMoved = false;
+
+  try {
+    if (title.hasPointerCapture(e.pointerId)) {
+      title.releasePointerCapture(e.pointerId);
+    }
+  } catch (error) {
+    /* Pointer capture is optional. */
+  }
+}
+
+title.addEventListener("pointerup", finishBrownDial);
+title.addEventListener("pointercancel", finishBrownDial);
+
+title.addEventListener("click", e => {
+  e.stopPropagation();
+
+  if (suppressBrownTitleClick) {
+    suppressBrownTitleClick = false;
+    e.preventDefault();
+    return;
+  }
+
+  const isOpen = section.classList.toggle("brown-letter-open");
+  title.setAttribute("aria-expanded", String(isOpen));
+});
 
     section.appendChild(title);
     section.appendChild(rows);
