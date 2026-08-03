@@ -212,43 +212,6 @@ function buildBrownIndexBar(){
   const labellessMenu = document.createElement("div");
   labellessMenu.className = "brown-index-menu labelless-list";
 
-function enableBrownTouchScroll(menu){
-  let startY = 0;
-  let startScrollTop = 0;
-  let moved = false;
-
-  menu.addEventListener("touchstart", event => {
-    if (!event.touches.length) return;
-
-    startY = event.touches[0].clientY;
-    startScrollTop = menu.scrollTop;
-    moved = false;
-  }, { passive:true });
-
-  menu.addEventListener("touchmove", event => {
-    if (!event.touches.length) return;
-
-    const currentY = event.touches[0].clientY;
-    const distance = startY - currentY;
-
-    if (Math.abs(distance) > 4){
-      moved = true;
-      event.preventDefault();
-      event.stopPropagation();
-      menu.scrollTop = startScrollTop + distance;
-    }
-  }, { passive:false });
-
-  menu.addEventListener("touchend", event => {
-    if (moved){
-      event.preventDefault();
-      event.stopPropagation();
-    }
-  }, { passive:false });
-}
-
-enableBrownTouchScroll(functionMenu);
-enableBrownTouchScroll(labellessMenu);
 
   functionMenu.addEventListener("scroll", () => {
     brownMenuScrollMemory.functions = functionMenu.scrollTop;
