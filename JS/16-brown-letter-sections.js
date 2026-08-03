@@ -135,126 +135,95 @@ function makeBrownLetterSections(items, menu){
 
   items.forEach(item => {
     const letter = getBrownSectionLetter(item.label);
-    if (!groups.has(letter)) groups.set(letter, []);
+
+    if (!groups.has(letter)){
+      groups.set(letter, []);
+    }
+
     groups.get(letter).push(item);
   });
 
-  [...groups.keys()].sort((a,b) => a.localeCompare(b)).forEach(letter => {
-    const section = document.createElement("div");
-    section.className = "brown-letter-section";
+  [...groups.keys()]
+    .sort((a, b) => a.localeCompare(b))
+    .forEach(letter => {
+      const section = document.createElement("div");
+      section.className = "brown-letter-section";
 
-    const title = document.createElement("button");
-    title.type = "button";
-    title.className = "brown-letter-title";
-    title.textContent = letter;
-    title.setAttribute("aria-expanded", "false");
+      const title = document.createElement("button");
+      title.type = "button";
+      title.className = "brown-letter-title";
+      title.textContent = letter;
+      title.setAttribute("aria-expanded", "false");
 
-    const rows = document.createElement("div");
-    rows.className = "brown-letter-rows";
+      const rows = document.createElement("div");
+      rows.className = "brown-letter-rows";
 
-    groups.get(letter)
-      .sort((a,b) => String(a.label).localeCompare(String(b.label)))
-      .forEach(item => rows.appendChild(createBrownChip(item)));
+      groups.get(letter)
+        .sort((a, b) => String(a.label).localeCompare(String(b.label)))
+        .forEach(item => rows.appendChild(createBrownChip(item)));
 
-let brownTouchStartY = 0;
-let brownTouchLastY = 0;
-let brownTouchMoved = false;
-let suppressBrownTitleClick = false;
+      let brownTouchStartY = 0;
+      let brownTouchLastY = 0;
+      let brownTouchMoved = false;
+      let suppressBrownTitleClick = false;
 
-title.addEventListener("touchstart", e => {
-  const touch = e.touches[0];
-  if (!touch) return;
+      title.addEventListener("touchstart", e => {
+        const touch = e.touches[0];
+        if (!touch) return;
 
-  brownTouchStartY = touch.clientY;
-  brownTouchLastY = touch.clientY;
-  brownTouchMoved = false;
-}, { passive:true });
+        brownTouchStartY = touch.clientY;
+        brownTouchLastY = touch.clientY;
+        brownTouchMoved = false;
+      }, { passive:true });
 
-title.addEventListener("touchmove", e => {
-  const touch = e.touches[0];
-  if (!touch) return;
+      title.addEventListener("touchmove", e => {
+        const touch = e.touches[0];
+        if (!touch) return;
 
-  const totalDistance = touch.clientY - brownTouchStartY;
-  const stepDistance = brownTouchLastY - touch.clientY;
+        const totalDistance = touch.clientY - brownTouchStartY;
+        const stepDistance = brownTouchLastY - touch.clientY;
 
-  if (!brownTouchMoved && Math.abs(totalDistance) < 6) {
-    return;
-  }
+        if (!brownTouchMoved && Math.abs(totalDistance) < 6){
+          return;
+        }
 
-  brownTouchMoved = true;
-  menu.scrollTop += stepDistance;
-  brownTouchLastY = touch.clientY;
+        brownTouchMoved = true;
+        menu.scrollTop += stepDistance;
+        brownTouchLastY = touch.clientY;
 
-  e.preventDefault();
-  e.stopPropagation();
-}, { passive:false });
+        e.preventDefault();
+        e.stopPropagation();
+      }, { passive:false });
 
-title.addEventListener("touchend", e => {
-  if (!brownTouchMoved) return;
+      title.addEventListener("touchend", e => {
+        if (!brownTouchMoved) return;
 
-  suppressBrownTitleClick = true;
-  e.preventDefault();
-  e.stopPropagation();
-}, { passive:false });
+        suppressBrownTitleClick = true;
+        e.preventDefault();
+        e.stopPropagation();
+      }, { passive:false });
 
-title.addEventListener("touchcancel", () => {
-  brownTouchMoved = false;
-});
+      title.addEventListener("touchcancel", () => {
+        brownTouchMoved = false;
+      });
 
-title.addEventListener("click", e => {
-  e.stopPropagation();
+      title.addEventListener("click", e => {
+        e.stopPropagation();
 
-  if (suppressBrownTitleClick) {
-    suppressBrownTitleClick = false;
-    e.preventDefault();
-    return;
-  }
+        if (suppressBrownTitleClick){
+          suppressBrownTitleClick = false;
+          e.preventDefault();
+          return;
+        }
 
-  const isOpen = section.classList.toggle("brown-letter-open");
-  title.setAttribute("aria-expanded", String(isOpen));
-});
+        const isOpen = section.classList.toggle("brown-letter-open");
+        title.setAttribute("aria-expanded", String(isOpen));
+      });
 
-function finishBrownDial(e) {
-  clearTimeout(brownDialTimer);
-
-  if (brownDialActive || brownDialMoved) {
-    suppressBrownTitleClick = true;
-    e.preventDefault();
-    e.stopPropagation();
-  }
-
-  brownDialActive = false;
-  brownDialMoved = false;
-
-  try {
-    if (title.hasPointerCapture(e.pointerId)) {
-      title.releasePointerCapture(e.pointerId);
-    }
-  } catch (error) {
-    /* Pointer capture is optional. */
-  }
-}
-
-title.addEventListener("pointerup", finishBrownDial);
-title.addEventListener("pointercancel", finishBrownDial);
-
-title.addEventListener("click", e => {
-  e.stopPropagation();
-
-  if (suppressBrownTitleClick) {
-    suppressBrownTitleClick = false;
-    e.preventDefault();
-    return;
-  }
-
-  const isOpen = section.classList.toggle("brown-letter-open");
-  title.setAttribute("aria-expanded", String(isOpen));
-});
-
-    section.appendChild(title);
-    section.appendChild(rows);
-    menu.appendChild(section);
-  });
+      section.appendChild(title);
+      section.appendChild(rows);
+      menu.appendChild(section);
+    });
 }
 
 function toggleBrownItemSelection(item){
@@ -299,7 +268,6 @@ function buildBrownIndexBar(){
 
   const labellessMenu = document.createElement("div");
   labellessMenu.className = "brown-index-menu labelless-list";
-
 
   functionMenu.addEventListener("scroll", () => {
     brownMenuScrollMemory.functions = functionMenu.scrollTop;
@@ -353,8 +321,8 @@ function buildBrownIndexBar(){
     }
   });
 
-  functionItems.sort((a,b) => String(a.label).localeCompare(String(b.label)));
-  labellessItems.sort((a,b) => String(a.label).localeCompare(String(b.label)));
+  functionItems.sort((a, b) => String(a.label).localeCompare(String(b.label)));
+  labellessItems.sort((a, b) => String(a.label).localeCompare(String(b.label)));
 
   makeBrownLetterSections(functionItems, functionMenu);
   makeBrownLetterSections(labellessItems, labellessMenu);
