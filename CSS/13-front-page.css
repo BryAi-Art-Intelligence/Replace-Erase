@@ -347,8 +347,13 @@ body:has(.toolbar2.show-toolbar2) .brown-index-wrap{
   font-weight:800;
 }
 
-/* Keep the left alphabet/function rail vertically scrollable on mobile. */
+/* Scroll only the visible brown alphabet/function list. */
 .brown-index-wrap{
+  overflow:visible !important;
+  touch-action:auto !important;
+}
+
+.brown-index-wrap .brown-index-menu{
   max-height:min(78vh, calc(100dvh - 150px)) !important;
   overflow-x:hidden !important;
   overflow-y:auto !important;
@@ -358,25 +363,16 @@ body:has(.toolbar2.show-toolbar2) .brown-index-wrap{
   scrollbar-width:none;
 }
 
-.brown-index-wrap::-webkit-scrollbar{
+.brown-index-wrap .brown-index-menu::-webkit-scrollbar{
   display:none;
 }
 
-.brown-index-menu,
 .brown-index-wrap.open-function-menu .function-list,
 .brown-index-wrap.open-labelless-menu .labelless-list{
-  min-height:0 !important;
-  overflow:visible !important;
-  touch-action:pan-y !important;
+  max-height:min(78vh, calc(100dvh - 150px)) !important;
+  overflow-y:auto !important;
 }
 
-.brown-letter-section,
-.brown-letter-title,
-.brown-letter-rows,
-.brown-index-chip{
-  touch-action:pan-y manipulation !important;
-}
-
-.brown-index-wrap:has(.brown-letter-open){
+.brown-index-wrap:has(.brown-letter-open) .brown-index-menu{
   max-height:min(82vh, calc(100dvh - 132px)) !important;
 }
