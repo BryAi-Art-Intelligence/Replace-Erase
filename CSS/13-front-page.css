@@ -108,7 +108,10 @@
   letter-spacing:.16em !important;
   opacity:.95 !important;
   cursor:pointer !important;
-  touch-action:manipulation !important;
+  -webkit-user-select:none !important;
+  user-select:none !important;
+  -webkit-touch-callout:none !important;
+  touch-action:none !important;
 }
 
 .brown-letter-section:not(.brown-letter-open) .brown-letter-rows{
