@@ -171,15 +171,19 @@ title.addEventListener("pointerdown", e => {
 
   clearTimeout(brownDialTimer);
 
+  /*
+    Capture immediately while the pointer is definitely active.
+    The dial itself still waits 260ms before turning on.
+  */
+  try {
+    title.setPointerCapture(e.pointerId);
+  } catch (error) {
+    /* Pointer capture is optional. */
+  }
+
   brownDialTimer = setTimeout(() => {
     brownDialActive = true;
     suppressBrownTitleClick = true;
-
-    try {
-      title.setPointerCapture(e.pointerId);
-    } catch (error) {
-      /* Pointer capture is optional. */
-    }
   }, 260);
 });
 
