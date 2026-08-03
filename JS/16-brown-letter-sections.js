@@ -156,50 +156,62 @@ function makeBrownLetterSections(items, menu){
       .sort((a,b) => String(a.label).localeCompare(String(b.label)))
       .forEach(item => rows.appendChild(createBrownChip(item)));
 
- let brownDialTimer = null;
-let brownDialActive = false;
-let brownDialMoved = false;
-let brownDialLastY = 0;
+let brownTouchStartY = 0;
+let brownTouchLastY = 0;
+let brownTouchMoved = false;
 let suppressBrownTitleClick = false;
 
-title.style.touchAction = "none";
+title.addEventListener("touchstart", e => {
+  const touch = e.touches[0];
+  if (!touch) return;
 
-title.addEventListener("pointerdown", e => {
-  brownDialActive = false;
-  brownDialMoved = false;
-  brownDialLastY = e.clientY;
+  brownTouchStartY = touch.clientY;
+  brownTouchLastY = touch.clientY;
+  brownTouchMoved = false;
+}, { passive:true });
 
-  clearTimeout(brownDialTimer);
+title.addEventListener("touchmove", e => {
+  const touch = e.touches[0];
+  if (!touch) return;
 
-  /*
-    Capture immediately while the pointer is definitely active.
-    The dial itself still waits 260ms before turning on.
-  */
-  try {
-    title.setPointerCapture(e.pointerId);
-  } catch (error) {
-    /* Pointer capture is optional. */
+  const totalDistance = touch.clientY - brownTouchStartY;
+  const stepDistance = brownTouchLastY - touch.clientY;
+
+  if (!brownTouchMoved && Math.abs(totalDistance) < 6) {
+    return;
   }
 
-  brownDialTimer = setTimeout(() => {
-    brownDialActive = true;
-    suppressBrownTitleClick = true;
-  }, 260);
+  brownTouchMoved = true;
+  menu.scrollTop += stepDistance;
+  brownTouchLastY = touch.clientY;
+
+  e.preventDefault();
+  e.stopPropagation();
+}, { passive:false });
+
+title.addEventListener("touchend", e => {
+  if (!brownTouchMoved) return;
+
+  suppressBrownTitleClick = true;
+  e.preventDefault();
+  e.stopPropagation();
+}, { passive:false });
+
+title.addEventListener("touchcancel", () => {
+  brownTouchMoved = false;
 });
 
-title.addEventListener("pointermove", e => {
-  if (!brownDialActive) return;
+title.addEventListener("click", e => {
+  e.stopPropagation();
 
-  const distance = brownDialLastY - e.clientY;
-
-  if (Math.abs(distance) > 1) {
-    brownDialMoved = true;
-    menu.scrollTop += distance;
-    brownDialLastY = e.clientY;
-
+  if (suppressBrownTitleClick) {
+    suppressBrownTitleClick = false;
     e.preventDefault();
-    e.stopPropagation();
+    return;
   }
+
+  const isOpen = section.classList.toggle("brown-letter-open");
+  title.setAttribute("aria-expanded", String(isOpen));
 });
 
 function finishBrownDial(e) {
