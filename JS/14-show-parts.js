@@ -268,7 +268,79 @@ function cleanSelectedLines(){
 
   selectedLines = new Set([...selectedLines].filter(key => validKeys.has(key)));
 }
+function enableLineNumberValueDrag(){
+  codeView.querySelectorAll(".line-number-box").forEach(button => {
+    let startY = 0;
+    let startValue = 0;
+    let lastValue = 0;
+    let blockIndex = 0;
+    let lineIndex = 0;
+    let lineText = "";
+    let changed = false;
 
+    button.addEventListener("pointerdown", e => {
+      const row = button.closest(".code-line");
+      if (!row) return;
+
+      blockIndex = Number(button.dataset.block);
+      lineIndex = Number(button.dataset.line) - 1;
+
+      const part = currentParts[blockIndex];
+      if (!part || typeof part.content !== "string") return;
+
+      const lines = part.content.split("\n");
+      lineText = lines[lineIndex];
+
+      const match = lineText.match(/:\s*(-?\d+(?:\.\d+)?)(px|rem|em|%)/);
+      if (!match) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      startY = e.clientY;
+      startValue = Number(match[1]);
+      lastValue = startValue;
+
+      button.setPointerCapture(e.pointerId);
+    });
+
+    button.addEventListener("pointermove", e => {
+      if (!button.hasPointerCapture(e.pointerId)) return;
+
+      const row = button.closest(".code-line");
+      const part = currentParts[blockIndex];
+      if (!row || !part) return;
+
+      const match = lineText.match(/:\s*(-?\d+(?:\.\d+)?)(px|rem|em|%)/);
+      if (!match) return;
+
+      const movement = Math.round((startY - e.clientY) / 4);
+      const nextValue = Math.max(0, startValue + movement);
+
+      if (nextValue === lastValue) return;
+      lastValue = nextValue;
+      changed = true;
+
+      const lines = part.content.split("\n");
+      lines[lineIndex] = lineText.replace(
+        /(:\s*)(-?\d+(?:\.\d+)?)(px|rem|em|%)/,
+        `$1${nextValue}$3`
+      );
+
+      part.content = lines.join("\n");
+      renderBlockMode();
+    });
+
+    button.addEventListener("pointerup", e => {
+      if (changed) saveUndoState();
+      changed = false;
+
+      try {
+        button.releasePointerCapture(e.pointerId);
+      } catch(err){}
+    });
+  });
+}
 function renderBlockMode(animated = false){
   closeOtherEditors();
 
