@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-  <meta charset="UTF-8" />
+<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Replace-Erase</title>
-
-  <script>
-    window.RE_VERSION = Date.now();
+</head>
+<body>
+<script>
+window.RE_VERSION = Date.now();
 
     window.RE_CSS_FILES = [
       "CSS/1-overall-layout-logic.css",
@@ -31,26 +32,26 @@
       link.href = file + "?v=" + window.RE_VERSION;
       document.head.appendChild(link);
     });
-  </script>
-</head>
+</script>
 
-<body>
-  <div id="canvas" class="canvas">
+<div id="scene" class="scene">
 
-    <pre id="codeView" class="code-view hidden"></pre>
+  <!-- app.js / JS files should control only this -->
+  <div id="stack" class="stack"></div>
 
-    <div id="scene" class="scene">
+</div>
 
-      <!-- app.js / JS files should control only this -->
-      <div id="stack" class="stack"></div>
+<div class="bryai-nav">
+  <button>WHO</button>
+  <button>WHAT</button>
+  <button>WHEN</button>
+  <button>WHERE</button>
+  <button>WHY</button>
+</div>
 
-    </div>
+<div id="status" class="status">Ready</div>
 
-    <div id="status" class="status">Ready</div>
-
-  </div>
-
-  <script>
+<script>
     window.RE_JS_FILES = [
       "JS/1-pasted-code.js",
       "JS/2-start-page.js",
