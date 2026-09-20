@@ -71,8 +71,56 @@ function buildStartUI(){
   stack.appendChild(pasteBox);
 
   stack.appendChild(colorButton);
+
+  stack.removeEventListener("click", handleWholeScreenPaste);
+  stack.addEventListener("click", handleWholeScreenPaste);
+
+  pasteBox.removeEventListener("input", handlePasteBoxInput);
+  pasteBox.addEventListener("input", handlePasteBoxInput);
+
+  pasteBox.removeEventListener("paste", handlePasteBoxPaste);
+  pasteBox.addEventListener("paste", handlePasteBoxPaste);
 }
 
+async function handleWholeScreenPaste(e){
+  if (e.target.closest("#status")) return;
+
+  try{
+    if (!navigator.clipboard || !navigator.clipboard.readText){
+      return;
+    }
+
+    const text = await navigator.clipboard.readText();
+
+    if (!text || !text.trim()) return;
+
+    beginCodeLoad(text);
+  }catch(err){
+    console.warn("Clipboard paste was not available.", err);
+  }
+}
+
+function handlePasteBoxPaste(){
+  setTimeout(() => {
+    if (!pasteBox) return;
+
+    const text = pasteBox.value;
+
+    if (!text || !text.trim()) return;
+
+    beginCodeLoad(text);
+  }, 0);
+}
+
+function handlePasteBoxInput(){
+  if (!pasteBox) return;
+
+  const text = pasteBox.value;
+
+  if (!text || !text.trim()) return;
+
+  beginCodeLoad(text);
+}
 
 function beginCodeLoad(text){
   stack.classList.add("fade-out-start");
@@ -90,6 +138,7 @@ function beginCodeLoad(text){
 
     if (statusWasPressed && status) status.classList.add("status-faded");
 
+    stack.removeEventListener("click", handleWholeScreenPaste);
 
     renderBlockMode(true);
   }, 320);
