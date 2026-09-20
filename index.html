@@ -32,6 +32,29 @@
       document.head.appendChild(link);
     });
   </script>
+
+  <!--
+    PARTS
+
+    parts.html stays completely separate from Replace & Erase.
+    This iframe only places its button in the upper-left area.
+  -->
+  <style>
+    .parts-frame {
+      position: fixed;
+
+      left: 22px;
+      top: 118px;
+
+      width: 86px;
+      height: 86px;
+
+      border: 0;
+      background: transparent;
+
+      z-index: 997;
+    }
+  </style>
 </head>
 
 <body>
@@ -47,6 +70,13 @@
     </div>
 
     <div id="status" class="status">Ready</div>
+
+    <!-- THE PARTS -->
+    <iframe
+      class="parts-frame"
+      src="parts.html"
+      title="The Parts"
+    ></iframe>
 
   </div>
 
