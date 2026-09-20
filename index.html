@@ -1,12 +1,5 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Replace-Erase</title>
-</head>
-<body>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,8 +22,7 @@
       "CSS/10-swipe-bar.css",
       "CSS/11-copy-button.css",
       "CSS/12-minimize-logic.css",
-      "CSS/13-front-page.css",
-      "CSS/14-five-ws.css"
+      "CSS/13-front-page.css"
     ];
 
     window.RE_CSS_FILES.forEach(file => {
@@ -42,24 +34,23 @@
   </script>
 </head>
 
-<div id="scene" class="scene">
+<body>
+  <div id="canvas" class="canvas">
 
-  <!-- app.js / JS files should control only this -->
-  <div id="stack" class="stack"></div>
+    <pre id="codeView" class="code-view hidden"></pre>
 
-</div>
+    <div id="scene" class="scene">
 
-<div class="bryai-nav">
-  <button>WHO</button>
-  <button>WHAT</button>
-  <button>WHEN</button>
-  <button>WHERE</button>
-  <button>WHY</button>
-</div>
+      <!-- app.js / JS files should control only this -->
+      <div id="stack" class="stack"></div>
 
-<div id="status" class="status">Ready</div>
+    </div>
 
-<script>
+    <div id="status" class="status">Ready</div>
+
+  </div>
+
+  <script>
     window.RE_JS_FILES = [
       "JS/1-pasted-code.js",
       "JS/2-start-page.js",
