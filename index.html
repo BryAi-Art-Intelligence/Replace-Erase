@@ -7,8 +7,14 @@
   <title>Replace-Erase</title>
 </head>
 <body>
-<script>
-window.RE_VERSION = Date.now();
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Replace-Erase</title>
+
+  <script>
+    window.RE_VERSION = Date.now();
 
     window.RE_CSS_FILES = [
       "CSS/1-overall-layout-logic.css",
@@ -23,7 +29,7 @@ window.RE_VERSION = Date.now();
       "CSS/10-swipe-bar.css",
       "CSS/11-copy-button.css",
       "CSS/12-minimize-logic.css",
-      "CSS/13-front-page.css"
+      "CSS/13-front-page.css",
       "CSS/14-five-ws.css"
     ];
 
@@ -33,7 +39,8 @@ window.RE_VERSION = Date.now();
       link.href = file + "?v=" + window.RE_VERSION;
       document.head.appendChild(link);
     });
-</script>
+  </script>
+</head>
 
 <div id="scene" class="scene">
 
