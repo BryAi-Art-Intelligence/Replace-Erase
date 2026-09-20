@@ -1,0 +1,55 @@
+<div class="bryai-nav">
+  <button>WHO</button>
+  <button>WHAT</button>
+  <button>WHEN</button>
+  <button>WHERE</button>
+  <button>WHY</button>
+</div>
+
+<style>
+body{
+  margin:0;
+  background:#0c0c0e;
+}
+
+.bryai-nav{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.bryai-nav button{
+  position:relative;
+  margin-left:-14px;
+
+  background:#0c0c0e;
+  color:white;
+  border:2px solid white;
+
+  padding:17px 27px;
+  font:900 17px Arial,sans-serif;
+  letter-spacing:1px;
+  cursor:pointer;
+}
+
+.bryai-nav button:nth-child(1){
+  z-index:5;
+  transform:translateY(-12px);
+}
+.bryai-nav button:nth-child(2){
+  z-index:4;
+  transform:translateY(-6px);
+}
+.bryai-nav button:nth-child(3){
+  z-index:3;
+}
+.bryai-nav button:nth-child(4){
+  z-index:2;
+  transform:translateY(6px);
+}
+.bryai-nav button:nth-child(5){
+  z-index:1;
+  transform:translateY(12px);
+}
+</style>
