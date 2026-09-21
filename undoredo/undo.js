@@ -85,7 +85,6 @@
     button.id = "replace-erase-undo-button";
 button.type = "button";
 button.textContent = "Undo";
-button.style.display = "none";
 button.setAttribute("aria-label", "Undo last action");
     
     button.style.cssText = [
@@ -105,6 +104,8 @@ button.setAttribute("aria-label", "Undo last action");
       "cursor: pointer",
       "box-shadow: 0 4px 0 rgba(0, 0, 0, .55)"
     ].join(";");
+
+    button.style.display = "none";
 
     button.addEventListener("click", function () {
       window.ReplaceEraseHistory.undo();
