@@ -19,10 +19,7 @@ function buildStartUI(){
 
   const startMessage = document.createElement("div");
   startMessage.className = "start-message";
-  startMessage.innerHTML = `
-    Replace and Erase;<br>
-    Luhvcraft sculpted intellectual form of silence through the art of preservation.
-  `;
+  startMessage.innerHTML = "";
 
   const ghostTitle = document.createElement("div");
   ghostTitle.className = "ghost-title";
@@ -53,6 +50,7 @@ function buildStartUI(){
   stack.appendChild(ghostTitle);
   stack.appendChild(centerTitle);
   stack.appendChild(pasteHint);
+
   const colorButton = document.createElement("button");
   colorButton.type = "button";
   colorButton.className = "start-color-button";
