@@ -78,7 +78,6 @@
     button.id = "replace-erase-redo-button";
 button.type = "button";
 button.textContent = "Redo";
-button.style.display = "none";
     button.setAttribute("aria-label", "Redo last undone action");
 
     button.style.cssText = [
@@ -98,6 +97,8 @@ button.style.display = "none";
       "cursor: pointer",
       "box-shadow: 0 4px 0 rgba(0, 0, 0, .55)"
     ].join(";");
+
+    button.style.display = "none";
 
     button.addEventListener("click", function () {
       window.ReplaceEraseHistory.redo();
