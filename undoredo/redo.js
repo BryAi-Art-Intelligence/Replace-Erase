@@ -76,8 +76,9 @@
     var button = document.createElement("button");
 
     button.id = "replace-erase-redo-button";
-    button.type = "button";
-    button.textContent = "Redo";
+button.type = "button";
+button.textContent = "Redo";
+button.style.display = "none";
     button.setAttribute("aria-label", "Redo last undone action");
 
     button.style.cssText = [
