@@ -16,6 +16,11 @@ if (status){
 function buildStartUI(){
   stack.innerHTML = "";
   stack.classList.remove("fade-out-start");
+  
+  const startMessage = document.createElement("div");
+startMessage.className = "start-message";
+startMessage.innerHTML = "";
+  
 
   const ghostTitle = document.createElement("div");
   ghostTitle.className = "ghost-title";
