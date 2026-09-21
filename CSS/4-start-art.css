@@ -28,3 +28,19 @@
   transform:scale(.985);
 }
 
+.start-message{
+  position:absolute;
+  top:6%;
+  left:6%;
+  transform:rotate(-8deg);
+  max-width:320px;
+  text-align:left;
+  font-size:12px;
+  line-height:1.4;
+  letter-spacing:.05em;
+  color:rgba(0,0,0,.22);
+  pointer-events:none;
+  user-select:none;
+  -webkit-user-select:none;
+  z-index:2;
+}
