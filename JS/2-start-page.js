@@ -16,11 +16,13 @@ if (status){
 function buildStartUI(){
   stack.innerHTML = "";
   stack.classList.remove("fade-out-start");
-  
+
   const startMessage = document.createElement("div");
-startMessage.className = "start-message";
-startMessage.innerHTML = "";
-  
+  startMessage.className = "start-message";
+  startMessage.innerHTML = `
+    Replace and Erase;<br>
+    Luhvcraft sculpted intellectual form of silence through the art of preservation.
+  `;
 
   const ghostTitle = document.createElement("div");
   ghostTitle.className = "ghost-title";
