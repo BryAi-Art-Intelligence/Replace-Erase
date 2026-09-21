@@ -28,7 +28,7 @@ function buildStartUI(){
   ghostTitle.className = "ghost-title";
   ghostTitle.innerHTML = `
     <div>Replace</div>
-    <div>&amp; Erase</div>
+    <div>&amp;   Erase</div>
   `;
 
   const centerTitle = document.createElement("div");
