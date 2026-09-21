@@ -1,5 +1,3 @@
-U see it in here ?
-
 // 2-start-page.js
 // Makes the opening paste screen.
 // Builds the start page and handles the first paste.
@@ -18,6 +16,13 @@ if (status){
 function buildStartUI(){
   stack.innerHTML = "";
   stack.classList.remove("fade-out-start");
+
+  const startMessage = document.createElement("div");
+  startMessage.className = "start-message";
+  startMessage.innerHTML = `
+    Replace and Erase;<br>
+    Luhvcraft sculpted intellectual form of silence through the art of preservation.
+  `;
 
   const ghostTitle = document.createElement("div");
   ghostTitle.className = "ghost-title";
@@ -44,6 +49,7 @@ function buildStartUI(){
   pasteBox.placeholder = "Paste code here...";
   pasteBox.value = "";
 
+  stack.appendChild(startMessage);
   stack.appendChild(ghostTitle);
   stack.appendChild(centerTitle);
   stack.appendChild(pasteHint);
