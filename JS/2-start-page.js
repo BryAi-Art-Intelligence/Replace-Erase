@@ -136,8 +136,14 @@ function beginCodeLoad(text){
 
     if (statusWasPressed && status) status.classList.add("status-faded");
 
-    stack.removeEventListener("click", handleWholeScreenPaste);
+        stack.removeEventListener("click", handleWholeScreenPaste);
 
     renderBlockMode(true);
+
+    const undoButton = document.getElementById("replace-erase-undo-button");
+    const redoButton = document.getElementById("replace-erase-redo-button");
+
+    if (undoButton) undoButton.style.display = "";
+    if (redoButton) redoButton.style.display = "";
   }, 320);
 }
