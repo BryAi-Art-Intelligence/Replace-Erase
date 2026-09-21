@@ -83,10 +83,11 @@
     var button = document.createElement("button");
 
     button.id = "replace-erase-undo-button";
-    button.type = "button";
-    button.textContent = "Undo";
-    button.setAttribute("aria-label", "Undo last action");
-
+button.type = "button";
+button.textContent = "Undo";
+button.style.display = "none";
+button.setAttribute("aria-label", "Undo last action");
+    
     button.style.cssText = [
       "position: fixed",
       "right: 118px",
