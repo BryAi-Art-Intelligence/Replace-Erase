@@ -62,7 +62,7 @@ function buildStartUI(){
     colorOnlyMode = !colorOnlyMode;
     document.body.classList.toggle("color-only-mode", colorOnlyMode);
     colorButton.classList.toggle("is-active", colorOnlyMode);
-colorButton.textContent = "PICTURES";
+colorButton.textContent = colorOnlyMode ? "COLOR ON" : "PICTURES";
     colorButton.setAttribute("aria-pressed", String(colorOnlyMode));
   });
 
