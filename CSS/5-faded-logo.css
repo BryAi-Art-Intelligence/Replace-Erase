@@ -31,3 +31,19 @@
 .center-title{
   display:none !important;
 }
+
+
+/* Turquoise → sea blue, only on Replace */
+
+.ghost-title div:first-child {
+  background: linear-gradient(
+    90deg,
+    #30B4B0 0%,
+    #2F7EDB 100%
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
