@@ -54,7 +54,7 @@ function buildStartUI(){
   const colorButton = document.createElement("button");
   colorButton.type = "button";
   colorButton.className = "start-color-button";
-  colorButton.textContent = "COLOR";
+  colorButton.textContent = "PICTURES";
   colorButton.setAttribute("aria-pressed", "false");
 
   colorButton.addEventListener("click", e => {
@@ -62,7 +62,7 @@ function buildStartUI(){
     colorOnlyMode = !colorOnlyMode;
     document.body.classList.toggle("color-only-mode", colorOnlyMode);
     colorButton.classList.toggle("is-active", colorOnlyMode);
-colorButton.textContent = colorOnlyMode ? "COLOR ON" : "PICTURES";
+colorButton.textContent = colorOnlyMode ? "pictures" : "PICTURES";
     colorButton.setAttribute("aria-pressed", String(colorOnlyMode));
   });
 
