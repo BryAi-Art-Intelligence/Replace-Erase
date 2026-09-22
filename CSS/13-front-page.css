@@ -2,9 +2,9 @@
    Front page paste behavior helper styles. */
 .scene{
   background-image: url("../IMG_4248.png");
-  background-position: center;
   background-size: cover;
-  background-repeat: no-repeat;
+   blur: .891;
+l
 }
 
 .start-paste-box{
