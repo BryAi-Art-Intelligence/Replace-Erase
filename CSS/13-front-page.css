@@ -6,10 +6,7 @@
   background-size: cover;
   background-repeat: no-repeat;
 }
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
+
 .start-paste-box{
   position:absolute;
   left:-9999px;
