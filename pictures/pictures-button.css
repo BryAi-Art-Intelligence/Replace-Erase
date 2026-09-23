@@ -1,0 +1,10 @@
+
+/* pictures-button.css
+   Optional PICTURES button visibility.
+*/
+
+.start-color-button {
+  display: none;
+}
+
+/* Change to display:block when needed. */
