@@ -52,6 +52,7 @@ function buildStartUI(){
   stack.appendChild(pasteHint);
 
   stack.appendChild(pasteBox);
+  buildPicturesButton();
 
   stack.removeEventListener("click", handleWholeScreenPaste);
   stack.addEventListener("click", handleWholeScreenPaste);
