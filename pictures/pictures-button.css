@@ -4,7 +4,7 @@
 */
 
 .start-color-button {
-  display: none;
+  display: block;
 }
 
 /* Change to display:block when needed. */
