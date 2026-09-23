@@ -1,10 +1,5 @@
 /* 13-front-page.css
    Front page paste behavior helper styles. */
-.scene{
-  background-image: url("../IMG_4248.png");
-  background-size: cover;
-   blur: .891;
-}
 
 .start-paste-box{
   position:absolute;
