@@ -129,19 +129,46 @@ stack.appendChild(pasteHint);
 
 
 
+
 async function handleWholeScreenPaste(e) {
   if (e.target.closest("#status")) return;
   if (e.target.closest("#startPasteBox")) return;
 
   try {
-    if (!navigator.clipboard?.readText) return;
+    // Check for pictures first.
+    if (navigator.clipboard?.read) {
+      const items = await navigator.clipboard.read();
 
-    const text = await navigator.clipboard.readText();
-    if (text?.trim()) beginCodeLoad(text);
+      for (const item of items) {
+        const imageType = item.types.find(
+          type => type.startsWith("image/")
+        );
+
+        if (imageType) {
+          const blob = await item.getType(imageType);
+          openPictureEditor(blob);
+          return;
+        }
+
+        if (item.types.includes("text/plain")) {
+          const blob = await item.getType("text/plain");
+          const text = await blob.text();
+
+          if (text.trim()) {
+            beginCodeLoad(text);
+            return;
+          }
+        }
+      }
+    } else if (navigator.clipboard?.readText) {
+      const text = await navigator.clipboard.readText();
+      if (text.trim()) beginCodeLoad(text);
+    }
   } catch (err) {
     console.warn("Clipboard unavailable.", err);
   }
 }
+
 
 function handlePasteBoxPaste(event) {
   alert("PASTE DETECTED!");
