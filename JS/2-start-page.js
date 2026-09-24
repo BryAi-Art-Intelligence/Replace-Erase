@@ -86,17 +86,18 @@ amp.addEventListener("click", (e) => {
 
   pasteHint.className = "paste-hint";
 
-  pasteHint.textContent = "Tap here, then paste code";
+pasteHint.textContent = "Tap here, then paste code or picture";
 
-  pasteBox = document.createElement("textarea");
 
-  pasteBox.id = "startPasteBox";
+  pasteBox = document.createElement("div");
 
-  pasteBox.className = "start-paste-box";
+pasteBox.id = "startPasteBox";
+pasteBox.className = "start-paste-box";
+pasteBox.contentEditable = "true";
+pasteBox.setAttribute("role", "textbox");
+pasteBox.setAttribute("aria-label", "Paste code or picture");
 
-  pasteBox.placeholder = "Paste code here...";
-
-  pasteBox.value = "";
+pasteBox.dataset.placeholder = "Paste code or picture here...";
 
 stack.appendChild(startMessage);
 
@@ -124,59 +125,90 @@ stack.appendChild(pasteHint);
 
 }
 
-async function handleWholeScreenPaste(e){
 
+
+
+async function handleWholeScreenPaste(e) {
   if (e.target.closest("#status")) return;
+  if (e.target.closest("#startPasteBox")) return;
 
-  try{
-
-    if (!navigator.clipboard || !navigator.clipboard.readText){
-
-      return;
-
-    }
+  try {
+    if (!navigator.clipboard?.readText) return;
 
     const text = await navigator.clipboard.readText();
+    if (text?.trim()) beginCodeLoad(text);
+  } catch (err) {
+    console.warn("Clipboard unavailable.", err);
+  }
+}
 
-    if (!text || !text.trim()) return;
+function handlePasteBoxPaste(event) {
+  const item = [...(event.clipboardData?.items || [])]
+    .find(item => item.type.startsWith("image/"));
 
-    beginCodeLoad(text);
+  if (item) {
+    event.preventDefault();
 
-  }catch(err){
-
-    console.warn("Clipboard paste was not available.", err);
-
+    const file = item.getAsFile();
+    if (file) openPictureEditor(file);
+    return;
   }
 
+  // Let Safari insert ordinary text.
 }
 
-function handlePasteBoxPaste(){
-
-  setTimeout(() => {
-
-    if (!pasteBox) return;
-
-    const text = pasteBox.value;
-
-    if (!text || !text.trim()) return;
-
-    beginCodeLoad(text);
-
-  }, 0);
-
-}
-
-function handlePasteBoxInput(){
-
+function handlePasteBoxInput() {
   if (!pasteBox) return;
 
-  const text = pasteBox.value;
+  // Safari may insert an image directly.
+  const image = pasteBox.querySelector("img");
 
-  if (!text || !text.trim()) return;
+  if (image) {
+    fetch(image.src)
+      .then(response => response.blob())
+      .then(openPictureEditor)
+      .catch(console.error);
+    return;
+  }
 
-  beginCodeLoad(text);
+  const text = pasteBox.innerText;
 
+  if (text?.trim()) beginCodeLoad(text);
 }
+
+function openPictureEditor(blob) {
+  if (!blob?.type.startsWith("image/")) return;
+
+  stack.removeEventListener("click", handleWholeScreenPaste);
+
+  const frame = document.createElement("iframe");
+
+  frame.src = "pictures/reveal-conceal.html";
+  frame.title = "Reveal & Conceal";
+
+  Object.assign(frame.style, {
+    position: "fixed",
+    inset: "0",
+    width: "100%",
+    height: "100%",
+    border: "0",
+    zIndex: "1000",
+    background: "#343638"
+  });
+
+  frame.onload = () => {
+    frame.contentWindow.postMessage(
+      { type: "OPEN_PICTURE", blob },
+      location.origin
+    );
+  };
+
+  document.body.appendChild(frame);
+}
+
+
+
+
 
 function beginCodeLoad(text){
 
