@@ -43,15 +43,34 @@ function showPhoto(blob) {
   };
   photo.src = photoURL;
 }
+
 paste.onclick = async () => {
   try {
     const items = await navigator.clipboard.read();
-    const image = items.flatMap(item => item.types.map(type => ({item, type})))
-      .find(entry => entry.type.startsWith('image/'));
-    if (image) showPhoto(await image.item.getType(image.type));
-    else hint.textContent = 'Copy a photo first, then try again.';
-  } catch { hint.textContent = 'Allow clipboard access, then try again.'; }
+
+    for (const item of items) {
+      const types = item.types.filter(type =>
+        type.startsWith('image/')
+      );
+
+      for (const type of types) {
+        try {
+          const blob = await item.getType(type);
+          showPhoto(blob);
+          return;
+        } catch {
+          continue;
+        }
+      }
+    }
+
+    hint.textContent = 'No supported image found.';
+
+  } catch {
+    hint.textContent = 'Allow clipboard access, then try again.';
+  }
 };
+
 window.addEventListener('paste', event => {
   const image = [...event.clipboardData.items].find(item => item.type.startsWith('image/'));
   if (image) { event.preventDefault(); showPhoto(image.getAsFile()); }
