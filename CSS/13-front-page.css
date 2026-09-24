@@ -379,3 +379,21 @@ body:has(.toolbar2.show-toolbar2) .brown-index-wrap{
 .brown-index-wrap:has(.brown-letter-open) .brown-index-menu{
   max-height:min(82vh, calc(100dvh - 132px)) !important;
 }
+
+
+/* Allow code and pictures to be pasted */
+
+.start-paste-box {
+  -webkit-user-select: text;
+  user-select: text;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Placeholder when the paste area is empty */
+
+.start-paste-box:empty::before {
+  content: attr(data-placeholder);
+  color: #aaa;
+  pointer-events: none;
+}
