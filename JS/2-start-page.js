@@ -144,6 +144,8 @@ async function handleWholeScreenPaste(e) {
 }
 
 function handlePasteBoxPaste(event) {
+  alert("PASTE DETECTED!");
+
   const item = [...(event.clipboardData?.items || [])]
     .find(item => item.type.startsWith("image/"));
 
