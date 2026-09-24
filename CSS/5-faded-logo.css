@@ -6,6 +6,7 @@
   position: absolute;
   left: 50%;
   top: 40vh;
+   width: 700px;
 
   transform: translate(-50%, -50%)
     rotate(-2deg) skewX(-10deg);
@@ -51,7 +52,14 @@
 
 /* & — green to yellow */
 
+/* & — green to yellow */
+
 .ghost-title .ghost-amp {
+  display: inline-block;
+  width: 1.5ch;
+  flex-shrink: 0;
+  text-align: left;
+
   background: linear-gradient(
     90deg,
     #36B66A 0%,
@@ -62,6 +70,11 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
+}
 
   /* Only the & is tappable */
   pointer-events: auto;
