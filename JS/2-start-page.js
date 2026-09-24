@@ -46,7 +46,7 @@ ghostTitle.innerHTML = `
 
   <div class="ghost-bottom">
 
-    <span class="ghost-amp">&amp;</span>
+    <span class="ghost-amp">and;</span>
 
     <span class="ghost-erase">Erase</span>
 
@@ -64,7 +64,7 @@ amp.addEventListener("click", (e) => {
 
   amp.textContent =
 
-    amp.textContent.trim() === "and" ? "and" : "and";
+    amp.textContent.trim() === "&" ? "and" : "&";
 
 });
 
