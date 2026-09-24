@@ -35,6 +35,23 @@ ghostTitle.innerHTML = `
 `;
 
 
+/* Tap the & to show or hide artwork */
+
+const amp = ghostTitle.querySelector(".ghost-amp");
+
+amp.addEventListener("click", (e) => {
+  e.stopPropagation();
+
+  ampArt.classList.toggle("show");
+});
+
+/* Create the hidden artwork */
+
+const ampArt = document.createElement("div");
+ampArt.className = "amp-art";
+ampArt.textContent = "FINE ART";
+
+
   const centerTitle = document.createElement("div");
   centerTitle.className = "center-title";
   centerTitle.innerHTML = `
@@ -53,10 +70,12 @@ ghostTitle.innerHTML = `
   pasteBox.placeholder = "Paste code here...";
   pasteBox.value = "";
 
-  stack.appendChild(startMessage);
-  stack.appendChild(ghostTitle);
-  stack.appendChild(centerTitle);
-  stack.appendChild(pasteHint);
+
+stack.appendChild(startMessage);
+stack.appendChild(ghostTitle);
+stack.appendChild(ampArt);
+stack.appendChild(centerTitle);
+stack.appendChild(pasteHint);
 
   stack.appendChild(pasteBox);
   buildPicturesButton();
