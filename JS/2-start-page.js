@@ -64,7 +64,7 @@ amp.addEventListener("click", (e) => {
 
   amp.textContent =
 
-    amp.textContent.trim() === "&" ? "and" : "&";
+    amp.textContent.trim() === "and" ? "and" : "and";
 
 });
 
