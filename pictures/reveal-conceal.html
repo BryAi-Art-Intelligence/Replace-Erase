@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -10,25 +10,19 @@ html,body { margin:0; width:100%; height:100%; overflow:hidden; background:#3436
 #view { position:fixed; inset:0; overflow:hidden; touch-action:none; }
 #page { position:absolute; left:50%; top:50%; transform-origin:center; }
 #photo { display:block; max-width:none; user-select:none; -webkit-user-drag:none; }
-#start { position:fixed; inset:0; display:grid; place-content:center; gap:16px; justify-items:center; }
-#start[hidden] { display:none; }
-#paste { padding:16px 34px; background:#deded7; border:2px solid white; border-radius:6px; font:900 17px Arial; color:#1680d6; }
-#pasteArea { min-width:220px; min-height:48px; padding:12px; border:1px solid #aaa; color:white; text-align:center; background:#454749; font:16px Arial; -webkit-user-select:text; user-select:text; }
 #hint { position:fixed; bottom:20px; width:100%; padding:0 14px; text-align:center; color:#ccc; font-size:12px; pointer-events:none; }
 </style>
 </head>
 <body>
 <div id="view"><div id="page"><img id="photo" alt="Pasted photograph" hidden></div></div>
-<div id="start">
-  <button id="paste" type="button">PASTE</button>
-  <div id="pasteArea" contenteditable="true" role="textbox" aria-label="Paste photograph here">Hold here, then tap Paste</div>
-</div>
-<div id="hint">Copy a photo in Photos first</div>
+
+<div id="hint"></div>
+
 <script>
 const view=document.querySelector('#view'), page=document.querySelector('#page');
-const photo=document.querySelector('#photo'), start=document.querySelector('#start');
-const paste=document.querySelector('#paste'), area=document.querySelector('#pasteArea');
-const hint=document.querySelector('#hint'), fingers=new Map();
+const photo=document.querySelector('#photo');
+const hint=document.querySelector('#hint');
+const fingers=new Map();
 let scale=1,x=0,y=0,lastCenter=null,lastDistance=0,photoURL;
 function render(){page.style.transform=`translate(-50%,-50%) translate(${x}px,${y}px) scale(${scale})`;}
 async function showPhoto(blob){
@@ -47,7 +41,7 @@ async function showPhoto(blob){
     const nextURL=URL.createObjectURL(jpeg);
     photo.onload=()=>{
       if(photoURL) URL.revokeObjectURL(photoURL);
-      photoURL=nextURL; photo.hidden=false; start.hidden=true;
+      photoURL=nextURL; photo.hidden=false;
       hint.textContent='Pinch to zoom • Drag to move';
       scale=Math.min(1,innerWidth/photo.naturalWidth,innerHeight/photo.naturalHeight);
       x=y=0; render();
@@ -56,26 +50,6 @@ async function showPhoto(blob){
     photo.src=nextURL;
   } finally { URL.revokeObjectURL(url); }
 }
-// Button focuses the editable area; iOS's own Paste menu handles permission.
-paste.onclick=()=>{area.focus(); hint.textContent='Hold the box, then choose Paste';};
-area.addEventListener('paste',async event=>{
-  const item=[...event.clipboardData.items].find(i=>i.type.startsWith('image/'));
-  if(!item){hint.textContent='No image in this paste. Try Copy Photo again.';return;}
-  event.preventDefault();
-  try {await showPhoto(item.getAsFile());}
-  catch(error){hint.textContent='Image error: '+error.message;}
-});
-// Some iOS versions insert a pasted image without firing an image clipboard item.
-new MutationObserver(async()=>{
-  if(start.hidden) return;
-  const img=area.querySelector('img');
-  if(!img) return;
-  try {
-    const response=await fetch(img.src);
-    if(!response.ok) throw Error('Cannot read pasted image');
-    await showPhoto(await response.blob());
-  } catch {hint.textContent='Safari inserted an image but did not expose its data.';}
-}).observe(area,{childList:true,subtree:true});
 function measure(){
   const p=[...fingers.values()];
   const center={x:p.reduce((s,v)=>s+v.x,0)/p.length,y:p.reduce((s,v)=>s+v.y,0)/p.length};
