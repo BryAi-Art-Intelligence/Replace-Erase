@@ -24,7 +24,7 @@
   filter: blur(.2px);
 }
 
-/* REPLACE — original turquoise to blue */
+/* REPLACE — turquoise to blue */
 
 .ghost-title div:first-child {
   margin-left: 0;
@@ -41,7 +41,7 @@
   color: transparent;
 }
 
-/* Second line holds & and ERASE */
+/* Second line */
 
 .ghost-title .ghost-bottom {
   display: flex;
@@ -62,6 +62,11 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+
+  /* Only the & is tappable */
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
 /* ERASE — orange to red */
@@ -78,6 +83,18 @@
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
+
+/* Hidden artwork */
+
+.amp-art {
+  display: none;
+}
+
+.amp-art.show {
+  display: block;
+}
+
+/* Hide original center title */
 
 .center-title {
   display: none !important;
