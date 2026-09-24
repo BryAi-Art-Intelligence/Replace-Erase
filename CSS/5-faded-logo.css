@@ -40,6 +40,17 @@
     90deg,
     #30B4B0 0%,
     #2F7EDB 100%
+
+     }
+
+.ghost-title div:last-child {
+  background: linear-gradient(
+    90deg,
+    #30B4d7 0%,
+    #2F7EDZ 100%
+     
+     }
+     
   );
 
   -webkit-background-clip: text;
