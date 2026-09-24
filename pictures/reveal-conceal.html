@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reveal & Conceal</title>
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #343638; font-family: Arial; }
+#view { position: fixed; inset: 0; overflow: hidden; touch-action: none; }
+#page { position: absolute; left: 50%; top: 50%; transform-origin: center; }
+#photo { display: block; max-width: none; user-select: none; -webkit-user-drag: none; }
+#paste { position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%); padding: 16px 34px; background: #deded7; border: 2px solid white; border-radius: 6px; font: 900 17px Arial; }
+#paste[hidden] { display: none; }
+#hint { position: fixed; bottom: 20px; width: 100%; text-align: center; color: #aaa; font-size: 12px; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="view"><div id="page"><img id="photo" alt="Pasted photograph" hidden></div></div>
+<button id="paste" type="button">PASTE</button>
+<div id="hint">Copy a photo, then tap Paste</div>
+<script>
+const view = document.querySelector('#view');
+const page = document.querySelector('#page');
+const photo = document.querySelector('#photo');
+const paste = document.querySelector('#paste');
+const hint = document.querySelector('#hint');
+const fingers = new Map();
+let scale = 1, x = 0, y = 0, lastCenter = null, lastDistance = 0, photoURL;
+function render() {
+  page.style.transform = `translate(-50%,-50%) translate(${x}px,${y}px) scale(${scale})`;
+}
+function showPhoto(blob) {
+  if (photoURL) URL.revokeObjectURL(photoURL);
+  photoURL = URL.createObjectURL(blob);
+  photo.onload = () => {
+    photo.hidden = false;
+    paste.hidden = true;
+    hint.textContent = 'Pinch to zoom • Drag to move';
+    scale = Math.min(1, innerWidth / photo.naturalWidth, innerHeight / photo.naturalHeight);
+    x = y = 0;
+    render();
+  };
+  photo.src = photoURL;
+}
+paste.onclick = async () => {
+  try {
+    const items = await navigator.clipboard.read();
+    const image = items.flatMap(item => item.types.map(type => ({item, type})))
+      .find(entry => entry.type.startsWith('image/'));
+    if (image) showPhoto(await image.item.getType(image.type));
+    else hint.textContent = 'Copy a photo first, then try again.';
+  } catch { hint.textContent = 'Allow clipboard access, then try again.'; }
+};
+window.addEventListener('paste', event => {
+  const image = [...event.clipboardData.items].find(item => item.type.startsWith('image/'));
+  if (image) { event.preventDefault(); showPhoto(image.getAsFile()); }
+});
+function measure() {
+  const points = [...fingers.values()];
+  const center = { x: points.reduce((s,p) => s+p.x,0)/points.length,
+                   y: points.reduce((s,p) => s+p.y,0)/points.length };
+  const distance = points.length < 2 ? 0 : Math.hypot(points[0].x-points[1].x, points[0].y-points[1].y);
+  return { center, distance };
+}
+view.onpointerdown = event => {
+  if (photo.hidden) return;
+  view.setPointerCapture(event.pointerId);
+  fingers.set(event.pointerId, {x:event.clientX, y:event.clientY});
+  const m = measure(); lastCenter = m.center; lastDistance = m.distance;
+};
+view.onpointermove = event => {
+  if (!fingers.has(event.pointerId)) return;
+  fingers.set(event.pointerId, {x:event.clientX, y:event.clientY});
+  const m = measure();
+  x += m.center.x-lastCenter.x; y += m.center.y-lastCenter.y;
+  if (m.distance && lastDistance) {
+    const next = Math.max(.02, Math.min(20, scale*m.distance/lastDistance));
+    const cx = m.center.x-innerWidth/2-x, cy = m.center.y-innerHeight/2-y;
+    x += cx*(1-next/scale); y += cy*(1-next/scale); scale = next;
+  }
+  lastCenter = m.center; lastDistance = m.distance; render();
+};
+function release(event) {
+  fingers.delete(event.pointerId);
+  const m = fingers.size ? measure() : null;
+  lastCenter = m?.center ?? null; lastDistance = m?.distance ?? 0;
+}
+view.onpointerup = view.onpointercancel = release;
+</script>
+</body>
+</html>
