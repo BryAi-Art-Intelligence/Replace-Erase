@@ -1,7 +1,7 @@
 
 /* 5-faded-logo.css
-   Controls the faded Replace & Erase logo/title
-   on the front page. */
+   Controls the faded Replace & Erase
+   logo/title on the front page. */
 
 .ghost-title {
   position: absolute;
@@ -16,8 +16,8 @@
   line-height: .88;
   letter-spacing: -.06em;
 
-  /* Light grey fade */
-  color: rgba(123, 456, 789, .10);
+  /* Faded blue — 12% opacity */
+  color: rgba(47, 126, 219, .12);
 
   pointer-events: none;
   user-select: none;
