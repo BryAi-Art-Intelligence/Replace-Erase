@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -19,6 +19,7 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
 <div id="view"><div id="page"><img id="photo" alt="Pasted photograph" hidden></div></div>
 <button id="paste" type="button">PASTE</button>
 <div id="hint">Copy a photo, then tap Paste</div>
+
 <script>
 const view = document.querySelector('#view');
 const page = document.querySelector('#page');
@@ -44,37 +45,63 @@ function showPhoto(blob) {
   photo.src = photoURL;
 }
 
+/* PASTE + CLIPBOARD DIAGNOSTICS */
+
 paste.onclick = async () => {
+  hint.textContent = "Reading clipboard...";
+
   try {
     const items = await navigator.clipboard.read();
 
-    for (const item of items) {
-      const types = item.types.filter(type =>
-        type.startsWith('image/')
-      );
+    const types = [
+      ...new Set(items.flatMap(item => item.types))
+    ];
 
-      for (const type of types) {
+    // Show exactly what Safari provided.
+    hint.textContent =
+      "Clipboard: " + (types.join(", ") || "empty");
+
+    // Try every available image format.
+    for (const item of items) {
+      for (const type of item.types) {
+        if (!type.startsWith("image/")) continue;
+
         try {
           const blob = await item.getType(type);
+
+          // Verify that Safari can decode the image.
+          const url = URL.createObjectURL(blob);
+          const test = new Image();
+          test.src = url;
+
+          try {
+            await test.decode();
+          } finally {
+            URL.revokeObjectURL(url);
+          }
+
           showPhoto(blob);
           return;
-        } catch {
-          continue;
+
+        } catch (error) {
+          hint.textContent =
+            "Image failed: " + error.message;
         }
       }
     }
 
-    hint.textContent = 'No supported image found.';
+    // No usable image was found.
+    hint.textContent =
+      "No usable image. Formats: " +
+      (types.join(", ") || "none");
 
-  } catch {
-    hint.textContent = 'Allow clipboard access, then try again.';
+  } catch (error) {
+    hint.textContent =
+      "Clipboard error: " +
+      error.name + ": " + error.message;
   }
 };
 
-window.addEventListener('paste', event => {
-  const image = [...event.clipboardData.items].find(item => item.type.startsWith('image/'));
-  if (image) { event.preventDefault(); showPhoto(image.getAsFile()); }
-});
 function measure() {
   const points = [...fingers.values()];
   const center = { x: points.reduce((s,p) => s+p.x,0)/points.length,
