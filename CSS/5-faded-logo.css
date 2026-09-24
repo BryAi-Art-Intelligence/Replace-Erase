@@ -31,7 +31,7 @@
   background: linear-gradient(
     90deg,
     #30B4B0 0%,
-    #2F7EDB 100%
+    #2F7EDB 0%
   );
 
   -webkit-background-clip: text;
@@ -48,7 +48,7 @@
   background: linear-gradient(
     90deg,
     #30B4D7 0%,
-    #2F7BDB 100%
+    #2F7BDB 0%
   );
 
   -webkit-background-clip: text;
