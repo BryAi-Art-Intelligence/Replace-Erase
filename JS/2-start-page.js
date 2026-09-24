@@ -46,7 +46,7 @@ ghostTitle.innerHTML = `
 
   <div class="ghost-bottom">
 
-    <span class="ghost-amp">and;</span>
+    <span class="ghost-amp">and</span>
 
     <span class="ghost-erase">Erase</span>
 
