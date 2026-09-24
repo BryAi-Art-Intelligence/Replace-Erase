@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -19,7 +19,6 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
 <div id="view"><div id="page"><img id="photo" alt="Pasted photograph" hidden></div></div>
 <button id="paste" type="button">PASTE</button>
 <div id="hint">Copy a photo, then tap Paste</div>
-
 <script>
 const view = document.querySelector('#view');
 const page = document.querySelector('#page');
@@ -32,76 +31,69 @@ function render() {
   page.style.transform = `translate(-50%,-50%) translate(${x}px,${y}px) scale(${scale})`;
 }
 function showPhoto(blob) {
-  if (photoURL) URL.revokeObjectURL(photoURL);
-  photoURL = URL.createObjectURL(blob);
+  const url = URL.createObjectURL(blob);
   photo.onload = () => {
+    if (photoURL) URL.revokeObjectURL(photoURL);
+    photoURL = url;
     photo.hidden = false;
     paste.hidden = true;
-    hint.textContent = 'Pinch to zoom • Drag to move';
+    hint.textContent = 'JPEG • Pinch to zoom • Drag to move';
     scale = Math.min(1, innerWidth / photo.naturalWidth, innerHeight / photo.naturalHeight);
     x = y = 0;
     render();
   };
-  photo.src = photoURL;
+  photo.onerror = () => { URL.revokeObjectURL(url); hint.textContent = 'Could not display JPEG.'; };
+  photo.src = url;
 }
-
-/* PASTE + CLIPBOARD DIAGNOSTICS */
-
+// Decode the clipboard image, then create a full-dimension JPEG.
+async function toJPEG(blob) {
+  const url = URL.createObjectURL(blob);
+  try {
+    const image = new Image();
+    image.src = url;
+    await image.decode();
+    const canvas = document.createElement('canvas');
+    canvas.width = image.naturalWidth;
+    canvas.height = image.naturalHeight;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('Canvas unavailable');
+    ctx.fillStyle = '#fff'; // JPEG cannot store transparency.
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(image, 0, 0);
+    return await new Promise((resolve, reject) =>
+      canvas.toBlob(file => file && file.type === 'image/jpeg'
+        ? resolve(file) : reject(new Error('JPEG conversion failed')), 'image/jpeg', 0.95));
+  } finally { URL.revokeObjectURL(url); }
+}
 paste.onclick = async () => {
-  hint.textContent = "Reading clipboard...";
-
+  hint.textContent = 'Reading clipboard...';
   try {
     const items = await navigator.clipboard.read();
-
-    const types = [
-      ...new Set(items.flatMap(item => item.types))
-    ];
-
-    // Show exactly what Safari provided.
-    hint.textContent =
-      "Clipboard: " + (types.join(", ") || "empty");
-
-    // Try every available image format.
+    const types = [...new Set(items.flatMap(item => item.types))];
+    let failure;
     for (const item of items) {
-      for (const type of item.types) {
-        if (!type.startsWith("image/")) continue;
-
+      for (const type of item.types.filter(type => type.startsWith('image/'))) {
         try {
-          const blob = await item.getType(type);
-
-          // Verify that Safari can decode the image.
-          const url = URL.createObjectURL(blob);
-          const test = new Image();
-          test.src = url;
-
-          try {
-            await test.decode();
-          } finally {
-            URL.revokeObjectURL(url);
-          }
-
-          showPhoto(blob);
+          hint.textContent = 'Converting to JPEG...';
+          const jpeg = await toJPEG(await item.getType(type));
+          showPhoto(jpeg);
           return;
-
-        } catch (error) {
-          hint.textContent =
-            "Image failed: " + error.message;
-        }
+        } catch (error) { failure = error.message; }
       }
     }
-
-    // No usable image was found.
-    hint.textContent =
-      "No usable image. Formats: " +
-      (types.join(", ") || "none");
-
+    hint.textContent = failure ? `Image failed: ${failure}`
+      : `No image available. Formats: ${types.join(', ') || 'none'}`;
   } catch (error) {
-    hint.textContent =
-      "Clipboard error: " +
-      error.name + ": " + error.message;
+    hint.textContent = `Clipboard error: ${error.name}: ${error.message}`;
   }
 };
-
+window.addEventListener('paste', async event => {
+  const image = [...event.clipboardData.items].find(item => item.type.startsWith('image/'));
+  if (!image) return;
+  event.preventDefault();
+  try { showPhoto(await toJPEG(image.getAsFile())); }
+  catch (error) { hint.textContent = `Image failed: ${error.message}`; }
+});
 function measure() {
   const points = [...fingers.values()];
   const center = { x: points.reduce((s,p) => s+p.x,0)/points.length,
