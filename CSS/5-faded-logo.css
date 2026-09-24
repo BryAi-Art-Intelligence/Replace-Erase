@@ -1,62 +1,33 @@
-
 /* 5-faded-logo.css
-   Controls the faded Replace & Erase logo/title. */
+   Controls the faded Replace & Erase logo/title on the front page. */
 
-.ghost-title {
-  position: absolute;
-  left: 50%;
-  top: 40vh;
-  transform: translate(-50%, -50%)
-    rotate(-2deg) skewX(-10deg);
-
-  font-size: 72px;
-  font-weight: 900;
-  line-height: .88;
-  letter-spacing: -.06em;
-
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-select: none;
-  white-space: nowrap;
-  z-index: 0;
-  text-transform: uppercase;
-  filter: blur(.2px);
+.ghost-title{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%) skewX(-20deg);
+  font-size:72px;
+  font-weight:900;
+  line-height:.88;
+  letter-spacing:-.06em;
+  color:rgba(30,70,45,.08);
+  pointer-events:none;
+  user-select:none;
+  -webkit-user-select:none;
+  white-space:nowrap;
+  z-index:0;
+  text-transform:uppercase;
+  filter:blur(.2px);
 }
 
-/* REPLACE — turquoise to blue */
-
-.ghost-title div:first-child {
-  margin-left: 0px;
-
-  background: linear-gradient(
-    90deg,
-    #30B4B0 0%,
-    #2F7EDB 0%
-  );
-
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+.ghost-title div:first-child{
+  margin-left:0px;
 }
 
-/* & ERASE — cyan to blue */
-
-.ghost-title div:last-child {
-  margin-left: 50px;
-
-  background: linear-gradient(
-    90deg,
-    #30B4D7 0%,
-    #2F7BDB 0%
-  );
-
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+.ghost-title div:last-child{
+  margin-left:50px;
 }
 
-.center-title {
-  display: none !important;
+.center-title{
+  display:none !important;
 }
