@@ -3,6 +3,7 @@
 
 .status{
   position:absolute;
+  display: none;
   top:10px;
   left:12px;
   z-index:50;
