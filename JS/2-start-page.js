@@ -5,6 +5,7 @@
 // Builds the start page and handles the first paste.
 
 let pasteBox = null;
+let pictureOpening = false;
 
 if (status){
 
@@ -177,7 +178,10 @@ function handlePasteBoxInput() {
 }
 
 function openPictureEditor(blob) {
+  if (pictureOpening) return;
   if (!blob?.type.startsWith("image/")) return;
+
+  pictureOpening = true;
 
   stack.removeEventListener("click", handleWholeScreenPaste);
 
