@@ -50,6 +50,24 @@ async function showPhoto(blob){
     photo.src=nextURL;
   } finally { URL.revokeObjectURL(url); }
 }
+
+window.addEventListener("message", async event => {
+  if (event.origin !== location.origin) return;
+  if (event.source !== window.parent) return;
+  if (event.data?.type !== "OPEN_PICTURE") return;
+
+  const blob = event.data.blob;
+
+  if (!(blob instanceof Blob)) return;
+  if (!blob.type.startsWith("image/")) return;
+
+  try {
+    await showPhoto(blob);
+  } catch (error) {
+    hint.textContent = "Image error: " + error.message;
+  }
+});
+
 function measure(){
   const p=[...fingers.values()];
   const center={x:p.reduce((s,v)=>s+v.x,0)/p.length,y:p.reduce((s,v)=>s+v.y,0)/p.length};
