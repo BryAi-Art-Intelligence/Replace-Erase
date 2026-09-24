@@ -1,33 +1,45 @@
+
 /* 5-faded-logo.css
-   Controls the faded Replace & Erase logo/title on the front page. */
+   Controls the faded Replace & Erase logo/title
+   on the front page. */
 
-.ghost-title{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%) skewX(-20deg);
-  font-size:72px;
-  font-weight:900;
-  line-height:.88;
-  letter-spacing:-.06em;
-  color:rgba(30,70,45,.08);
-  pointer-events:none;
-  user-select:none;
-  -webkit-user-select:none;
-  white-space:nowrap;
-  z-index:0;
-  text-transform:uppercase;
-  filter:blur(.2px);
+.ghost-title {
+  position: absolute;
+  left: 50%;
+  top: 40vh;
+
+  transform: translate(-50%, -50%)
+    rotate(-2deg) skewX(-10deg);
+
+  font-size: 72px;
+  font-weight: 900;
+  line-height: .88;
+  letter-spacing: -.06em;
+
+  /* Light grey fade */
+  color: rgba(200, 200, 200, .12);
+
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  white-space: nowrap;
+  z-index: 0;
+  text-transform: uppercase;
+  filter: blur(.2px);
 }
 
-.ghost-title div:first-child{
-  margin-left:0px;
+/* REPLACE */
+
+.ghost-title div:first-child {
+  margin-left: 0px;
 }
 
-.ghost-title div:last-child{
-  margin-left:50px;
+/* & ERASE */
+
+.ghost-title div:last-child {
+  margin-left: 50px;
 }
 
-.center-title{
-  display:none !important;
+.center-title {
+  display: none !important;
 }
