@@ -76,7 +76,7 @@ amp.addEventListener("click", (e) => {
 
     <span class="center-word word-replace">REPLACE</span>
 
-    <span class="center-word word-and">AND</span>
+    <span class="center-word word-and">and</span>
 
     <span class="center-word word-erase">ERASE</span>
 
