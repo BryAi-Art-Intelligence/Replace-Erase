@@ -21,12 +21,19 @@ function buildStartUI(){
   startMessage.className = "start-message";
   startMessage.innerHTML = "";
 
-  const ghostTitle = document.createElement("div");
-  ghostTitle.className = "ghost-title";
-  ghostTitle.innerHTML = `
-    <div>Replace</div>
-    <div>&amp; Erase</div>
-  `;
+  
+const ghostTitle = document.createElement("div");
+ghostTitle.className = "ghost-title";
+
+ghostTitle.innerHTML = `
+  <div>Replace</div>
+
+  <div class="ghost-bottom">
+    <span class="ghost-amp">&amp;</span>
+    <span class="ghost-erase">Erase</span>
+  </div>
+`;
+
 
   const centerTitle = document.createElement("div");
   centerTitle.className = "center-title";
