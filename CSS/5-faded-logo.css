@@ -58,7 +58,7 @@
   width: 1.5ch;
   flex-shrink: 0;
   text-align: left;
-  transform: translateX(-10px);
+  transform: translateX(-20px);
   text-transform: lowercase;
 
   background: linear-gradient(
