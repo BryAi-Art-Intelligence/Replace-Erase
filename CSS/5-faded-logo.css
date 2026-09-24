@@ -4,7 +4,7 @@
 .ghost-title{
   position:absolute;
   left:50%;
-  top:50vh;
+  top:30vh;
   transform:translate(-50%,-50%) rotate(-2deg) skewX(-10deg);
   font-size:72px;
   font-weight:900;
