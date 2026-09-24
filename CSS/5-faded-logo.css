@@ -57,6 +57,25 @@
     #36B66A 0%,
     #F4D44D 100%
   );
+   
+/* Only the & is interactive */
+
+.ghost-amp {
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* Hidden artwork */
+
+.amp-art {
+  display: none;
+}
+
+.amp-art.show {
+  display: block;
+}
+
 
   -webkit-background-clip: text;
   background-clip: text;
