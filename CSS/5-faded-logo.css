@@ -1,7 +1,6 @@
 
 /* 5-faded-logo.css
-   Controls the faded Replace & Erase
-   logo/title on the front page. */
+   Replace & Erase front-page title */
 
 .ghost-title {
   position: absolute;
@@ -16,9 +15,6 @@
   line-height: .88;
   letter-spacing: -.06em;
 
-  /* Faded blue — 12% opacity */
-  color: rgba(47, 126, 219, .12);
-
   pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
@@ -28,16 +24,59 @@
   filter: blur(.2px);
 }
 
-/* REPLACE */
+/* REPLACE — original turquoise to blue */
 
 .ghost-title div:first-child {
-  margin-left: 0px;
+  margin-left: 0;
+
+  background: linear-gradient(
+    90deg,
+    #30B4B0 0%,
+    #2F7EDB 100%
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
-/* & ERASE */
+/* Second line holds & and ERASE */
 
-.ghost-title div:last-child {
+.ghost-title .ghost-bottom {
+  display: flex;
+  align-items: baseline;
   margin-left: 50px;
+}
+
+/* & — green to yellow */
+
+.ghost-title .ghost-amp {
+  background: linear-gradient(
+    90deg,
+    #36B66A 0%,
+    #F4D44D 100%
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ERASE — orange to red */
+
+.ghost-title .ghost-erase {
+  background: linear-gradient(
+    90deg,
+    #F5A13C 0%,
+    #E34242 100%
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .center-title {
