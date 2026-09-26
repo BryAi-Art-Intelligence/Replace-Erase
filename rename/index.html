@@ -3,55 +3,161 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1">
+<title>rename & arrange</title>
 
-  <title>rename & arrange</title>
+<style>
 
-  <style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #343638;
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #343638;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+  overflow-x: hidden;
+}
 
-    .feathered-image {
-      display: block;
-      width: 100%;
-      max-width: 480px;
-      height: auto;
+/* Picture and swirling background */
 
-      /* Top and bottom only */
+.artwork {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  isolation: isolate;
+}
 
-      -webkit-mask-image: linear-gradient(
-        to bottom,
-        transparent 0%,
-        white 10%,
-        white 97%,
-        transparent 100%
-      );
+/* Green swirling brushstrokes */
 
-      mask-image: linear-gradient(
-        to bottom,
-        transparent 0%,
-        black 3%,
-        black 97%,
-        transparent 100%
-      );
-    }
+.swirls {
+  position: absolute;
+  inset: -8% -3%;
+  width: 106%;
+  height: 116%;
+  z-index: -1;
+  pointer-events: none;
 
-  </style>
+  filter: blur(9px);
+  opacity: 0.75;
+}
 
+/* Original picture */
+
+.feathered-image {
+  display: block;
+  width: 100%;
+  height: auto;
+
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    white 10%,
+    white 97%,
+    transparent 100%
+  );
+
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    white 10%,
+    white 97%,
+    transparent 100%
+  );
+}
+
+</style>
 </head>
 
 <body>
+
+<div class="artwork">
+
+  <!-- Swirling green background -->
+
+  <svg class="swirls"
+       viewBox="0 0 480 480"
+       preserveAspectRatio="none"
+       aria-hidden="true">
+
+    <defs>
+      <linearGradient id="paint"
+                      x1="0" y1="0"
+                      x2="1" y2="1">
+        <stop offset="0%"
+              stop-color="#064b23"/>
+        <stop offset="50%"
+              stop-color="#36e36b"/>
+        <stop offset="100%"
+              stop-color="#087b42"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Top flowing strokes -->
+
+    <g fill="none"
+       stroke="url(#paint)"
+       stroke-linecap="round">
+
+      <path
+        d="M-30 35
+           C70 -25 130 95 205 45
+           S325 -10 390 50
+           S460 70 510 15"
+        stroke-width="18"/>
+
+      <path
+        d="M-20 65
+           C70 0 120 125 210 75
+           S340 15 410 85
+           S470 95 510 55"
+        stroke-width="9"/>
+
+      <!-- Top spiral -->
+
+      <path
+        d="M120 75
+           C65 15 15 90 75 125
+           C130 155 180 90 130 65
+           C100 50 80 85 110 100
+           C130 110 145 85 125 80"
+        stroke-width="12"/>
+
+      <!-- Bottom flowing strokes -->
+
+      <path
+        d="M-30 420
+           C70 360 130 485 215 425
+           S345 375 410 440
+           S470 460 510 405"
+        stroke-width="20"/>
+
+      <path
+        d="M-20 450
+           C80 390 140 510 230 455
+           S350 405 420 470
+           S480 480 510 440"
+        stroke-width="10"/>
+
+      <!-- Bottom spiral -->
+
+      <path
+        d="M350 405
+           C410 350 465 410 430 450
+           C390 490 335 445 365 415
+           C390 390 420 420 400 440
+           C385 450 375 430 390 425"
+        stroke-width="13"/>
+
+    </g>
+
+  </svg>
+
+  <!-- Your actual picture -->
 
   <img
     src="B8B0FA32-0038-42DE-9A1F-9B4E9AA0A0C0.png"
@@ -59,6 +165,7 @@
     alt="rename & arrange"
   >
 
-</body>
+</div>
 
+</body>
 </html>
