@@ -7,22 +7,6 @@
 let pasteBox = null;
 let pictureOpening = false;
 
-if (status){
-
-  status.addEventListener("click", e => {
-
-    e.stopPropagation();
-
-    statusWasPressed = true;
-
-    status.classList.remove("status-faded");
-
-    status.classList.add("status-green");
-
-  });
-
-}
-
 function buildStartUI(){
 
   stack.innerHTML = "";
@@ -265,7 +249,8 @@ function beginCodeLoad(text){
 
     setPanelColor(null);
 
-    if (statusWasPressed && status) status.classList.add("status-faded");
+
+fadeStatusAfterPaste();
 
         stack.removeEventListener("click", handleWholeScreenPaste);
 
