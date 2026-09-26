@@ -249,9 +249,6 @@ function beginCodeLoad(text){
 
     setPanelColor(null);
 
-
-fadeStatusAfterPaste();
-
         stack.removeEventListener("click", handleWholeScreenPaste);
 
     renderBlockMode(true);
