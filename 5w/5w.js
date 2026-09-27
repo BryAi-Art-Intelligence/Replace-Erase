@@ -30,5 +30,11 @@ bryaiButtons.forEach(button => {
       activeWord = word;
       bryaiOutput.textContent = bryaiWords[word] || "";
     }
+
+    // Tell the main page whether a W is open.
+    window.parent.postMessage({
+      type: "BRYAI_5W",
+      active: activeWord !== ""
+    }, window.location.origin);
   });
 });
