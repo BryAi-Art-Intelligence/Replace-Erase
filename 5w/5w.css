@@ -14,7 +14,13 @@
 
   margin-left:-12px;
   opacity: .5;
-  background:#99bbff;
+background: linear-gradient(
+  225deg,
+  #8b2f5f 0%,
+  #99507c 25%,
+  #9b78b4 48%,
+  #99BBFF 100%
+);
   color:white;
 
   border:2px solid white;
