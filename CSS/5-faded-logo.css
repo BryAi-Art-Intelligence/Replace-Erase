@@ -115,3 +115,8 @@ user-select: none;
   opacity: 0;
 }
 
+
+.ghost-title {
+  z-index: 10;
+}
+
