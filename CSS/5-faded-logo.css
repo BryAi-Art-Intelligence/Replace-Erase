@@ -23,7 +23,6 @@
   white-space: nowrap;
   z-index: 0;
   text-transform: uppercase;
-  filter: blur(.2px);
 }
 
 /* REPLACE — turquoise to blue */
