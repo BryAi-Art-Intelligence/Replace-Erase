@@ -100,3 +100,18 @@ user-select: none;
 .center-title {
   display: none !important;
 }
+
+
+/* Smooth title fade */
+
+.ghost-title {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+/* Activated when a 5W is tapped */
+
+.ghost-title.is-hidden {
+  opacity: 0;
+}
+
