@@ -11,7 +11,7 @@ body{
 }
 .bryai-slider{
   position:absolute;
-
+transition: transform .35s ease;
   border:2px solid lime;
   box-sizing:border-box;
 
