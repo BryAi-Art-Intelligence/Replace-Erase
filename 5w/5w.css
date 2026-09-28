@@ -9,6 +9,9 @@ body{
 body{
   padding-top:20px;
 }
+.bryai-nav button.active {
+  outline: 2px solid lime;
+}
 .bryai-nav{
   position: relative;
 
