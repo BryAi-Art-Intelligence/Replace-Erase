@@ -1,10 +1,15 @@
 .bryai-nav{
   position:fixed;
-  left:18px;
+
+  left:50%;
   top:0px;
+
+  transform:translateX(-50%);
 
   display:flex;
   align-items:flex-start;
+
+  width:max-content;
 
   z-index:998;
 }
