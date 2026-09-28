@@ -103,9 +103,9 @@ body{
 }
 
 .bryai-nav {
-  outline: 10px solid red !important;
+  outline: 2px solid red !important;
 }
 
 .bryai-nav button {
-  outline: 10px solid lime !important;
+  outline: 2px solid lime !important;
 }
