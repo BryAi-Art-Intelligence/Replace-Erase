@@ -1,7 +1,7 @@
-
 const bryaiButtons = document.querySelectorAll(
   ".bryai-nav button"
 );
+
 const bryaiNav = document.querySelector(".bryai-nav");
 const bryaiSlider = document.querySelector(".bryai-slider");
 
@@ -45,7 +45,7 @@ bryaiButtons.forEach(button => {
       activeWord = "";
       bryaiOutput.textContent = "";
 
-bryaiSlider.style.opacity = "0";
+      bryaiSlider.style.opacity = "0";
 
     } else {
       activeWord = word;
@@ -55,7 +55,7 @@ bryaiSlider.style.opacity = "0";
         b.classList.remove("active");
       });
 
-moveBryaiSlider(button);
+      moveBryaiSlider(button);
     }
 
     // Tell the main page whether a W is open.
