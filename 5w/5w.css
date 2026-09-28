@@ -10,7 +10,8 @@ body{
   padding-top:20px;
 }
 .bryai-nav button.active {
-  outline: 2px solid lime;
+  outline: 6px solid lime !important;
+  opacity: 1 !important;
 }
 .bryai-nav{
   position: relative;
