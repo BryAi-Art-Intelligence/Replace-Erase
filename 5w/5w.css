@@ -26,11 +26,11 @@ body{
 
   opacity:0;
 
-  transition:
-    transform .35s ease,
-    width .35s ease,
-    height .35s ease;
-
+transition:
+  transform .35s ease,
+  width .35s ease,
+  height .35s ease,
+  opacity .2s ease;
   z-index:10;
 }
 
