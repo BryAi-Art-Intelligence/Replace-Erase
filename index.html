@@ -23,9 +23,8 @@
       "CSS/11-copy-button.css",
       "CSS/12-minimize-logic.css",
       "CSS/13-front-page.css",
-"5w/5w.css",
-"pictures/pictures-button.css"
-
+      "5w/5w.css",
+      "pictures/pictures-button.css"
     ];
 
     window.RE_CSS_FILES.forEach(file => {
@@ -36,20 +35,6 @@
     });
   </script>
 
- <iframe
-  src="5w/5w.html"
-  title="BryAi 5W"
-  style="
-    position:fixed;
-    top:380px;
-    left:0;
-    width:100%;
-    height:300px;
-    border:none;
-    background:transparent;
-    z-index:998;
-  ">
-</iframe>
   <!--
     PARTS
 
@@ -75,6 +60,23 @@
 </head>
 
 <body>
+
+  <!-- 5W -->
+  <iframe
+    src="5w/5w.html"
+    title="BryAi 5W"
+    style="
+      position:fixed;
+      top:380px;
+      left:0;
+      width:100%;
+      height:300px;
+      border:none;
+      background:transparent;
+      z-index:998;
+    ">
+  </iframe>
+
   <div id="canvas" class="canvas">
 
     <pre id="codeView" class="code-view hidden"></pre>
@@ -88,14 +90,13 @@
 
     <div id="status" class="status">rename & arrange</div>
 
- 
-
   </div>
+
   <script>
     window.RE_JS_FILES = [
       "JS/1-pasted-code.js",
-"JS/2-start-page.js",
-"pictures/pictures-button.js",
+      "JS/2-start-page.js",
+      "pictures/pictures-button.js",
       "JS/3-cleanup.js",
       "JS/4-separator.js",
       "JS/5-undo-logic.js",
