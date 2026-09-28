@@ -2,6 +2,24 @@
 const bryaiButtons = document.querySelectorAll(
   ".bryai-nav button"
 );
+const bryaiNav = document.querySelector(".bryai-nav");
+const bryaiSlider = document.querySelector(".bryai-slider");
+
+function moveBryaiSlider(button) {
+  const navBox = bryaiNav.getBoundingClientRect();
+  const buttonBox = button.getBoundingClientRect();
+
+  bryaiSlider.style.width = buttonBox.width + "px";
+  bryaiSlider.style.height = buttonBox.height + "px";
+
+  bryaiSlider.style.transform =
+    `translate(
+      ${buttonBox.left - navBox.left}px,
+      ${buttonBox.top - navBox.top}px
+    )`;
+
+  bryaiSlider.style.opacity = "1";
+}
 
 const bryaiWords = {
   WHO: "Your WHO text goes here.",
@@ -27,7 +45,7 @@ bryaiButtons.forEach(button => {
       activeWord = "";
       bryaiOutput.textContent = "";
 
-      button.classList.remove("active");
+bryaiSlider.style.opacity = "0";
 
     } else {
       activeWord = word;
@@ -37,7 +55,7 @@ bryaiButtons.forEach(button => {
         b.classList.remove("active");
       });
 
-      button.classList.add("active");
+moveBryaiSlider(button);
     }
 
     // Tell the main page whether a W is open.
