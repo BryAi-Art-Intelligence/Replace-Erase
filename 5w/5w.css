@@ -7,6 +7,7 @@ body{
 
 .bryai-nav{
   position: relative;
+  outline: 3px solid red;
 
   left: auto;
   top: auto;
@@ -27,6 +28,7 @@ body{
 .bryai-nav button{
   position:relative;
 
+  outline: 2px solid lime;
   margin-left:-12px;
 
   opacity:.5;
