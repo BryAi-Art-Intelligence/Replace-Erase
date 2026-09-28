@@ -10,7 +10,8 @@ body{
 
   left: auto;
   top: auto;
-  transform: none;
+
+  transform: translateY(-50px);
 
   display: flex;
   align-items: flex-start;
@@ -18,7 +19,7 @@ body{
   width: max-content;
   margin: 0 auto;
 
-  padding-top: 30px;
+  padding-top: 60px;
 
   z-index: 998;
 }
