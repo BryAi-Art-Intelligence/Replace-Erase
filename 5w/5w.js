@@ -26,9 +26,18 @@ bryaiButtons.forEach(button => {
     if (activeWord === word) {
       activeWord = "";
       bryaiOutput.textContent = "";
+
+      button.classList.remove("active");
+
     } else {
       activeWord = word;
       bryaiOutput.textContent = bryaiWords[word] || "";
+
+      bryaiButtons.forEach(b => {
+        b.classList.remove("active");
+      });
+
+      button.classList.add("active");
     }
 
     // Tell the main page whether a W is open.
