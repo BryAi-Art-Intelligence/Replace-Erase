@@ -7,21 +7,14 @@ body{
 
 .bryai-nav{
   position: relative;
-  outline: 3px solid red;
-
-  left: auto;
-  top: auto;
-
-  transform: translateY(-50px);
 
   display: flex;
   align-items: flex-start;
 
   width: max-content;
-  margin: 0 auto;
+  height: 70px;
 
-padding-top: 12px;
-padding-bottom: 12px;
+  margin: 0 auto;
 
   z-index: 998;
 }
