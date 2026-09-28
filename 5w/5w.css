@@ -9,8 +9,25 @@ body{
 body{
   padding-top:20px;
 }
-.bryai-nav button.active {
-  border-color: lime;
+.bryai-slider{
+  position:absolute;
+
+  border:2px solid lime;
+  box-sizing:border-box;
+
+  pointer-events:none;
+
+  left:0;
+  top:0;
+
+  opacity:0;
+
+  transition:
+    transform .35s ease,
+    width .35s ease,
+    height .35s ease;
+
+  z-index:10;
 }
 .bryai-nav{
   position: relative;
