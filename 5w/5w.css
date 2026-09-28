@@ -20,7 +20,8 @@ body{
   width: max-content;
   margin: 0 auto;
 
-  padding-top: 60px;
+padding-top: 12px;
+padding-bottom: 12px;
 
   z-index: 998;
 }
