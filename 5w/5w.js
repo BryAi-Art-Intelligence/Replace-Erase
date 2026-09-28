@@ -9,16 +9,27 @@ function moveBryaiSlider(button) {
   const navBox = bryaiNav.getBoundingClientRect();
   const buttonBox = button.getBoundingClientRect();
 
-  bryaiSlider.style.width = buttonBox.width + "px";
-  bryaiSlider.style.height = buttonBox.height + "px";
+  // Fade out first
+  bryaiSlider.style.opacity = "0";
 
-  bryaiSlider.style.transform =
-    `translate(
-      ${buttonBox.left - navBox.left}px,
-      ${buttonBox.top - navBox.top}px
-    )`;
+  setTimeout(() => {
 
-  bryaiSlider.style.opacity = "1";
+    // Move while invisible
+    bryaiSlider.style.width = buttonBox.width + "px";
+    bryaiSlider.style.height = buttonBox.height + "px";
+
+    bryaiSlider.style.transform =
+      `translate(
+        ${buttonBox.left - navBox.left}px,
+        ${buttonBox.top - navBox.top}px
+      )`;
+
+    // Wait for the swipe, then fade back in
+    setTimeout(() => {
+      bryaiSlider.style.opacity = "1";
+    }, 350);
+
+  }, 200);
 }
 
 const bryaiWords = {
