@@ -85,6 +85,8 @@ width: 2.45ch;
 /* ERASE — orange to red */
 
 .ghost-title .ghost-erase {
+  transform: translateX(-20px);
+
   background: linear-gradient(
     90deg,
     #F5A13C 0%,
