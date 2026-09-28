@@ -29,7 +29,7 @@
 
 .ghost-title div:first-child {
   margin-left: 0;
-   transform: translateX(40px);
+   transform: translateX(45px);
 
   background: linear-gradient(
     90deg,
@@ -48,7 +48,7 @@
 .ghost-title .ghost-bottom {
   display: flex;
   align-items: baseline;
-  margin-left: 55px;
+  margin-left: 50px;
 }
 
 /* & / AND — green to yellow */
