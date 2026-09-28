@@ -106,7 +106,3 @@ body{
 .bryai-words:not(:empty){
   opacity:1;
 }
-
-.bryai-nav button {
-  outline: 2px solid lime !important;
-}
