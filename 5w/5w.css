@@ -30,7 +30,7 @@ transition:
   transform .35s ease,
   width .35s ease,
   height .35s ease,
-  opacity .2s ease;
+  opacity .6s ease;
   z-index:10;
 }
 
