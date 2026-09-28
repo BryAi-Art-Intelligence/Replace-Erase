@@ -9,16 +9,20 @@ body{
 body{
   padding-top:20px;
 }
+
+
+/* moving lime selector */
+
 .bryai-slider{
   position:absolute;
-transition: transform .35s ease;
+
+  left:0;
+  top:0;
+
   border:2px solid lime;
   box-sizing:border-box;
 
   pointer-events:none;
-
-  left:0;
-  top:0;
 
   opacity:0;
 
@@ -29,21 +33,27 @@ transition: transform .35s ease;
 
   z-index:10;
 }
+
+
+/* 5W navigation */
+
 .bryai-nav{
-  position: relative;
+  position:relative;
 
-  display: flex;
-  align-items: flex-start;
+  display:flex;
+  align-items:flex-start;
 
-  width: max-content;
-  margin: 0 auto;
+  width:max-content;
+  margin:0 auto;
 
-  z-index: 998;
+  z-index:998;
 }
+
+
+/* 5W buttons */
 
 .bryai-nav button{
   position:relative;
-
 
   margin-left:-12px;
 
@@ -62,33 +72,33 @@ transition: transform .35s ease;
   cursor:pointer;
 }
 
-.bryai-nav button:first-child{
+.bryai-nav button:first-of-type{
   margin-left:0;
 }
 
 
 /* staircase */
 
-.bryai-nav button:nth-child(1){
+.bryai-nav button:nth-of-type(1){
   z-index:1;
   transform:translateY(12px);
 }
 
-.bryai-nav button:nth-child(2){
+.bryai-nav button:nth-of-type(2){
   z-index:2;
   transform:translateY(6px);
 }
 
-.bryai-nav button:nth-child(3){
+.bryai-nav button:nth-of-type(3){
   z-index:3;
 }
 
-.bryai-nav button:nth-child(4){
+.bryai-nav button:nth-of-type(4){
   z-index:4;
   transform:translateY(-6px);
 }
 
-.bryai-nav button:nth-child(5){
+.bryai-nav button:nth-of-type(5){
   z-index:5;
   transform:translateY(-12px);
 }
