@@ -8,6 +8,8 @@ const bryaiSlider = document.querySelector(".bryai-slider");
 function moveBryaiSlider(button) {
   const navBox = bryaiNav.getBoundingClientRect();
   const buttonBox = button.getBoundingClientRect();
+  bryaiSlider.style.zIndex =
+  getComputedStyle(button).zIndex;
 
   // Fade out first
   bryaiSlider.style.opacity = "0";
