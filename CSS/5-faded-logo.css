@@ -29,6 +29,7 @@
 
 .ghost-title div:first-child {
   margin-left: 0;
+   transform: translateX(20px);
 
   background: linear-gradient(
     90deg,
