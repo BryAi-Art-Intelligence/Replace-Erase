@@ -110,3 +110,11 @@ body{
 .bryai-words:not(:empty){
   opacity:1;
 }
+
+.bryai-nav {
+  outline: 10px solid red !important;
+}
+
+.bryai-nav button {
+  outline: 10px solid lime !important;
+}
