@@ -107,10 +107,6 @@ body{
   opacity:1;
 }
 
-.bryai-nav {
-  outline: 2px solid red !important;
-}
-
 .bryai-nav button {
   outline: 2px solid lime !important;
 }
