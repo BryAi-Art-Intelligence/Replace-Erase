@@ -137,3 +137,9 @@ transform:translate(-50%, calc(-50% - 30px));
 .bryai-words:not(:empty){
   opacity:1;
 }
+
+/* already-read 5W */
+
+.bryai-nav button.read{
+  border-color:red;
+}
