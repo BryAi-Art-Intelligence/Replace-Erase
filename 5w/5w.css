@@ -141,5 +141,5 @@ transform:translate(-50%, calc(-50% - 30px));
 /* already-read 5W */
 
 .bryai-nav button.read{
-  border-color:red;
+  box-shadow:inset 0 0 0 2px red;
 }
