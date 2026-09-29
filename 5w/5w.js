@@ -62,24 +62,23 @@ bryaiButtons.forEach(button => {
 
 } else {
 
-  /* Turn the PREVIOUS button red once we leave it */
+  /* Previous selected W becomes read/red */
   if (activeWord) {
-    bryaiButtons.forEach(b => {
-      if (b.textContent.trim() === activeWord) {
-        b.classList.add("read");
-      }
-    });
+    const previousButton = [...bryaiButtons].find(
+      b => b.textContent.trim() === activeWord
+    );
+
+    if (previousButton) {
+      previousButton.classList.add("read");
+    }
   }
 
+  /* New W becomes current */
   activeWord = word;
   bryaiOutput.textContent = bryaiWords[word] || "";
 
-  /* Current button isn't red while we're reading it */
+  /* Current W is green, not red */
   button.classList.remove("read");
-
-  bryaiButtons.forEach(b => {
-    b.classList.remove("active");
-  });
 
   moveBryaiSlider(button);
 }
