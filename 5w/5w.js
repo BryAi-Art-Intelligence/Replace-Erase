@@ -55,33 +55,21 @@ bryaiButtons.forEach(button => {
     const word = button.textContent.trim();
 
     if (activeWord === word) {
-  activeWord = "";
-  bryaiOutput.textContent = "";
+      activeWord = "";
+      bryaiOutput.textContent = "";
 
-  bryaiSlider.style.opacity = "0";
+      bryaiSlider.style.opacity = "0";
 
-} else {
+    } else {
+      activeWord = word;
+      bryaiOutput.textContent = bryaiWords[word] || "";
 
-  /* Previous selected W becomes read/red */
-  if (activeWord) {
-    const previousButton = [...bryaiButtons].find(
-      b => b.textContent.trim() === activeWord
-    );
+      bryaiButtons.forEach(b => {
+        b.classList.remove("active");
+      });
 
-    if (previousButton) {
-      previousButton.classList.add("read");
+      moveBryaiSlider(button);
     }
-  }
-
-  /* New W becomes current */
-  activeWord = word;
-  bryaiOutput.textContent = bryaiWords[word] || "";
-
-  /* Current W is green, not red */
-  button.classList.remove("read");
-
-  moveBryaiSlider(button);
-}
 
     // Tell the main page whether a W is open.
     window.parent.postMessage({
