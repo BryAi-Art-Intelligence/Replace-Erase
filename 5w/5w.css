@@ -114,8 +114,10 @@ outline: none;
   left:50%;
   transform:translate(-50%, calc(-50% - 30px));
 
-  width:90%;
-  max-width:400px;
+width:max-content;
+max-width:90vw;
+
+text-align:center;
 
   white-space:pre-line;
   text-align:center;
