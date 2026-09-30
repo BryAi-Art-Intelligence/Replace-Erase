@@ -35,9 +35,9 @@ function moveBryaiSlider(button) {
 }
 
 const bryaiWords = {
-  WHO: "🅈🄾🅄, 🄴🅅🄴🅁🅈 🄾🄽🄴, 🄰🄸, 🄰🄽🄳 🄴🄰🅁🅃🄷.
+WHO: `🅈🄾🅄, 🄴🅅🄴🅁🅈 🄾🄽🄴, 🄰🄸, 🄰🄽🄳 🄴🄰🅁🅃🄷.
 🅃🄷🄰🅃’🅂 🅆🄷🄾 🅁🄴🄿🄻🄰🄲🄴 & 🄴🅁🄰🅂🄴 🄸🅂 🄵🄾🅁.
-🅃🄷🄰🄽🄺🅂 🄵🄾🅁 🅃🄰🄺🄸🄽 🅃🄷🄴 🅃🄸🄼🄴 🅃🄾 🅁🄴🄰🄳 🅃🄷🄸🅂.",
+🅃🄷🄰🄽🄺🅂 🄵🄾🅁 🅃🄰🄺🄸🄽 🅃🄷🄴 🅃🄸🄼🄴 🅃🄾 🅁🄴🄰🄳 🅃🄷🄸🅂.`,
   WHAT: "Your WHAT text goes here.",
   WHEN: "Your WHEN text goes here.",
   WHERE: "Your WHERE text goes here.",
