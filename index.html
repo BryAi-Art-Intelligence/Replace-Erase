@@ -1,13 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-  <meta charset="UTF-8" />
+<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Replace-Erase</title>
 
-  <script>
-    window.RE_VERSION = Date.now();
+  <!--
+    PARTS
+
+    parts.html stays completely separate from Replace & Erase.
+    This iframe only places its button in the upper-left area.
+  -->
+<style>
+.parts-frame {
+      position: fixed;
+
+      left: 22px;
+      top: 118px;
+
+      width: 86px;
+      height: 86px;
+
+      border: 0;
+      background: transparent;
+
+      z-index: 997;
+    }
+</style>
+</head>
+<body>
+<script>
+window.RE_VERSION = Date.now();
 
     window.RE_CSS_FILES = [
       "CSS/1-overall-layout-logic.css",
@@ -32,35 +56,9 @@
       link.href = file + "?v=" + window.RE_VERSION;
       document.head.appendChild(link);
     });
-  </script>
+</script>
 
-  <!--
-    PARTS
-
-    parts.html stays completely separate from Replace & Erase.
-    This iframe only places its button in the upper-left area.
-  -->
-  <style>
-    .parts-frame {
-      position: fixed;
-
-      left: 22px;
-      top: 118px;
-
-      width: 86px;
-      height: 86px;
-
-      border: 0;
-      background: transparent;
-
-      z-index: 997;
-    }
-  </style>
-</head>
-
-<body>
-
-  <!-- 5W -->
+<!-- 5W -->
  <iframe
   src="5w/5w.html"
   title="BryAi 5W"
@@ -76,6 +74,22 @@
   ">
 </iframe>
 
+  <!-- HOW -->
+  <iframe
+    src="how/"
+    title="How"
+    style="
+      position:fixed;
+      top:545px;
+      right:12px;
+      width:210px;
+      height:90px;
+      border:none;
+      background:transparent;
+      z-index:999;
+      pointer-events:none;
+    ">
+  </iframe>
   <div id="canvas" class="canvas">
 
     <pre id="codeView" class="code-view hidden"></pre>
@@ -91,7 +105,7 @@
 
   </div>
 
-  <script>
+<script>
     window.RE_JS_FILES = [
       "JS/1-pasted-code.js",
       "JS/2-start-page.js",
