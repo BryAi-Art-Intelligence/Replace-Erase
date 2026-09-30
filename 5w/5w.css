@@ -126,9 +126,11 @@ transform:translate(-50%, calc(-50% - 30px));
   text-shadow:
     2px 2px 4px rgba(1,2,3,.4);
 
-font:500 9px Arial,sans-serif;
-line-height:2.2;
-white-space:pre;
+white-space:pre-line;
+text-align:left;
+
+font:500 20px Arial,sans-serif;
+line-height:1.5;
 
   opacity:0;
   transition:opacity .5s ease;
