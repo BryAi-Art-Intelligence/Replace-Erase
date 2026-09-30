@@ -125,7 +125,8 @@ text-align:center;
   color:white;
 
   text-shadow:
-    2px 2px 4px rgba(1,2,3,.4);
+text-shadow:
+  2px 2px 4px rgba(0,0,0,.8);
 
   font:500 20px Arial,sans-serif;
   line-height:1.5;
