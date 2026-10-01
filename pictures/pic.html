@@ -150,18 +150,24 @@ body {
   box-shadow: 0 1px 0 rgba(0,0,0,.65);
 }
 
-@media (max-width: 600px) {
-  .canvas {
-    aspect-ratio: 1 / 1;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-  }
-
   .side + .side {
     border-left: none;
     border-top: 3px solid #343638;
   }
+
+/* Keep Replace & Erase side by side */
+
+.canvas {
+  aspect-ratio: 2 / 1;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
 }
+
+.side + .side {
+  border-left: 3px solid #343638;
+  border-top: none;
+}
+
 </style>
 </head>
 
