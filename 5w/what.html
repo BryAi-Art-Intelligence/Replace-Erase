@@ -1,0 +1,308 @@
+What & pix
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Code & Pix</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  background:#f4f4f1;
+}
+
+svg{
+  width:min(88vw,620px);
+  overflow:visible;
+}
+
+
+/* FAT INFLATED TYPE */
+
+.bubble{
+  font-family:
+    "Arial Rounded MT Bold",
+    "Trebuchet MS",
+    sans-serif;
+
+  font-weight:900;
+
+  fill:#050505;
+  stroke:#050505;
+  stroke-width:19;
+
+  stroke-linejoin:round;
+  stroke-linecap:round;
+
+  paint-order:stroke fill;
+}
+
+
+/* CODE */
+
+.code{
+  font-size:155px;
+
+  transform:rotate(-1.5deg)
+            scale(1.03,1.08);
+
+  transform-origin:300px 130px;
+}
+
+
+/* & PIX */
+
+.pix{
+  font-size:150px;
+
+  transform:rotate(1.5deg)
+            scale(1.04,1.08);
+
+  transform-origin:300px 310px;
+}
+
+
+/* GLOSS */
+
+.gloss{
+  fill:none;
+  stroke:#fff;
+  stroke-linecap:round;
+  opacity:.88;
+}
+
+.big{
+  stroke-width:10;
+}
+
+.small{
+  stroke-width:5;
+  opacity:.55;
+}
+
+.glow{
+  fill:#fff;
+  opacity:.28;
+}
+
+
+/* EXTRA CURVE LIGHT */
+
+.curve-light{
+  stroke-width:6;
+  opacity:.42;
+}
+
+.micro-light{
+  stroke-width:4;
+  opacity:.68;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<svg
+  viewBox="0 0 650 410"
+  role="img"
+  aria-label="Code and Pix">
+
+
+  <!-- =====================
+       CODE
+       ===================== -->
+
+  <text
+    class="bubble code"
+    x="55"
+    y="165">
+    CODE
+  </text>
+
+
+  <!-- =====================
+       & PIX
+       ===================== -->
+
+  <text
+    class="bubble pix"
+    x="55"
+    y="345">
+    &amp; PIX
+  </text>
+
+
+
+  <!-- =====================
+       CODE GLOSS
+       ===================== -->
+
+  <path
+    class="gloss big"
+    d="M83 70 C103 52 129 51 148 61"
+  />
+
+  <path
+    class="gloss small"
+    d="M201 61 C217 52 235 53 249 61"
+  />
+
+  <path
+    class="gloss big"
+    d="M315 63 C333 52 355 52 371 61"
+  />
+
+  <path
+    class="gloss small"
+    d="M430 64 C446 55 464 55 478 63"
+  />
+
+
+
+  <!-- =====================
+       & PIX GLOSS
+       ===================== -->
+
+  <path
+    class="gloss big"
+    d="M81 248 C99 232 121 231 138 240"
+  />
+
+  <ellipse
+    class="glow"
+    cx="148"
+    cy="257"
+    rx="7"
+    ry="11"
+  />
+
+  <path
+    class="gloss big"
+    d="M218 248 C237 232 260 232 277 241"
+  />
+
+  <path
+    class="gloss small"
+    d="M335 241 C350 233 368 234 381 242"
+  />
+
+  <path
+    class="gloss big"
+    d="M443 244 C461 233 482 233 498 242"
+  />
+
+
+
+  <!-- =====================
+       EXTRA CODE CURVE LIGHT
+       ===================== -->
+
+  <path
+    class="gloss curve-light"
+    d="M72 118 C68 137 76 151 92 158"
+  />
+
+  <path
+    class="gloss curve-light"
+    d="M173 151 C188 160 205 159 217 150"
+  />
+
+  <path
+    class="gloss curve-light"
+    d="M285 151 C299 161 318 161 331 151"
+  />
+
+  <path
+    class="gloss curve-light"
+    d="M401 151 C416 160 434 158 445 148"
+  />
+
+
+  <!-- CODE SMALL GLINTS -->
+
+  <path
+    class="gloss micro-light"
+    d="M155 82 C160 87 162 93 162 99"
+  />
+
+  <path
+    class="gloss micro-light"
+    d="M268 82 C273 88 275 94 275 100"
+  />
+
+  <path
+    class="gloss micro-light"
+    d="M383 82 C388 88 390 94 390 100"
+  />
+
+  <path
+    class="gloss micro-light"
+    d="M493 83 C498 89 500 95 500 101"
+  />
+
+
+
+  <!-- =====================
+       EXTRA & PIX CURVE LIGHT
+       ===================== -->
+
+  <path
+    class="gloss curve-light"
+    d="M73 298 C70 317 79 332 94 338"
+  />
+
+  <path
+    class="gloss curve-light"
+    d="M198 329 C211 340 229 340 242 331"
+  />
+
+  <path
+    class="gloss curve-light"
+    d="M315 330 C329 340 347 340 360 331"
+  />
+
+  <path
+    class="gloss curve-light"
+    d="M425 329 C440 340 458 339 471 329"
+  />
+
+
+  <!-- & PIX SMALL GLINTS -->
+
+  <path
+    class="gloss micro-light"
+    d="M154 262 C160 267 162 273 162 280"
+  />
+
+  <path
+    class="gloss micro-light"
+    d="M286 261 C291 267 293 273 293 279"
+  />
+
+  <path
+    class="gloss micro-light"
+    d="M399 262 C404 268 406 274 406 280"
+  />
+
+  <path
+    class="gloss micro-light"
+    d="M510 263 C515 269 517 275 517 281"
+  />
+
+
+</svg>
+
+</body>
+</html>
