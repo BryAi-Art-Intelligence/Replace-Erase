@@ -17,7 +17,21 @@ html,body { margin:0; width:100%; height:100%; overflow:hidden; background:#3436
 <div id="view"><div id="page"><img id="photo" alt="Pasted photograph" hidden></div></div>
 
 <div id="hint"></div>
-
+<iframe
+  src="pic.html"
+  id="replace-erase-panel"
+  title="Replace and Erase"
+  style="
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:50%;
+    border:none;
+    background:#343638;
+    z-index:10;
+  "
+></iframe>
 <script>
 const view=document.querySelector('#view'), page=document.querySelector('#page');
 const photo=document.querySelector('#photo');
