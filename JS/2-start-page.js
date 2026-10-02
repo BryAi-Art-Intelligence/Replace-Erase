@@ -229,7 +229,7 @@ function openPictureEditor(blob) {
 
 
 function beginCodeLoad(text){
-
+document.getElementById("homeExtras")?.classList.add("hidden");
   stack.classList.add("fade-out-start");
 
   beforeCode = String(text);
