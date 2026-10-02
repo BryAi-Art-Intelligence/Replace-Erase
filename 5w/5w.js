@@ -68,6 +68,7 @@ document.querySelector(".bryai-nav")
 let activeWord = "";
 
 
+
 /* =========================
    SHOW CONTENT
    ========================= */
@@ -77,13 +78,18 @@ function showBryaiContent(word) {
   // Clear whatever was there before
   bryaiOutput.innerHTML = "";
 
-  // WHAT gets its own HTML file
-  if (word === "WHAT") {
+  // WHAT and WHEN get their own HTML files
+  if (word === "WHAT" || word === "WHEN") {
 
     const frame = document.createElement("iframe");
 
-    frame.src = "what.html";
-    frame.title = "What — Code & Pix";
+    frame.src = word === "WHAT"
+      ? "what.html"
+      : "when.html";
+
+    frame.title = word === "WHAT"
+      ? "What — Code & Pix"
+      : "When — Replace & Erase";
 
     frame.style.width = "100%";
     frame.style.height = "430px";
@@ -100,6 +106,7 @@ function showBryaiContent(word) {
   bryaiOutput.textContent =
     bryaiWords[word] || "";
 }
+
 
 
 /* =========================
