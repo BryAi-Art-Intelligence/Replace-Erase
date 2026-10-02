@@ -1,0 +1,346 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1"
+>
+
+<title>Replace & Erase — Writing</title>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: #f5f3ed;
+  color: #252525;
+  font-family: Georgia, serif;
+
+  display: grid;
+  place-items: center;
+
+  min-height: 100dvh;
+}
+
+.writing {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  padding: 30px;
+}
+
+.word {
+  position: relative;
+
+  font-size: clamp(36px, 9vw, 75px);
+  line-height: 1.5;
+
+  cursor: crosshair;
+  touch-action: none;
+
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* The word owns its crossing line */
+
+.word::after {
+  content: "";
+
+  position: absolute;
+
+  left: var(--line-left, 0%);
+  top: 50%;
+
+  width: var(--line-width, 100%);
+  height: 3px;
+
+  background: #bd4848;
+
+  transform: scaleX(0);
+  transform-origin: left center;
+
+  pointer-events: none;
+}
+
+.word.drawing::after,
+.word.replacing::after {
+  transform: scaleX(1);
+}
+
+.word.replacing::after {
+  transform: scaleX(1);
+}
+</style>
+</head>
+<body>
+<main class="writing">
+
+  <span class="word">Replace</span>
+
+  <span class="word">Erase</span>
+
+</main>
+
+<script>
+const words =
+  document.querySelectorAll(".word");
+
+let gesture = null;
+
+/* Find the word being crossed */
+
+function crossesWord(
+  word,
+  x1,
+  y1,
+  x2,
+  y2
+) {
+
+  const rect =
+    word.getBoundingClientRect();
+
+  const middle =
+    rect.top + rect.height / 2;
+
+  const tolerance =
+    Math.min(15, rect.height * 0.18);
+
+  const minX =
+    Math.min(x1, x2);
+
+  const maxX =
+    Math.max(x1, x2);
+
+  const minY =
+    Math.min(y1, y2);
+
+  const maxY =
+    Math.max(y1, y2);
+
+  return (
+    maxX >= rect.left &&
+    minX <= rect.right &&
+    minY <= middle + tolerance &&
+    maxY >= middle - tolerance
+  );
+
+}
+
+/* Draw the crossing progressively */
+
+function drawCrossing(
+  word,
+  fingerX
+) {
+
+  const rect =
+    word.getBoundingClientRect();
+
+  const startX =
+    gesture.startX;
+
+  const fromLeft =
+    startX <= fingerX;
+
+  const left =
+    Math.max(
+      rect.left,
+      Math.min(startX, fingerX)
+    );
+
+  const right =
+    Math.min(
+      rect.right,
+      Math.max(startX, fingerX)
+    );
+
+  const width =
+    Math.max(0, right - left);
+
+  const percentage =
+    width / rect.width * 100;
+
+  const offset =
+    (left - rect.left) /
+    rect.width * 100;
+
+  word.style.setProperty(
+    "--line-width",
+    `${percentage}%`
+  );
+
+  word.style.setProperty(
+    "--line-left",
+    `${offset}%`
+  );
+
+  word.classList.add("drawing");
+
+}
+
+/* Finger touches a word */
+
+document.addEventListener(
+  "pointerdown",
+  event => {
+
+    const word =
+      event.target.closest(".word");
+
+    if (!word) {
+      return;
+    }
+
+    gesture = {
+      startX: event.clientX,
+      startY: event.clientY,
+      x: event.clientX,
+      y: event.clientY,
+      marked: new Set()
+    };
+
+  }
+);
+
+/* Finger moves across writing */
+
+document.addEventListener(
+  "pointermove",
+  event => {
+
+    if (!gesture) {
+      return;
+    }
+
+    const x =
+      event.clientX;
+
+    const y =
+      event.clientY;
+
+    const distance =
+      Math.hypot(
+        x - gesture.startX,
+        y - gesture.startY
+      );
+
+    if (distance < 8) {
+      return;
+    }
+
+    words.forEach(word => {
+
+      if (
+        crossesWord(
+          word,
+          gesture.x,
+          gesture.y,
+          x,
+          y
+        )
+      ) {
+
+        gesture.marked.add(word);
+
+      }
+
+    });
+
+    gesture.marked.forEach(word => {
+
+      drawCrossing(word, x);
+
+    });
+
+    gesture.x = x;
+    gesture.y = y;
+
+  }
+);
+
+/* Finger lifts */
+
+document.addEventListener(
+  "pointerup",
+  () => {
+
+    if (!gesture) {
+      return;
+    }
+
+    gesture.marked.forEach(word => {
+
+      word.classList.remove(
+        "drawing"
+      );
+
+      word.classList.add(
+        "replacing"
+      );
+
+      word.dataset.action =
+        "replace";
+
+      word.style.removeProperty(
+        "--line-width"
+      );
+
+      word.style.removeProperty(
+        "--line-left"
+      );
+
+    });
+
+    gesture = null;
+
+  }
+);
+
+/* Interrupted gesture */
+
+document.addEventListener(
+  "pointercancel",
+  () => {
+
+    if (!gesture) {
+      return;
+    }
+
+    gesture.marked.forEach(word => {
+
+      word.classList.remove(
+        "drawing"
+      );
+
+      word.style.removeProperty(
+        "--line-width"
+      );
+
+      word.style.removeProperty(
+        "--line-left"
+      );
+
+    });
+
+    gesture = null;
+
+  }
+);
+
+    gesture = null;
+</script>
+</body>
+</html>
