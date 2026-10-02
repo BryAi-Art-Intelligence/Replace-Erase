@@ -8,6 +8,7 @@ let pasteBox = null;
 let pictureOpening = false;
 
 function buildStartUI(){
+  document.getElementById("homeExtras")?.classList.remove("hidden");
 
   stack.innerHTML = "";
 
