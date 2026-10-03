@@ -55,6 +55,8 @@ body {
 
 /* The word owns its crossing line */
 
+/* The word owns its crossing line */
+
 .word::after {
   content: "";
 
@@ -66,12 +68,18 @@ body {
   width: var(--line-width, 100%);
   height: 3px;
 
-  background: #bd4848;
+  background: var(--line-color, #2f7edb);
 
   transform: scaleX(0);
   transform-origin: left center;
 
   pointer-events: none;
+}
+
+.word.drawing::after,
+.word.replacing::after,
+.word.erasing::after {
+  transform: scaleX(1);
 }
 
 .word.drawing::after,
@@ -99,7 +107,7 @@ const words =
 
 let gesture = null;
 
-/* Find the word being crossed */
+/* Check whether a swipe crosses a word */
 
 function crossesWord(
   word,
@@ -139,7 +147,7 @@ function crossesWord(
 
 }
 
-/* Draw the crossing progressively */
+/* Draw the line live */
 
 function drawCrossing(
   word,
@@ -149,22 +157,22 @@ function drawCrossing(
   const rect =
     word.getBoundingClientRect();
 
-  const startX =
-    gesture.startX;
-
-  const fromLeft =
-    startX <= fingerX;
-
   const left =
     Math.max(
       rect.left,
-      Math.min(startX, fingerX)
+      Math.min(
+        gesture.startX,
+        fingerX
+      )
     );
 
   const right =
     Math.min(
       rect.right,
-      Math.max(startX, fingerX)
+      Math.max(
+        gesture.startX,
+        fingerX
+      )
     );
 
   const width =
@@ -177,6 +185,16 @@ function drawCrossing(
     (left - rect.left) /
     rect.width * 100;
 
+  const direction =
+    fingerX >= gesture.startX
+      ? "replace"
+      : "erase";
+
+  const color =
+    direction === "replace"
+      ? "#2f7edb"
+      : "#bd4848";
+
   word.style.setProperty(
     "--line-width",
     `${percentage}%`
@@ -185,6 +203,11 @@ function drawCrossing(
   word.style.setProperty(
     "--line-left",
     `${offset}%`
+  );
+
+  word.style.setProperty(
+    "--line-color",
+    color
   );
 
   word.classList.add("drawing");
@@ -205,6 +228,7 @@ document.addEventListener(
     }
 
     gesture = {
+      pointerId: event.pointerId,
       startX: event.clientX,
       startY: event.clientY,
       x: event.clientX,
@@ -221,7 +245,10 @@ document.addEventListener(
   "pointermove",
   event => {
 
-    if (!gesture) {
+    if (
+      !gesture ||
+      event.pointerId !== gesture.pointerId
+    ) {
       return;
     }
 
@@ -275,24 +302,46 @@ document.addEventListener(
 
 document.addEventListener(
   "pointerup",
-  () => {
+  event => {
 
-    if (!gesture) {
+    if (
+      !gesture ||
+      event.pointerId !== gesture.pointerId
+    ) {
       return;
     }
+
+    const direction =
+      event.clientX >= gesture.startX
+        ? "replace"
+        : "erase";
+
+    const color =
+      direction === "replace"
+        ? "#2f7edb"
+        : "#bd4848";
 
     gesture.marked.forEach(word => {
 
       word.classList.remove(
-        "drawing"
+        "drawing",
+        "replacing",
+        "erasing"
       );
 
       word.classList.add(
-        "replacing"
+        direction === "replace"
+          ? "replacing"
+          : "erasing"
       );
 
       word.dataset.action =
-        "replace";
+        direction;
+
+      word.style.setProperty(
+        "--line-color",
+        color
+      );
 
       word.style.removeProperty(
         "--line-width"
@@ -313,9 +362,12 @@ document.addEventListener(
 
 document.addEventListener(
   "pointercancel",
-  () => {
+  event => {
 
-    if (!gesture) {
+    if (
+      !gesture ||
+      event.pointerId !== gesture.pointerId
+    ) {
       return;
     }
 
