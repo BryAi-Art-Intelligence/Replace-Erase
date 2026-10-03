@@ -1,0 +1,211 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1"
+>
+
+<title>Writing — Word Lightbox</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100dvh;
+
+  display: grid;
+  place-items: center;
+
+  background: #f5f3ed;
+  color: #252525;
+
+  font-family: Georgia, serif;
+}
+
+/* Original writing */
+
+.writing {
+  padding: 30px;
+
+  font-size: clamp(30px, 8vw, 54px);
+  line-height: 1.5;
+
+  text-align: center;
+}
+
+.word {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Lightbox */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+
+  display: grid;
+  place-items: center;
+
+  padding: 24px;
+
+  background: rgba(20, 20, 20, 0.88);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    opacity 180ms ease,
+    visibility 180ms ease;
+
+  z-index: 10;
+}
+
+.lightbox.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.enlarged-word {
+  color: #fff;
+
+  font-size: clamp(55px, 15vw, 130px);
+  line-height: 1.2;
+
+  max-width: 100%;
+  overflow-wrap: anywhere;
+
+  text-align: center;
+
+  transform: scale(0.9);
+  transition: transform 180ms ease;
+}
+
+.lightbox.open .enlarged-word {
+  transform: scale(1);
+}
+
+</style>
+</head>
+
+<body>
+
+<main class="writing">
+
+  <span class="word">replace</span>
+  <span class="word">and</span>
+
+  <br>
+
+  <span class="word">erase</span>
+  <span class="word">writing</span>
+
+</main>
+
+
+<div
+  class="lightbox"
+  id="lightbox"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Enlarged word"
+  aria-hidden="true"
+>
+  <div
+    class="enlarged-word"
+    id="enlargedWord"
+  ></div>
+</div>
+
+
+<script>
+
+const words =
+  document.querySelectorAll(".word");
+
+const lightbox =
+  document.getElementById("lightbox");
+
+const enlargedWord =
+  document.getElementById("enlargedWord");
+
+
+/* Tap a word to enlarge */
+
+words.forEach(word => {
+
+  word.addEventListener(
+    "click",
+    () => {
+
+      enlargedWord.textContent =
+        word.textContent;
+
+      lightbox.classList.add("open");
+
+      lightbox.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+    }
+  );
+
+});
+
+
+/* Tap anywhere to close */
+
+lightbox.addEventListener(
+  "click",
+  () => {
+
+    lightbox.classList.remove("open");
+
+    lightbox.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+  }
+);
+
+
+/* Escape key also closes */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (event.key === "Escape") {
+
+      lightbox.classList.remove("open");
+
+      lightbox.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>
