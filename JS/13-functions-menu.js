@@ -3,17 +3,21 @@
 // Brown chips select code chunks. The REPLACE / AND / ERASE toolbar performs the action.
 // Hold a brown name to rename it in the code before final build.
 
+
 function getCssSelectorName(line){
   const s = String(line || "").trim();
 
-  if (!s.endsWith("{")) return null;
-  if (s.startsWith("@")) return null;
+  if (!s || s.startsWith("@")) return null;
 
-  const name = s.replace(/\s*\{$/, "").trim();
-  if (!name) return null;
+  const brace = s.indexOf("{");
+  if (brace === -1) return null;
+
+  const name = s.slice(0, brace).trim();
+  if (!name || name.startsWith("@")) return null;
 
   return name;
 }
+
 
 function getFirstCssSelector(content){
   const lines = String(content || "").split("\n");
