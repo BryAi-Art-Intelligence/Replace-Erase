@@ -107,3 +107,39 @@
   visibility:visible !important;
   opacity:1 !important;
 }
+
+
+/* START — CODE NUMBERS ON RIGHT */
+
+.code-view .code-line{
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:flex-start !important;
+  position:relative !important;
+  min-width:0 !important;
+  gap:6px !important;
+}
+
+.code-view .code-line > pre{
+  order:1 !important;
+  flex:1 1 0 !important;
+  min-width:0 !important;
+  margin:0 !important;
+}
+
+.code-view .code-line > .color-swatches{
+  order:2 !important;
+}
+
+.code-view .code-line > .line-number-box{
+  order:3 !important;
+  flex:0 0 34px !important;
+  margin-left:auto !important;
+  position:relative !important;
+  left:auto !important;
+  right:auto !important;
+  transform:none !important;
+}
+
+/* END — CODE NUMBERS ON RIGHT */
+
