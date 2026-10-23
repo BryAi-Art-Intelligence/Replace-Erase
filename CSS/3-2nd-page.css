@@ -108,3 +108,19 @@
   opacity:1 !important;
 }
 
+
+/* START — LINE NUMBERS ON RIGHT */
+
+.code-view .code-line{
+  position:relative;
+  padding-right:44px !important;
+}
+
+.code-view .line-number{
+  position:absolute !important;
+  left:auto !important;
+  right:0 !important;
+  top:0 !important;
+}
+
+/* END — LINE NUMBERS ON RIGHT */
