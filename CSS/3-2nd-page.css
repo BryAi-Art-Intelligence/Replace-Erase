@@ -95,3 +95,16 @@
   font-size:9px !important;
 }
 /* END — CODE LEFT / BROWN MENU RIGHT */
+
+.code-view{
+  overflow-x:visible !important;
+}
+
+.code-view .brown-index-wrap{
+  position:fixed !important;
+  right:8px !important;
+  left:auto !important;
+  visibility:visible !important;
+  opacity:1 !important;
+}
+
