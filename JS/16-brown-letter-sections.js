@@ -145,7 +145,7 @@ body > .brown-index-wrap.brown-letter-mode {
   left:8px !important;
   right:auto !important;
   top:125px !important;
-  bottom:250px !important;
+  bottom:175px !important;
   transform:none !important;
   box-sizing:border-box !important;
   width:72px !important;
