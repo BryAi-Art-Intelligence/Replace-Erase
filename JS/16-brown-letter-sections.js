@@ -139,36 +139,37 @@ function installRightBrownMenuStyles(){
   style.id = 'brown-right-menu-layout';
   style.textContent = `
     
+
 body > .brown-index-wrap.brown-letter-mode {
   position:fixed !important;
   left:8px !important;
   right:auto !important;
+  top:125px !important;
+  bottom:250px !important;
+  transform:none !important;
+  box-sizing:border-box !important;
+  width:72px !important;
+  height:auto !important;
+  max-height:none !important;
+  padding:5px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  flex-wrap:nowrap !important;
+  align-items:stretch !important;
+  justify-content:flex-start !important;
+  gap:6px !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  touch-action:pan-y;
+  z-index:1000 !important;
+  border-radius:14px !important;
+  pointer-events:auto !important;
+  visibility:visible !important;
+  opacity:1 !important;
+}
 
-      top:125px !important;
-      bottom:250px !important;
-      transform:none !important;
-      box-sizing:border-box !important;
-      width:72px !important;
-      height:auto !important;
-      max-height:none !important;
-      padding:5px !important;
-      display:flex !important;
-      flex-direction:column !important;
-      flex-wrap:nowrap !important;
-      align-items:stretch !important;
-      justify-content:flex-start !important;
-      gap:6px !important;
-      overflow-y:auto !important;
-      overflow-x:hidden !important;
-      -webkit-overflow-scrolling:touch;
-      overscroll-behavior:contain;
-      touch-action:pan-y;
-      z-index:1000 !important;
-      border-radius:14px !important;
-      pointer-events:auto !important;
-      visibility:visible !important;
-      opacity:1 !important;
-    }
     body > .brown-index-wrap .function-menu-toggle {
       display:block !important;
       flex:none !important;
