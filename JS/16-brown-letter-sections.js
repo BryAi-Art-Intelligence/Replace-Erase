@@ -196,14 +196,18 @@ body > .brown-index-wrap.brown-letter-mode {
     body > .brown-index-wrap.open-labelless-menu .labelless-list { display:flex !important; }
     body > .brown-index-wrap .brown-letter-section { width:100% !important; min-width:0 !important; }
    
-body > .brown-index-wrap .brown-letter-title {
-  display:grid !important;
-  place-items:center !important;
 
 body > .brown-index-wrap .brown-letter-section {
   width:100% !important;
   min-width:0 !important;
   flex:none !important;
+}
+
+body > .brown-index-wrap .brown-letter-title {
+  display:grid !important;
+  place-items:center !important;
+  width:100% !important;
+  min-width:0 !important;
   aspect-ratio:1 / 1 !important;
   flex:none !important;
   padding:2px !important;
@@ -214,6 +218,13 @@ body > .brown-index-wrap .brown-letter-section {
   font-weight:900 !important;
   font-size:12px !important;
   cursor:pointer;
+}
+
+body > .brown-index-wrap .brown-letter-section.brown-letter-open .brown-letter-title {
+  aspect-ratio:auto !important;
+  min-height:42px !important;
+  padding:8px 2px !important;
+  border-radius:14px !important;
 }
 
     body > .brown-index-wrap .brown-letter-rows { display:none !important; width:100% !important; min-width:0 !important; }
