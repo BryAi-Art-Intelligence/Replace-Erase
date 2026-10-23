@@ -195,19 +195,24 @@ body > .brown-index-wrap.brown-letter-mode {
     body > .brown-index-wrap.open-function-menu .function-list { display:flex !important; }
     body > .brown-index-wrap.open-labelless-menu .labelless-list { display:flex !important; }
     body > .brown-index-wrap .brown-letter-section { width:100% !important; min-width:0 !important; }
-    body > .brown-index-wrap .brown-letter-title {
-      display:block !important;
-      width:100% !important;
-      min-width:0 !important;
-      padding:9px 2px !important;
-      border:1px solid #7b4a2a !important;
-      border-radius:12px !important;
-      background:#3a2416 !important;
-      color:#ffd6aa !important;
-      font-weight:900 !important;
-      font-size:12px !important;
-      cursor:pointer;
-    }
+   
+body > .brown-index-wrap .brown-letter-title {
+  display:grid !important;
+  place-items:center !important;
+  width:100% !important;
+  min-width:0 !important;
+  aspect-ratio:1 / 1 !important;
+  flex:none !important;
+  padding:2px !important;
+  border:1px solid #7b4a2a !important;
+  border-radius:12px !important;
+  background:#3a2416 !important;
+  color:#ffd6aa !important;
+  font-weight:900 !important;
+  font-size:12px !important;
+  cursor:pointer;
+}
+
     body > .brown-index-wrap .brown-letter-rows { display:none !important; width:100% !important; min-width:0 !important; }
     body > .brown-index-wrap .brown-letter-section.brown-letter-open .brown-letter-rows {
       display:flex !important;
