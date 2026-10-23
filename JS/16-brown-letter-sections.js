@@ -203,22 +203,25 @@ body > .brown-index-wrap .brown-letter-section {
   flex:none !important;
 }
 
+
 body > .brown-index-wrap .brown-letter-title {
   display:grid !important;
   place-items:center !important;
-  width:100% !important;
+  width:90% !important;
   min-width:0 !important;
   aspect-ratio:1 / 1 !important;
   flex:none !important;
+  margin:0 auto !important;
   padding:2px !important;
   border:1px solid #7b4a2a !important;
   border-radius:12px !important;
   background:#3a2416 !important;
   color:#ffd6aa !important;
   font-weight:900 !important;
-  font-size:12px !important;
+  font-size:30px !important;
   cursor:pointer;
 }
+
 
 body > .brown-index-wrap .brown-letter-section.brown-letter-open .brown-letter-title {
   aspect-ratio:auto !important;
