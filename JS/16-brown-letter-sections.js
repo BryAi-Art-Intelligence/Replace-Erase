@@ -199,8 +199,11 @@ body > .brown-index-wrap.brown-letter-mode {
 body > .brown-index-wrap .brown-letter-title {
   display:grid !important;
   place-items:center !important;
+
+body > .brown-index-wrap .brown-letter-section {
   width:100% !important;
   min-width:0 !important;
+  flex:none !important;
   aspect-ratio:1 / 1 !important;
   flex:none !important;
   padding:2px !important;
