@@ -264,3 +264,59 @@
 body:has(.selected-line-tools.show-selected-tools) .type-toolbar{
   display:none;
 }
+
+/* COMPACT SLANTED SWIPE BAR */
+/* Append to the bottom of 10-swipe-bar.css */
+
+.type-toolbar{
+  gap:3px !important;
+  padding:3px !important;
+  background:transparent !important;
+  border:0 !important;
+  overflow:visible !important;
+  box-shadow:none !important;
+}
+
+.type-toolbar .type-tool{
+  height:38px !important;
+  min-height:38px !important;
+  border-radius:0 !important;
+  clip-path:polygon(
+    12% 0,
+    100% 0,
+    88% 100%,
+    0 100%
+  ) !important;
+  background:rgba(220,220,220,.45) !important;
+  opacity:.65 !important;
+  filter:none !important;
+  font-size:clamp(9px,2.6vw,13px) !important;
+}
+
+.type-toolbar .type-tool.active-tool{
+  opacity:1 !important;
+}
+
+.type-toolbar .type-tool-head.active-tool{
+  background:rgba(120,90,170,.35) !important;
+}
+
+.type-toolbar .type-tool-html.active-tool{
+  background:rgba(180,135,20,.35) !important;
+}
+
+.type-toolbar .type-tool-css.active-tool{
+  background:rgba(0,150,135,.35) !important;
+}
+
+.type-toolbar .type-tool-js.active-tool{
+  background:rgba(190,120,0,.35) !important;
+}
+
+.type-toolbar .type-tool-svg.active-tool{
+  background:rgba(90,60,150,.35) !important;
+}
+
+.type-toolbar .type-tool-hidden.active-tool{
+  background:rgba(110,110,110,.25) !important;
+}
