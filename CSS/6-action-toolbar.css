@@ -88,3 +88,12 @@ bottom:18px !important;
   opacity:1;
   filter:none;
 }
+
+/* Hide action toolbar until code is selected */
+.selected-line-tools{
+  display:none;
+}
+
+.selected-line-tools.show-selected-tools{
+  display:flex;
+}
