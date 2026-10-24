@@ -543,3 +543,27 @@ body:has(.selected-line-tools.show-selected-tools)
 .type-toolbar{
   display:none;
 }
+
+
+/* Compact bottom toolbar — left of Undo & Redo */
+
+.type-toolbar{
+  left:12px !important;
+  right:116px !important;
+  bottom:18px !important;
+  transform:none !important;
+  width:auto !important;
+  max-width:none !important;
+  min-width:0 !important;
+  gap:3px !important;
+  padding:5px !important;
+}
+
+.type-toolbar .type-tool{
+  flex:1 1 0 !important;
+  width:0 !important;
+  min-width:0 !important;
+  max-width:none !important;
+  min-height:40px !important;
+  font-size:clamp(9px,2.6vw,14px) !important;
+}
