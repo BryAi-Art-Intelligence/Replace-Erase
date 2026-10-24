@@ -1,14 +1,20 @@
 
 /* 3-2nd-page.css
-   Controls the big scrollable code page after paste. */
+   Code LEFT / Brown buttons RIGHT
+   Line numbers LEFT of code.
+*/
 
 .code-view{
   position:absolute;
   inset:10px;
+  left:10px !important;
+  right:90px !important;
+  width:auto !important;
   margin:0;
-  padding:28px 38px 128px;
+  padding:28px 12px 128px !important;
   box-sizing:border-box;
-  overflow:auto;
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
   white-space:normal;
   word-break:normal;
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
@@ -25,21 +31,12 @@
   overscroll-behavior:contain;
 }
 
-/* START — BROWN MENU LEFT / CODE RIGHT */
-
-.code-view{
-  left:90px !important;
-  right:10px !important;
-  width:auto !important;
-  padding-left:12px !important;
-  padding-right:12px !important;
-  overflow-x:visible !important;
-}
+/* BROWN MENU — RIGHT SIDE */
 
 .code-view .brown-index-wrap{
   position:fixed !important;
-  left:8px !important;
-  right:auto !important;
+  left:auto !important;
+  right:8px !important;
   top:130px !important;
   bottom:180px !important;
   transform:none !important;
@@ -100,10 +97,7 @@
   font-size:9px !important;
 }
 
-/* END — BROWN MENU LEFT / CODE RIGHT */
-
-
-/* START — CODE NUMBERS ON RIGHT */
+/* LINE NUMBERS — LEFT OF CODE */
 
 .code-view .code-line{
   display:flex !important;
@@ -112,6 +106,17 @@
   position:relative !important;
   min-width:0 !important;
   gap:6px !important;
+}
+
+.code-view .code-line > .line-number-box{
+  order:0 !important;
+  flex:0 0 34px !important;
+  margin-left:0 !important;
+  margin-right:0 !important;
+  position:relative !important;
+  left:auto !important;
+  right:auto !important;
+  transform:none !important;
 }
 
 .code-view .code-line > pre{
@@ -124,15 +129,3 @@
 .code-view .code-line > .color-swatches{
   order:2 !important;
 }
-
-.code-view .code-line > .line-number-box{
-  order:3 !important;
-  flex:0 0 34px !important;
-  margin-left:auto !important;
-  position:relative !important;
-  left:auto !important;
-  right:auto !important;
-  transform:none !important;
-}
-
-/* END — CODE NUMBERS ON RIGHT */
