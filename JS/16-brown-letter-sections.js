@@ -162,8 +162,8 @@ body > .brown-index-wrap.brown-letter-mode {
   position:fixed !important;
   left:auto !important;
   right:8px !important;
-  top:125px !important;
-  bottom:175px !important;
+  top:20px !important;
+  bottom:110px !important;
   transform:none !important;
   box-sizing:border-box !important;
   width:72px !important;
