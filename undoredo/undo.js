@@ -89,7 +89,7 @@ button.setAttribute("aria-label", "Undo last action");
     
     button.style.cssText = [
       "position: fixed",
-      "right: 72px",
+      "right: 30px",
       "bottom: 18px",
       "z-index: 999999",
       "min-width: 46px",
