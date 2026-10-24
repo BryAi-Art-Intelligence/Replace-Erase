@@ -537,3 +537,9 @@
     min-height:58px;
   }
 }
+
+/* Swap type toolbar for selected-line actions */
+body:has(.selected-line-tools.show-selected-tools)
+.type-toolbar{
+  display:none;
+}
