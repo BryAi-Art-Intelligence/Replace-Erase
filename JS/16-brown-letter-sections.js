@@ -1,10 +1,28 @@
 // 16-brown-letter-sections.js
-// Brown alphabetical menu: fixed on the RIGHT, outside the scrolling code panel.
-// Replaces the previous version of THIS file only.
-// Keeps the existing code-selection and Toolbar 2 behavior.
+// Brown alphabetical menu — RIGHT SIDE.
+// Dynamic vertical spacing, scrolling, bottom fade.
+// Preserves code selection and Toolbar 2.
 
 let brownMenuScrollMemory = { functions: 0, labelless: 0 };
 let currentBrownToolbarItem = null;
+
+function getActiveBrownMenu(){
+  const wrap = document.querySelector('body > .brown-index-wrap.brown-letter-mode');
+  if (!wrap) return null;
+  if (wrap.classList.contains('open-function-menu')) return wrap.querySelector('.function-list');
+  if (wrap.classList.contains('open-labelless-menu')) return wrap.querySelector('.labelless-list');
+  return null;
+}
+
+function updateBrownMenuFade(){
+  const wrap = document.querySelector('body > .brown-index-wrap.brown-letter-mode');
+  if (!wrap) return;
+  const menu = getActiveBrownMenu();
+  if (!menu){ wrap.classList.remove('brown-has-more'); return; }
+  const hasMore = menu.scrollHeight > menu.clientHeight + 2 &&
+    menu.scrollTop + menu.clientHeight < menu.scrollHeight - 2;
+  wrap.classList.toggle('brown-has-more', hasMore);
+}
 
 function rememberBrownMenuScroll(){
   const functionMenu = document.querySelector('.brown-index-menu.function-list');
@@ -19,6 +37,7 @@ function restoreBrownMenuScroll(){
     const labellessMenu = document.querySelector('.brown-index-menu.labelless-list');
     if (functionMenu) functionMenu.scrollTop = brownMenuScrollMemory.functions || 0;
     if (labellessMenu) labellessMenu.scrollTop = brownMenuScrollMemory.labelless || 0;
+    updateBrownMenuFade();
   });
 }
 
@@ -26,7 +45,6 @@ function scrollToBrownItemCode(item){
   const keys = getBrownItemLineKeys(item);
   const firstKey = keys[0];
   const firstLine = firstKey ? firstKey.split(':')[1] : null;
-
   requestAnimationFrame(() => {
     const section = codeView.querySelector(`.code-section[data-index="${item.index}"]`);
     if (!section) return;
@@ -112,6 +130,7 @@ function makeBrownLetterSections(items, menu){
       e.stopPropagation();
       const isOpen = section.classList.toggle('brown-letter-open');
       title.setAttribute('aria-expanded', String(isOpen));
+      requestAnimationFrame(updateBrownMenuFade);
     });
     section.appendChild(title);
     section.appendChild(rows);
@@ -134,12 +153,11 @@ function toggleBrownItemSelection(item){
 }
 
 function installRightBrownMenuStyles(){
-  if (document.getElementById('brown-right-menu-layout')) return;
+  const existing = document.getElementById('brown-right-menu-layout');
+  if (existing) existing.remove();
   const style = document.createElement('style');
   style.id = 'brown-right-menu-layout';
   style.textContent = `
-    
-
 body > .brown-index-wrap.brown-letter-mode {
   position:fixed !important;
   left:auto !important;
@@ -158,52 +176,53 @@ body > .brown-index-wrap.brown-letter-mode {
   align-items:stretch !important;
   justify-content:flex-start !important;
   gap:6px !important;
-  overflow-y:auto !important;
-  overflow-x:hidden !important;
-  -webkit-overflow-scrolling:touch;
-  overscroll-behavior:contain;
-  touch-action:pan-y;
+  overflow:hidden !important;
   z-index:1000 !important;
   border-radius:14px !important;
   pointer-events:auto !important;
   visibility:visible !important;
   opacity:1 !important;
 }
-
-    body > .brown-index-wrap .function-menu-toggle {
-      display:block !important;
-      flex:none !important;
-      width:100% !important;
-      min-width:0 !important;
-      padding:7px 2px !important;
-      font-size:8px !important;
-      overflow-wrap:anywhere !important;
-      white-space:normal !important;
-    }
-    body > .brown-index-wrap .brown-index-menu {
-      display:none !important;
-      width:100% !important;
-      min-width:0 !important;
-      max-height:none !important;
-      overflow:visible !important;
-      flex-direction:column !important;
-      flex-wrap:nowrap !important;
-      align-items:stretch !important;
-      justify-content:flex-start !important;
-      gap:6px !important;
-    }
-    body > .brown-index-wrap.open-function-menu .function-list { display:flex !important; }
-    body > .brown-index-wrap.open-labelless-menu .labelless-list { display:flex !important; }
-    body > .brown-index-wrap .brown-letter-section { width:100% !important; min-width:0 !important; }
-   
-
+body > .brown-index-wrap .function-menu-toggle {
+  display:block !important;
+  flex:0 0 auto !important;
+  width:100% !important;
+  min-width:0 !important;
+  padding:7px 2px !important;
+  font-size:8px !important;
+  overflow-wrap:anywhere !important;
+  white-space:normal !important;
+}
+body > .brown-index-wrap .brown-index-menu {
+  display:none !important;
+  width:100% !important;
+  min-width:0 !important;
+  flex:1 1 0 !important;
+  min-height:0 !important;
+  max-height:none !important;
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+  flex-direction:column !important;
+  flex-wrap:nowrap !important;
+  align-items:stretch !important;
+  justify-content:safe space-between !important;
+  gap:6px !important;
+  padding:4px 0 14px !important;
+  box-sizing:border-box !important;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  touch-action:pan-y;
+}
+body > .brown-index-wrap .brown-index-menu::-webkit-scrollbar { display:none; }
+body > .brown-index-wrap.open-function-menu .function-list { display:flex !important; }
+body > .brown-index-wrap.open-labelless-menu .labelless-list { display:flex !important; }
 body > .brown-index-wrap .brown-letter-section {
   width:100% !important;
   min-width:0 !important;
-  flex:none !important;
+  flex:0 0 auto !important;
 }
-
-
 body > .brown-index-wrap .brown-letter-title {
   display:grid !important;
   place-items:center !important;
@@ -221,65 +240,78 @@ body > .brown-index-wrap .brown-letter-title {
   font-size:30px !important;
   cursor:pointer;
 }
-
-
 body > .brown-index-wrap .brown-letter-section.brown-letter-open .brown-letter-title {
   aspect-ratio:auto !important;
   min-height:42px !important;
   padding:8px 2px !important;
   border-radius:14px !important;
 }
-
-    body > .brown-index-wrap .brown-letter-rows { display:none !important; width:100% !important; min-width:0 !important; }
-    body > .brown-index-wrap .brown-letter-section.brown-letter-open .brown-letter-rows {
-      display:flex !important;
-      flex-direction:column !important;
-      gap:4px !important;
-    }
-    body > .brown-index-wrap .brown-index-chip {
-      width:100% !important;
-      max-width:100% !important;
-      white-space:normal !important;
-      overflow-wrap:anywhere !important;
-      font-size:9px !important;
-      padding:7px 3px !important;
-    }
-  `;
+body > .brown-index-wrap .brown-letter-rows {
+  display:none !important;
+  width:100% !important;
+  min-width:0 !important;
+}
+body > .brown-index-wrap .brown-letter-section.brown-letter-open .brown-letter-rows {
+  display:flex !important;
+  flex-direction:column !important;
+  gap:4px !important;
+}
+body > .brown-index-wrap .brown-index-chip {
+  width:100% !important;
+  max-width:100% !important;
+  white-space:normal !important;
+  overflow-wrap:anywhere !important;
+  font-size:9px !important;
+  padding:7px 3px !important;
+}
+body > .brown-index-wrap.brown-letter-mode::after {
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:58px;
+  background:linear-gradient(to bottom,transparent 0%,rgba(255,255,255,.08) 35%,rgba(255,255,255,.65) 100%);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s ease;
+  z-index:5;
+}
+body > .brown-index-wrap.brown-letter-mode.brown-has-more::after { opacity:1; }
+body > .brown-index-wrap.brown-has-more .brown-index-menu {
+  -webkit-mask-image:linear-gradient(to bottom,black 0%,black calc(100% - 55px),transparent 100%);
+  mask-image:linear-gradient(to bottom,black 0%,black calc(100% - 55px),transparent 100%);
+}
+`;
   document.head.appendChild(style);
 }
 
 function buildBrownIndexBar(){
-  // The menu is attached to BODY, not to the scrolling codeView.
-  // Remove both old and new instances to avoid duplicates after rerenders.
   document.querySelectorAll('.brown-index-wrap').forEach(el => el.remove());
   if (!currentParts.length) return;
   installRightBrownMenuStyles();
-
   const wrap = document.createElement('div');
   wrap.className = 'brown-index-wrap open-function-menu brown-letter-mode';
-
   const functionToggle = document.createElement('button');
   functionToggle.type = 'button';
   functionToggle.className = 'function-menu-toggle';
   functionToggle.textContent = 'FUNCTIONS';
-
   const labellessToggle = document.createElement('button');
   labellessToggle.type = 'button';
   labellessToggle.className = 'function-menu-toggle';
   labellessToggle.textContent = 'LABELLESS';
-
   const functionMenu = document.createElement('div');
   functionMenu.className = 'brown-index-menu function-list';
   const labellessMenu = document.createElement('div');
   labellessMenu.className = 'brown-index-menu labelless-list';
-
   functionMenu.addEventListener('scroll', () => {
     brownMenuScrollMemory.functions = functionMenu.scrollTop;
+    updateBrownMenuFade();
   }, { passive:true });
   labellessMenu.addEventListener('scroll', () => {
     brownMenuScrollMemory.labelless = labellessMenu.scrollTop;
+    updateBrownMenuFade();
   }, { passive:true });
-
   const functionItems = [];
   const labellessItems = [];
   currentParts.forEach((part, index) => {
@@ -301,18 +333,17 @@ function buildBrownIndexBar(){
       labellessItems.push({ index, label:`js-${index + 1}`, wholeBlock:true });
     }
   });
-
   functionItems.sort((a,b) => String(a.label).localeCompare(String(b.label)));
   labellessItems.sort((a,b) => String(a.label).localeCompare(String(b.label)));
   makeBrownLetterSections(functionItems, functionMenu);
   makeBrownLetterSections(labellessItems, labellessMenu);
-
   functionToggle.addEventListener('click', e => {
     e.stopPropagation();
     rememberBrownMenuScroll();
     wrap.classList.toggle('open-function-menu');
     wrap.classList.remove('open-labelless-menu');
     restoreBrownMenuScroll();
+    requestAnimationFrame(updateBrownMenuFade);
   });
   labellessToggle.addEventListener('click', e => {
     e.stopPropagation();
@@ -320,12 +351,13 @@ function buildBrownIndexBar(){
     wrap.classList.toggle('open-labelless-menu');
     wrap.classList.remove('open-function-menu');
     restoreBrownMenuScroll();
+    requestAnimationFrame(updateBrownMenuFade);
   });
-
   wrap.appendChild(functionToggle);
   wrap.appendChild(labellessToggle);
   wrap.appendChild(functionMenu);
   wrap.appendChild(labellessMenu);
   document.body.appendChild(wrap);
   restoreBrownMenuScroll();
+  requestAnimationFrame(updateBrownMenuFade);
 }
