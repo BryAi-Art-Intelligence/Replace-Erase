@@ -130,10 +130,11 @@
   order:2 !important;
 }
 
-/* REPLACE & ERASE — SHORTER BOTTOM FADE */
+/* REPLACE & ERASE — FIXED CODE FADE */
 
 .code-view{
-  --fade-height:145px;
+  -webkit-mask-image:none !important;
+  mask-image:none !important;
 }
 
 .code-content{
@@ -142,14 +143,18 @@
 }
 
 .code-view::after{
-  content:"";
-  position:sticky;
-  display:block;
-  bottom:0;
-  height:var(--fade-height);
-  margin-top:calc(-1 * var(--fade-height));
+  content:none !important;
+}
+
+.code-bottom-fade{
+  position:absolute;
+  left:10px;
+  right:90px;
+  bottom:10px;
+  height:145px;
+
   pointer-events:none;
-  z-index:20;
+  z-index:30;
 
   background:linear-gradient(
     to bottom,
@@ -157,4 +162,8 @@
     rgba(239,235,231,.65) 45%,
     rgba(239,235,231,1) 100%
   );
+}
+
+.code-view.hidden ~ .code-bottom-fade{
+  display:none;
 }
