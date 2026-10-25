@@ -6,7 +6,7 @@
 
 .code-view{
   position:absolute;
-  inset:10px;
+inset:80px 10px 10px 10px;
   left:10px !important;
   right:90px !important;
   width:auto !important;
