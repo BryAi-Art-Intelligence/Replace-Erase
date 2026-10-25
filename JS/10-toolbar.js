@@ -114,8 +114,10 @@ function buildTypeToolbar(){
     bar.appendChild(button);
   });
 
-  codeView.appendChild(bar);
-}
+  const oldBar = document.querySelector(".type-toolbar");
+if (oldBar) oldBar.remove();
+
+document.body.appendChild(bar);
 
 function buildCopyFinalButton(){
   const button = document.createElement("button");
