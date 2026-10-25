@@ -167,3 +167,15 @@
 .code-view.hidden ~ .code-bottom-fade{
   display:none;
 }
+
+/* REPLACE & ERASE — KEEP TOOLBAR SHARP */
+
+.code-bottom-fade{
+  bottom:10px;
+  height:220px;
+  z-index:11;
+}
+
+.type-toolbar{
+  z-index:40 !important;
+}
