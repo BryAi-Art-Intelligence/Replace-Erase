@@ -365,16 +365,7 @@ body:has(.selected-line-tools.show-selected-tools) .type-toolbar{
 
 /* REPLACE & ERASE — TOP SWIPE BAR */
 
-.type-toolbar{
-  position:fixed !important;
-  top:140px !important;
-  bottom:auto !important;
-  left:32px !important;
-  right:108px !important;
-  width:auto !important;
-  transform:none !important;
-  z-index:200 !important;
-}
+
 
 /* Keep the six slanted panels compact */
 .type-toolbar .type-tool{
