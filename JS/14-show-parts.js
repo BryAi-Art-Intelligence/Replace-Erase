@@ -383,12 +383,8 @@ function renderBlockMode(animated = false){
     html += `<div class="insert-gap" data-insert-index="${index + 1}"></div>`;
   });
 
-codeView.innerHTML = `
-  <div class="code-content">
-    ${html}
-  </div>
-`;
-buildBrownIndexBar();
+  codeView.innerHTML = html;
+  buildBrownIndexBar();
 
   requestAnimationFrame(() => {
     codeView.scrollTop = scrollY;
