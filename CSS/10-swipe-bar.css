@@ -320,3 +320,45 @@ body:has(.selected-line-tools.show-selected-tools) .type-toolbar{
 .type-toolbar .type-tool-hidden.active-tool{
   background:rgba(110,110,110,.25) !important;
 }
+
+
+/* REPLACE & ERASE — SWIPE BAR VISIBILITY FIX */
+
+.type-toolbar{
+  display:flex;
+  visibility:visible;
+  opacity:1;
+  z-index:1000;
+  min-height:44px;
+  background:transparent !important;
+  overflow:visible !important;
+}
+
+.type-toolbar .type-tool{
+  display:flex !important;
+  align-items:center;
+  justify-content:center;
+  visibility:visible !important;
+  opacity:1 !important;
+  color:#51483f;
+  background:#d8d1c7 !important;
+}
+
+.type-toolbar .type-tool-head.active-tool{
+  background:#b9a4d8 !important;
+}
+.type-toolbar .type-tool-html.active-tool{
+  background:#e8d38d !important;
+}
+.type-toolbar .type-tool-css.active-tool{
+  background:#9eddd4 !important;
+}
+.type-toolbar .type-tool-js.active-tool{
+  background:#e9bc79 !important;
+}
+.type-toolbar .type-tool-svg.active-tool{
+  background:#c2afe8 !important;
+}
+.type-toolbar .type-tool-hidden.active-tool{
+  background:#c9c9c9 !important;
+}
