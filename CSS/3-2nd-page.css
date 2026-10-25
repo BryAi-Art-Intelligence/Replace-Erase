@@ -130,10 +130,10 @@
   order:2 !important;
 }
 
-/* REPLACE & ERASE — FIXED BOTTOM FADE */
+/* REPLACE & ERASE — SHORTER BOTTOM FADE */
 
 .code-view{
-  --fade-height:300px;
+  --fade-height:145px;
 }
 
 .code-content{
@@ -154,8 +154,7 @@
   background:linear-gradient(
     to bottom,
     rgba(239,235,231,0) 0%,
-    rgba(239,235,231,.35) 25%,
-    rgba(239,235,231,.85) 65%,
+    rgba(239,235,231,.65) 45%,
     rgba(239,235,231,1) 100%
   );
 }
