@@ -153,3 +153,10 @@
   ) !important;
 }
 
+
+/* SPACE FOR TOP SWIPE BAR */
+
+.code-view{
+  padding-top:110px !important;
+}
+
