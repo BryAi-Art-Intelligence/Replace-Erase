@@ -168,14 +168,18 @@
   display:none;
 }
 
-/* REPLACE & ERASE — KEEP TOOLBAR SHARP */
+/* REPLACE & ERASE — TOOLBAR ABOVE FADE */
+
+.code-view{
+  z-index:40;
+}
 
 .code-bottom-fade{
   bottom:10px;
   height:220px;
-  z-index:11;
+  z-index:30;
 }
 
 .type-toolbar{
-  z-index:40 !important;
+  z-index:50 !important;
 }
