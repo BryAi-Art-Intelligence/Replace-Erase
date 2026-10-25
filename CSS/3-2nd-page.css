@@ -129,3 +129,24 @@
 .code-view .code-line > .color-swatches{
   order:2 !important;
 }
+
+/* REPLACE & ERASE — BOTTOM CODE FADE */
+
+.code-view{
+  -webkit-mask-image:linear-gradient(
+    to bottom,
+    black 0%,
+    black calc(100% - 155px),
+    rgba(0,0,0,.85) calc(100% - 120px),
+    rgba(0,0,0,.35) calc(100% - 65px),
+    transparent 100%
+  );
+  mask-image:linear-gradient(
+    to bottom,
+    black 0%,
+    black calc(100% - 155px),
+    rgba(0,0,0,.85) calc(100% - 120px),
+    rgba(0,0,0,.35) calc(100% - 65px),
+    transparent 100%
+  );
+}
