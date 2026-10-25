@@ -362,3 +362,17 @@ body:has(.selected-line-tools.show-selected-tools) .type-toolbar{
 .type-toolbar .type-tool-hidden.active-tool{
   background:#c9c9c9 !important;
 }
+
+
+/* REPLACE & ERASE — TOP SWIPE BAR */
+
+.type-toolbar{
+  position:fixed !important;
+  top:112px !important;
+  bottom:auto !important;
+  left:12px !important;
+  right:90px !important;
+  width:auto !important;
+  z-index:200 !important;
+  transform:none !important;
+}
