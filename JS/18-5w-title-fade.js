@@ -24,7 +24,11 @@ window.addEventListener("message", event => {
 
   if (event.data?.type !== "BRYAI_5W") return;
 
-  fiveWOpen = event.data.active === true;
+fiveWOpen = event.data.active === true;
+
+frame.style.height = fiveWOpen
+  ? "400px"
+  : "90px";
   updateFiveWTitle();
 });
 
