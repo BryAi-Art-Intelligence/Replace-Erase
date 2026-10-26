@@ -1,49 +1,77 @@
 /* 6-action-toolbar.css
    Controls the permanent REPLACE / AND / ERASE toolbar. */
 
+
 .selected-line-tools{
   position:fixed;
-  left:50% !important;
-  right:auto;
-bottom:18px !important;
-  transform:translateX(-50%) !important;
+  left:12px !important;
+  right:116px !important;
+  bottom:18px !important;
+  transform:none !important;
   z-index:999 !important;
+
   display:flex;
-  width:calc(100vw - 34px);
-  max-width:420px;
+  width:auto !important;
+  max-width:none !important;
+  min-width:0;
   box-sizing:border-box;
   min-height:54px;
+
   align-items:center;
-  justify-content:center;
-  gap:clamp(7px, 2vw, 10px);
-  padding:6px;
+  justify-content:space-between;
+  gap:3px;
+  padding:4px;
+
   border-radius:999px;
-  background:linear-gradient(180deg,rgba(255,255,255,.76),rgba(235,239,232,.68));
+  background:linear-gradient(
+    180deg,
+    rgba(255,255,255,.76),
+    rgba(235,239,232,.68)
+  );
   border:1px solid rgba(120,140,120,.16);
-  box-shadow:0 10px 30px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.42);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.10),
+    inset 0 1px 0 rgba(255,255,255,.42);
+
   backdrop-filter:blur(10px);
   -webkit-backdrop-filter:blur(10px);
+
   user-select:none;
   -webkit-user-select:none;
   pointer-events:auto !important;
 }
 
+
+
 .selected-line-tools button{
+  flex:1 1 0;
+  min-width:0;
   border:0;
   pointer-events:auto !important;
   cursor:pointer;
-  padding:8px clamp(8px, 2.4vw, 10px);
+
+  padding:8px 2px;
   border-radius:14px;
   background:transparent;
-  font-size:clamp(17px, 5vw, 24px);
+
+  font-size:clamp(9px,2.8vw,14px);
   font-weight:900;
   line-height:1.05;
-  letter-spacing:.06em;
+  letter-spacing:0;
   white-space:nowrap;
-  transition:color .22s ease, background .22s ease, text-shadow .22s ease, transform .18s ease, opacity .22s ease, filter .22s ease;
+
+  transition:
+    color .22s ease,
+    background .22s ease,
+    text-shadow .22s ease,
+    transform .18s ease,
+    opacity .22s ease,
+    filter .22s ease;
+
   touch-action:manipulation;
   font-family:inherit;
 }
+
 
 .selected-line-tools button:active{
   transform:scale(.94);
