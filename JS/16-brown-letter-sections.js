@@ -336,7 +336,7 @@ body > .brown-index-wrap.brown-has-more .brown-index-menu {
 /* WIDER BROWN HAZE — LETTERS STAY PUT */
 
 body > .brown-index-wrap .brown-index-menu {
-  overflow-x:visible !important;
+  overflow-x:hidden !important;
 }
 
 body > .brown-index-wrap .brown-letter-title::before {
