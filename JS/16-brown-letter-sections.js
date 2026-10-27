@@ -193,6 +193,10 @@ body > .brown-index-wrap .function-menu-toggle {
   overflow-wrap:anywhere !important;
   white-space:normal !important;
 }
+body > .brown-index-wrap .function-menu-toggle:first-child {
+  transform: perspective(300px) rotateY(-18deg) rotateZ(4deg) !important;
+  transform-origin:center center !important;
+}
 body > .brown-index-wrap .brown-index-menu {
   display:none !important;
   width:100% !important;
