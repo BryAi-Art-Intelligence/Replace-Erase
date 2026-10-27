@@ -213,7 +213,6 @@ body > .brown-index-wrap .function-menu-toggle {
   white-space:normal !important;
   }
   body > .brown-index-wrap .function-menu-toggle:first-child {
-  position:relative !important;
   transform: perspective(300px) rotateY(-18deg) rotateZ(4deg) scale(1.1) !important;
   transform-origin:center center !important;
 }
@@ -376,6 +375,11 @@ body > .brown-index-wrap .brown-index-menu,
 body > .brown-index-wrap .function-menu-toggle {
   position:relative;
   z-index:1;
+}
+body > .brown-index-wrap.brown-letter-mode
+.function-menu-toggle:first-child {
+  transform:perspective(300px) rotateY(-18deg) rotateZ(4deg) scale(1.1) !important;
+  transform-origin:center center !important;
 }
 `;
   document.head.appendChild(style);
