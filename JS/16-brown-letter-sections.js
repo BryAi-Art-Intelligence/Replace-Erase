@@ -194,7 +194,7 @@ body > .brown-index-wrap .function-menu-toggle {
   white-space:normal !important;
   }
   body > .brown-index-wrap .function-menu-toggle:first-child {
-  transform: perspective(300px) rotateY(-18deg) rotateZ(4deg) scale(1.12) !important;
+  transform: perspective(300px) rotateY(-18deg) rotateZ(4deg) scale(3) !important;
   transform-origin:center center !important;
 }
 body > .brown-index-wrap .brown-index-menu {
