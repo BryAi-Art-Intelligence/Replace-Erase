@@ -160,7 +160,7 @@ function installRightBrownMenuStyles(){
   style.textContent = `
 body > .brown-index-wrap.brown-letter-mode {
   position:fixed !important;
-  background:#3a2416 !important;
+  background:transparent !important;
   left:auto !important;
   right:8px !important;
   top:20px !important;
@@ -192,7 +192,7 @@ body > .brown-index-wrap.brown-letter-mode::before {
   top:0;
   bottom:0;
   right:0;
-  width:120px;
+  width:90px;
   background:#3a2416;
   border-radius:0;
   pointer-events:none;
