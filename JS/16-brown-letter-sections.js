@@ -282,7 +282,7 @@ body > .brown-index-wrap .brown-letter-title {
 margin:0 auto !important;
 transform:translateX(-8px) !important;
   padding:2px !important;
-  border:1px solid #7b4a2a !important;
+  border:3px solid #7b4a2a !important;
   border-radius:12px !important;
   background:#3a2416 !important;
   color:#ffd6aa !important;
