@@ -214,7 +214,10 @@ body > .brown-index-wrap .function-menu-toggle {
 }
 body > .brown-index-wrap .brown-index-menu {
   display:none !important;
-  width:100% !important;
+width:calc(100% + 60px) !important;
+margin-left:-30px !important;
+padding-left:40px !important;
+padding-right:20px !important;
   min-width:0 !important;
   flex:1 1 0 !important;
   min-height:0 !important;
@@ -226,7 +229,8 @@ body > .brown-index-wrap .brown-index-menu {
   align-items:stretch !important;
   justify-content:safe space-between !important;
   gap:6px !important;
-padding:24px 0 0 10px !important;
+padding-top:24px !important;
+padding-bottom:0 !important;
   box-sizing:border-box !important;
   scrollbar-width:none;
   -ms-overflow-style:none;
