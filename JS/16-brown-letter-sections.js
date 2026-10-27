@@ -227,6 +227,36 @@ body > .brown-index-wrap .brown-letter-section {
   min-width:0 !important;
   flex:0 0 auto !important;
 }
+/* BROWN BUTTON — NATURAL CORNER FADE */
+
+body > .brown-index-wrap .brown-letter-title {
+  position:relative !important;
+  isolation:isolate !important;
+  overflow:visible !important;
+}
+
+body > .brown-index-wrap .brown-letter-title::before {
+  content:"";
+  position:absolute;
+
+  width:110px;
+  height:125px;
+
+  left:-48px;
+  bottom:-55px;
+
+  background:radial-gradient(
+    ellipse at 70% 25%,
+    rgba(58,36,22,.85) 0%,
+    rgba(58,36,22,.55) 25%,
+    rgba(58,36,22,.25) 48%,
+    rgba(58,36,22,0) 75%
+  );
+
+  filter:blur(16px);
+  pointer-events:none;
+  z-index:-1;
+}
 body > .brown-index-wrap .brown-letter-title {
   display:grid !important;
   place-items:center !important;
