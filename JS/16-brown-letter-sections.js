@@ -214,7 +214,8 @@ body > .brown-index-wrap .function-menu-toggle {
 }
 body > .brown-index-wrap .brown-index-menu {
   display:none !important;
-  width:100% !important;
+width:calc(100% + 40px) !important;
+  margin-left:-20px !important;
   min-width:0 !important;
   flex:1 1 0 !important;
   min-height:0 !important;
@@ -226,7 +227,7 @@ body > .brown-index-wrap .brown-index-menu {
   align-items:stretch !important;
   justify-content:safe space-between !important;
   gap:6px !important;
-padding:24px 0 0 10px !important;
+padding:24px 20px 0 30px !important;
   box-sizing:border-box !important;
   scrollbar-width:none;
   -ms-overflow-style:none;
