@@ -332,6 +332,19 @@ body > .brown-index-wrap.brown-has-more .brown-index-menu {
   -webkit-mask-image:linear-gradient(to bottom,black 0%,black calc(100% - 55px),transparent 100%);
   mask-image:linear-gradient(to bottom,black 0%,black calc(100% - 55px),transparent 100%);
 }
+/* WIDER BROWN HAZE — LETTERS STAY PUT */
+
+body > .brown-index-wrap .brown-index-menu {
+  overflow-x:hidden !important;
+}
+
+body > .brown-index-wrap .brown-letter-title::before {
+  width:150px !important;
+  height:145px !important;
+  left:-65px !important;
+  bottom:-65px !important;
+  filter:blur(24px) !important;
+}
 `;
   document.head.appendChild(style);
 }
