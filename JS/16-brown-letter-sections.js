@@ -279,7 +279,8 @@ body > .brown-index-wrap .brown-letter-title {
   min-width:0 !important;
   aspect-ratio:1 / 1 !important;
   flex:none !important;
-  margin:0 auto !important;
+margin:0 auto !important;
+transform:translateX(-8px) !important;
   padding:2px !important;
   border:1px solid #7b4a2a !important;
   border-radius:12px !important;
