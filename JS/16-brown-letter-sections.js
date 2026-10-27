@@ -193,7 +193,7 @@ body > .brown-index-wrap.brown-letter-mode::before {
   bottom:0;
   right:0;
   width:90px;
-  background:#3a2416;
+  background:transparent;
   border-radius:0;
   pointer-events:none;
   z-index:-1;
