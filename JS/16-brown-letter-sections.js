@@ -22,6 +22,7 @@ function updateBrownMenuFade(){
   const hasMore = menu.scrollHeight > menu.clientHeight + 2 &&
     menu.scrollTop + menu.clientHeight < menu.scrollHeight - 2;
   wrap.classList.toggle('brown-has-more', hasMore);
+  requestAnimationFrame(updateBrownHaze);
 }
 
 function rememberBrownMenuScroll(){
@@ -130,7 +131,10 @@ function makeBrownLetterSections(items, menu){
       e.stopPropagation();
       const isOpen = section.classList.toggle('brown-letter-open');
       title.setAttribute('aria-expanded', String(isOpen));
-      requestAnimationFrame(updateBrownMenuFade);
+requestAnimationFrame(() => {
+  updateBrownMenuFade();
+  updateBrownHaze();
+});
     });
     section.appendChild(title);
     section.appendChild(rows);
@@ -339,17 +343,77 @@ body > .brown-index-wrap .brown-index-menu {
   overflow-x:hidden !important;
 }
 
+/* Haze outside the scrolling container */
 body > .brown-index-wrap .brown-letter-title::before {
-  width:150px !important;
-  height:145px !important;
-  left:-65px !important;
-  bottom:-65px !important;
-  filter:blur(24px) !important;
+  display:none !important;
+}
+
+body > .brown-index-wrap .brown-haze-layer {
+  position:absolute;
+  inset:0;
+  overflow:visible;
+  pointer-events:none;
+  z-index:0;
+}
+
+body > .brown-index-wrap .brown-haze-spot {
+  position:absolute;
+  width:150px;
+  height:145px;
+  background:radial-gradient(
+    ellipse at 70% 25%,
+    rgba(58,36,22,.85) 0%,
+    rgba(58,36,22,.55) 25%,
+    rgba(58,36,22,.25) 48%,
+    rgba(58,36,22,0) 75%
+  );
+  filter:blur(24px);
+  pointer-events:none;
+}
+
+body > .brown-index-wrap .brown-index-menu,
+body > .brown-index-wrap .function-menu-toggle {
+  position:relative;
+  z-index:1;
 }
 `;
   document.head.appendChild(style);
 }
+function updateBrownHaze(){
+  const wrap = document.querySelector(
+    'body > .brown-index-wrap.brown-letter-mode'
+  );
+  if (!wrap) return;
 
+  const layer = wrap.querySelector('.brown-haze-layer');
+  const menu = getActiveBrownMenu();
+  if (!layer) return;
+
+  layer.replaceChildren();
+  if (!menu) return;
+
+  const wrapRect = wrap.getBoundingClientRect();
+  const menuRect = menu.getBoundingClientRect();
+
+  menu.querySelectorAll('.brown-letter-title').forEach(button => {
+    const rect = button.getBoundingClientRect();
+
+    // Only draw haze for buttons visible in the menu.
+    if (rect.bottom <= menuRect.top ||
+        rect.top >= menuRect.bottom) return;
+
+    const spot = document.createElement('div');
+    spot.className = 'brown-haze-spot';
+
+    spot.style.left =
+      `${rect.left - wrapRect.left - 65}px`;
+
+    spot.style.top =
+      `${rect.bottom - wrapRect.top - 80}px`;
+
+    layer.appendChild(spot);
+  });
+}
 function buildBrownIndexBar(){
   document.querySelectorAll('.brown-index-wrap').forEach(el => el.remove());
   if (!currentParts.length) return;
@@ -417,6 +481,9 @@ function buildBrownIndexBar(){
     restoreBrownMenuScroll();
     requestAnimationFrame(updateBrownMenuFade);
   });
+  const hazeLayer = document.createElement('div');
+hazeLayer.className = 'brown-haze-layer';
+wrap.appendChild(hazeLayer);
   wrap.appendChild(functionToggle);
   wrap.appendChild(labellessToggle);
   wrap.appendChild(functionMenu);
@@ -424,4 +491,5 @@ function buildBrownIndexBar(){
   document.body.appendChild(wrap);
   restoreBrownMenuScroll();
   requestAnimationFrame(updateBrownMenuFade);
+  requestAnimationFrame(updateBrownHaze);
 }
