@@ -192,9 +192,9 @@ body > .brown-index-wrap .function-menu-toggle {
   font-size:8px !important;
   overflow-wrap:anywhere !important;
   white-space:normal !important;
-}
-body > .brown-index-wrap .function-menu-toggle:first-child {
-  transform: perspective(300px) rotateY(-18deg) rotateZ(4deg) !important;
+  }
+  body > .brown-index-wrap .function-menu-toggle:first-child {
+  transform: perspective(300px) rotateY(-18deg) rotateZ(4deg) scale(1.05) !important;
   transform-origin:center center !important;
 }
 body > .brown-index-wrap .brown-index-menu {
