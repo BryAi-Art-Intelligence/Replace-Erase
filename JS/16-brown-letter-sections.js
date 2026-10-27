@@ -160,6 +160,7 @@ function installRightBrownMenuStyles(){
   style.textContent = `
 body > .brown-index-wrap.brown-letter-mode {
   position:fixed !important;
+  background:#3a2416 !important;
   left:auto !important;
   right:8px !important;
   top:20px !important;
@@ -182,6 +183,20 @@ body > .brown-index-wrap.brown-letter-mode {
   pointer-events:auto !important;
   visibility:visible !important;
   opacity:1 !important;
+}
+/* FULL BROWN BACKGROUND — EXTENDS LEFT */
+
+body > .brown-index-wrap.brown-letter-mode::before {
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  right:0;
+  width:120px;
+  background:#3a2416;
+  border-radius:0;
+  pointer-events:none;
+  z-index:-1;
 }
 body > .brown-index-wrap .function-menu-toggle {
   display:block !important;
