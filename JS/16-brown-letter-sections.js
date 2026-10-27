@@ -213,6 +213,7 @@ body > .brown-index-wrap .function-menu-toggle {
   white-space:normal !important;
   }
   body > .brown-index-wrap .function-menu-toggle:first-child {
+  position:relative !important;
   transform: perspective(300px) rotateY(-18deg) rotateZ(4deg) scale(1.1) !important;
   transform-origin:center center !important;
 }
