@@ -164,7 +164,7 @@ body > .brown-index-wrap.brown-letter-mode {
   left:auto !important;
   right:8px !important;
   top:20px !important;
-  bottom:110px !important;
+bottom:45px !important;
   transform:none !important;
   box-sizing:border-box !important;
   width:72px !important;
@@ -226,7 +226,7 @@ body > .brown-index-wrap .brown-index-menu {
   align-items:stretch !important;
   justify-content:safe space-between !important;
   gap:6px !important;
-  padding:4px 0 14px !important;
+padding:24px 0 0 !important;
   box-sizing:border-box !important;
   scrollbar-width:none;
   -ms-overflow-style:none;
