@@ -176,7 +176,7 @@ body > .brown-index-wrap.brown-letter-mode {
   align-items:stretch !important;
   justify-content:flex-start !important;
   gap:6px !important;
-  overflow:hidden !important;
+  overflow:visible !important;
   z-index:1000 !important;
   border-radius:14px !important;
   pointer-events:auto !important;
