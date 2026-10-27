@@ -226,7 +226,7 @@ body > .brown-index-wrap .brown-index-menu {
   align-items:stretch !important;
   justify-content:safe space-between !important;
   gap:6px !important;
-padding:24px 0 0 !important;
+padding:24px 0 0 10px !important;
   box-sizing:border-box !important;
   scrollbar-width:none;
   -ms-overflow-style:none;
