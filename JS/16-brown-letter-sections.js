@@ -280,7 +280,7 @@ body > .brown-index-wrap .brown-letter-title {
   aspect-ratio:1 / 1 !important;
   flex:none !important;
 margin:0 auto !important;
-transform:translateX(-8px) !important;
+transform:translateX(0px) !important;
   padding:2px !important;
   border:3px solid #7b4a2a !important;
   border-radius:12px !important;
