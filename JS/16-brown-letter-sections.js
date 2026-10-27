@@ -299,7 +299,7 @@ function buildBrownIndexBar(){
   const functionToggle = document.createElement('button');
   functionToggle.type = 'button';
   functionToggle.className = 'function-menu-toggle';
-  functionToggle.textContent = 'FUNCTIONS';
+  functionToggle.textContent = 'PARTS';
   const labellessToggle = document.createElement('button');
   labellessToggle.type = 'button';
   labellessToggle.className = 'function-menu-toggle';
