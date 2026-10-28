@@ -362,13 +362,13 @@ body > .brown-index-wrap .brown-haze-spot {
   position:absolute;
   width:150px;
   height:145px;
-  background:radial-gradient(
-    ellipse at 70% 25%,
-    rgba(58,36,22,.85) 0%,
-    rgba(58,36,22,.55) 25%,
-    rgba(58,36,22,.25) 48%,
-    rgba(58,36,22,0) 75%
-  );
+background:radial-gradient(
+  ellipse at 70% 25%,
+  rgba(164,156,145,1) 0%,
+  rgba(164,156,145,.75) 25%,
+  rgba(164,156,145,.35) 48%,
+  rgba(164,156,145,0) 75%
+);
   filter:blur(24px);
   pointer-events:none;
 }
