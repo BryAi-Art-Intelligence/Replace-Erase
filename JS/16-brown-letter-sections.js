@@ -1,3 +1,4 @@
+
 // 16-brown-letter-sections.js
 // Brown alphabetical menu — RIGHT SIDE.
 // Dynamic vertical spacing, scrolling, bottom fade.
@@ -426,7 +427,11 @@ function buildBrownIndexBar(){
   const functionToggle = document.createElement('button');
   functionToggle.type = 'button';
   functionToggle.className = 'function-menu-toggle';
-  functionToggle.textContent = 'PARTS';
+
+functionToggle.textContent = 'THE\nPARTS';
+functionToggle.style.whiteSpace = 'pre-line';
+functionToggle.style.textAlign = 'center';
+
   const labellessToggle = document.createElement('button');
   labellessToggle.type = 'button';
   labellessToggle.className = 'function-menu-toggle';
