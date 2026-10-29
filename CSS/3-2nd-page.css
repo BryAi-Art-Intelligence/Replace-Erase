@@ -6,7 +6,7 @@
 
 .code-view{
   position:absolute;
-inset:10px;
+  inset:10px;
   left:10px !important;
   right:90px !important;
   width:auto !important;
@@ -23,7 +23,7 @@ inset:10px;
   color:#2f2f2f;
   border:1px solid rgba(120,120,120,.12);
   border-radius:24px;
-  background:transparent ;
+  background:transparent;
   z-index:10;
   -webkit-overflow-scrolling:touch;
   -webkit-text-size-adjust:100%;
