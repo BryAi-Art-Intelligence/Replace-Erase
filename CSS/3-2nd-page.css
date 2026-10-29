@@ -7,7 +7,7 @@
 .code-view{
   position:absolute;
   inset:10px;
-  left:0px !important;
+  left:-20px !important;
   right:90px !important;
   top:80px !important;
   width:auto !important;
