@@ -212,15 +212,11 @@ body > .brown-index-wrap .function-menu-toggle {
   overflow-wrap:anywhere !important;
   white-space:normal !important;
   }body > .brown-index-wrap .function-menu-toggle:first-of-type {
-
-  transform:perspective(300px) rotateX(-20deg) rotateY(-30deg) rotateZ(8deg) scale(1.1) !important;
-
+  transform:perspective(500px) rotateX(-8deg) rotateY(-10deg) rotateZ(3deg) scale(1.1) !important;
   transform-origin:center center !important;
 
-  -webkit-transform:perspective(300px) rotateX(-20deg) rotateY(-30deg) rotateZ(8deg) scale(1.1) !important;
-
+  -webkit-transform:perspective(500px) rotateX(-8deg) rotateY(-10deg) rotateZ(3deg) scale(1.1) !important;
   -webkit-transform-origin:center center !important;
-
 }
 body > .brown-index-wrap .brown-index-menu {
   display:none !important;
