@@ -123,3 +123,17 @@
   position:relative;
   z-index:3;
 }
+
+/* RESTORE CODE TOUCH SCROLLING */
+
+.code-section{
+  touch-action:pan-y;
+}
+
+.code-block{
+  touch-action:pan-y;
+}
+
+.code-block.selected-block{
+  touch-action:pan-y;
+}
