@@ -159,8 +159,5 @@
 
 /* TEST — CODE TOUCH & SCROLL */
 
-.code-view{
-  pointer-events:auto !important;
-  touch-action:pan-y !important;
-  overflow-y:scroll !important;
-}
+
+  
