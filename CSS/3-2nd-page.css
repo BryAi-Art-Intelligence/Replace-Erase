@@ -156,3 +156,11 @@
 .code-view .code-line > .line-number-box{
   font-size:18px !important;
 }
+
+/* TEST — CODE TOUCH & SCROLL */
+
+.code-view{
+  pointer-events:auto !important;
+  touch-action:pan-y !important;
+  overflow-y:scroll !important;
+}
