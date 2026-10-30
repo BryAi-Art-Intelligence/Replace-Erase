@@ -153,3 +153,6 @@
   ) !important;
 }
 
+.code-view .code-line > .line-number-box{
+  font-size:18px !important;
+}
