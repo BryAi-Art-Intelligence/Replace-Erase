@@ -426,7 +426,7 @@ function buildBrownIndexBar(){
   const functionToggle = document.createElement('button');
   functionToggle.type = 'button';
   functionToggle.className = 'function-menu-toggle';
-functionToggle.textContent = 'rename\n   and\narrange';
+functionToggle.textContent = 'rename\n& arrange';
 functionToggle.style.whiteSpace = 'pre-line';
   const labellessToggle = document.createElement('button');
   labellessToggle.type = 'button';
