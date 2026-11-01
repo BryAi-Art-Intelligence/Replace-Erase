@@ -470,13 +470,31 @@ functionToggle.style.whiteSpace = 'pre-line';
   makeBrownLetterSections(functionItems, functionMenu);
   makeBrownLetterSections(labellessItems, labellessMenu);
   functionToggle.addEventListener('click', e => {
-    e.stopPropagation();
-    rememberBrownMenuScroll();
-    wrap.classList.toggle('open-function-menu');
-    wrap.classList.remove('open-labelless-menu');
-    restoreBrownMenuScroll();
-    requestAnimationFrame(updateBrownMenuFade);
-  });
+  e.preventDefault();
+  e.stopPropagation();
+
+  const view = document.querySelector('#codeView') ||
+               document.querySelector('.code-view');
+
+  if (!view) {
+    console.warn('Code view not found');
+    return;
+  }
+
+  const isHidden = view.dataset.renameHidden === 'true';
+
+  view.style.transition = 'opacity 0.8s ease';
+
+  if (isHidden) {
+    view.style.opacity = '1';
+    view.style.pointerEvents = '';
+    view.dataset.renameHidden = 'false';
+  } else {
+    view.style.opacity = '0';
+    view.style.pointerEvents = 'none';
+    view.dataset.renameHidden = 'true';
+  }
+});
   labellessToggle.addEventListener('click', e => {
     e.stopPropagation();
     rememberBrownMenuScroll();
