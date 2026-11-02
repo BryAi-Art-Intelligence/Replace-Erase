@@ -18,4 +18,8 @@ function fadeStatusAfterPaste() {
   if (statusWasPressed && status) {
     status.classList.add("status-faded");
   }
+
+  if (status) {
+    status.style.display = "none";
+  }
 }
