@@ -116,7 +116,7 @@ stack.appendChild(pasteHint);
 
 
 async function handleWholeScreenPaste(e) {
-  if (e.target.closest("#status")) return;
+  if (e.target.closest("#status, .status, #homeExtras")) return;
   if (e.target.closest("#startPasteBox")) return;
 
   try {
