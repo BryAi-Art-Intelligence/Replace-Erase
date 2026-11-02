@@ -135,7 +135,8 @@ window.RE_VERSION = Date.now();
       "JS/17-brown-rename-focus.js",
       "undoredo/undo.js",
       "undoredo/redo.js",
-      "JS/18-5w-title-fade.js"
+      "JS/18-5w-title-fade.js",
+"status/status.js"
     ];
 
     function loadScript(file){
@@ -154,7 +155,8 @@ window.RE_VERSION = Date.now();
           await loadScript(file);
         }
 
-        window.dispatchEvent(new Event("replaceEraseLoaded"));
+setupStatus();
+window.dispatchEvent(new Event("replaceEraseLoaded"));
       }catch(err){
         console.error(err);
 
