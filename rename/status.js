@@ -10,12 +10,12 @@ function setupStatus() {
     statusWasPressed = true;
 
     status.classList.remove("status-faded");
-    status.classList.add("status-green");
+    status.classList.toggle("status-green");
   });
 }
 
 function fadeStatusAfterPaste() {
   if (statusWasPressed && status) {
-    status.classList.toggle("status-faded");
+    status.classList.add("status-faded");
   }
 }
