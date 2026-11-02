@@ -4,6 +4,9 @@
 function setupStatus() {
   if (!status) return;
 
+  status.style.transform = "scale(1.4)";
+  status.style.transformOrigin = "center";
+
   status.addEventListener("click", e => {
     e.stopPropagation();
 
@@ -15,11 +18,9 @@ function setupStatus() {
 }
 
 function fadeStatusAfterPaste() {
-  if (statusWasPressed && status) {
-    status.classList.add("status-faded");
-  }
+  if (!status) return;
 
-  if (status) {
-    status.style.display = "none";
-  }
+  status.style.display = "";
+  status.style.transform = "scale(1)";
+  status.classList.add("status-faded");
 }
