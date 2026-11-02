@@ -16,6 +16,6 @@ function setupStatus() {
 
 function fadeStatusAfterPaste() {
   if (statusWasPressed && status) {
-    status.classList.add("status-faded");
+    status.classList.toggle("status-faded");
   }
 }
