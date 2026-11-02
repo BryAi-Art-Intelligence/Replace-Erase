@@ -7,10 +7,10 @@
   top:10px;
   left:12px;
   z-index:2000;
-  font-size:25px;
+  font-size:20px;
   font-weight:800;
   letter-spacing:.08em;
-  color:rgba(0,0,0,.35);
+  color:#E8E8E8;
   cursor:pointer;
   user-select:none;
   -webkit-user-select:none;
