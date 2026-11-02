@@ -13,7 +13,7 @@
   resize:none;
   opacity:0;
   background:#e8e8e8;
-  color:transparent;
+  color:#e8e8e8;
   pointer-events:none;
   z-index:-1;
 }
