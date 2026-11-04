@@ -96,7 +96,9 @@ function createBrownChip(item){
   chip.addEventListener('click', e => {
     e.preventDefault();
     e.stopPropagation();
-    if (document.body.classList.contains('rename-arrange-mode')) {
+
+if (document.querySelector('#codeView')?.dataset.renameHidden === 'true') {
+
   console.log('Rename & Arrange selected:', item.label);
 } else {
   selectBrownItemAndShowToolbar2(item);
