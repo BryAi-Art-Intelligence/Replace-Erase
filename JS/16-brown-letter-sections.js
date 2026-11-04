@@ -544,6 +544,13 @@ function showRenameArrangeSection(item){
     preview.id = 'rename-arrange-preview';
     document.body.appendChild(preview);
   }
+    const previewOpen = document.getElementById('rename-arrange-preview');
+
+  if (previewOpen && previewOpen.dataset.itemKey ===
+      `${item.index}:${item.label}`) {
+    previewOpen.remove();
+    return;
+  }
 
   const rows = keys.map(key => {
     const lineNumber = Number(key.split(':')[1]);
@@ -558,7 +565,7 @@ function showRenameArrangeSection(item){
   }).join('');
 
   preview.innerHTML = `<div class="code-lines">${rows}</div>`;
-
+  preview.dataset.itemKey = `${item.index}:${item.label}`;
   Object.assign(preview.style, {
     position: 'fixed',
     top: '70px',
