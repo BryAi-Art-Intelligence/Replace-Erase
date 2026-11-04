@@ -489,10 +489,16 @@ functionToggle.style.whiteSpace = 'pre-line';
     view.style.opacity = '1';
     view.style.pointerEvents = '';
     view.dataset.renameHidden = 'false';
+
+functionToggle.style.color = '';
+
   } else {
     view.style.opacity = '0';
     view.style.pointerEvents = 'none';
     view.dataset.renameHidden = 'true';
+
+functionToggle.style.color = '#FBCEB1';
+
   }
 });
   labellessToggle.addEventListener('click', e => {
