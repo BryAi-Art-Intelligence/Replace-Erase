@@ -99,7 +99,7 @@ function createBrownChip(item){
 
 if (document.querySelector('#codeView')?.dataset.renameHidden === 'true') {
 
-  console.log('Rename & Arrange selected:', item.label);
+  showRenameArrangeSection(item);
 } else {
   selectBrownItemAndShowToolbar2(item);
 }
@@ -526,4 +526,49 @@ wrap.appendChild(hazeLayer);
   restoreBrownMenuScroll();
   requestAnimationFrame(updateBrownMenuFade);
   requestAnimationFrame(updateBrownHaze);
+}
+
+function showRenameArrangeSection(item){
+  const part = currentParts[item.index];
+  if (!part || typeof part.content !== 'string') return;
+
+  const keys = getBrownItemLineKeys(item);
+  if (!keys.length) return;
+
+  const lines = part.content.split('\n');
+
+  let preview = document.getElementById('rename-arrange-preview');
+
+  if (!preview){
+    preview = document.createElement('div');
+    preview.id = 'rename-arrange-preview';
+    document.body.appendChild(preview);
+  }
+
+  const rows = keys.map(key => {
+    const lineNumber = Number(key.split(':')[1]);
+    const line = lines[lineNumber - 1] ?? '';
+
+    return `
+      <div class="code-line" data-line="${lineNumber}">
+        <span class="line-number-box">${lineNumber}</span>
+        <pre>${renderCodeHTML(line)}</pre>
+      </div>
+    `;
+  }).join('');
+
+  preview.innerHTML = `<div class="code-lines">${rows}</div>`;
+
+  Object.assign(preview.style, {
+    position: 'fixed',
+    top: '70px',
+    left: '12px',
+    right: '105px',
+    bottom: '90px',
+    overflowY: 'auto',
+    overflowX: 'auto',
+    zIndex: '5',
+    background: 'transparent',
+    pointerEvents: 'auto'
+  });
 }
