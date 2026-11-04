@@ -497,7 +497,7 @@ functionToggle.style.color = '';
     view.style.pointerEvents = 'none';
     view.dataset.renameHidden = 'true';
 
-functionToggle.style.color = '#FFBF00';
+functionToggle.style.color = '#00B84A';
 
   }
 });
