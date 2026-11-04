@@ -497,6 +497,8 @@ functionToggle.style.color = '';
     view.style.pointerEvents = 'none';
     view.dataset.renameHidden = 'true';
 
+document.body.classList.toggle('rename-arrange-mode', !isHidden);
+
 functionToggle.style.color = '#FFCC33';
 
   }
