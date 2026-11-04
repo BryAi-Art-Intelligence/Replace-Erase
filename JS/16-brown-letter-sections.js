@@ -96,7 +96,11 @@ function createBrownChip(item){
   chip.addEventListener('click', e => {
     e.preventDefault();
     e.stopPropagation();
-    selectBrownItemAndShowToolbar2(item);
+    if (document.body.classList.contains('rename-arrange-mode')) {
+  console.log('Rename & Arrange selected:', item.label);
+} else {
+  selectBrownItemAndShowToolbar2(item);
+}
   });
   return chip;
 }
@@ -496,8 +500,6 @@ functionToggle.style.color = '';
     view.style.opacity = '0';
     view.style.pointerEvents = 'none';
     view.dataset.renameHidden = 'true';
-
-document.body.classList.toggle('rename-arrange-mode', !isHidden);
 
 functionToggle.style.color = '#FFCC33';
 
