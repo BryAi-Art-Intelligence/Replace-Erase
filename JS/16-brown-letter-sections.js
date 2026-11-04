@@ -380,11 +380,18 @@ background:radial-gradient(
   pointer-events:none;
 }
 
+
 body > .brown-index-wrap .brown-index-menu,
 body > .brown-index-wrap .function-menu-toggle {
   position:relative;
   z-index:1;
 }
+
+/* BROWN GLOW — RENAME & ARRANGE + LABELLESS */
+body > .brown-index-wrap .function-menu-toggle {
+  box-shadow:0 0 10px rgba(62,40,26,.45) !important;
+}
+
 `;
   document.head.appendChild(style);
 }
