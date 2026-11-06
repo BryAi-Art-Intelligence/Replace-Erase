@@ -253,7 +253,11 @@ document.getElementById("homeExtras")?.classList.add("hidden");
         stack.removeEventListener("click", handleWholeScreenPaste);
 
 renderBlockMode(true);
-
+// Hide the front-page Rename & Arrange
+// after code has been pasted.
+if (status) {
+  status.classList.add("status-faded");
+}
 // Automatically enter Rename & Arrange
 // if selected on the opening page.
 if (status?.classList.contains("status-green")) {
