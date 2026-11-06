@@ -495,6 +495,32 @@ functionToggle.style.whiteSpace = 'pre-line';
   }
 
   const isHidden = view.dataset.renameHidden === 'true';
+    // PARTS POPUP — LOAD SEPARATE HTML FILE
+
+let partsFrame = document.getElementById('rename-parts-frame');
+
+if (!partsFrame) {
+  partsFrame = document.createElement('iframe');
+  partsFrame.id = 'rename-parts-frame';
+  partsFrame.src = './parts.html';
+  partsFrame.title = 'The Parts';
+
+  Object.assign(partsFrame.style, {
+    position: 'fixed',
+    top: '70px',
+    left: '12px',
+    width: 'calc(100% - 117px)',
+    height: 'calc(100% - 160px)',
+    border: 'none',
+    background: 'transparent',
+    zIndex: '900',
+    display: 'none'
+  });
+
+  document.body.appendChild(partsFrame);
+}
+
+partsFrame.style.display = isHidden ? 'none' : 'block';
 
   view.style.transition = 'opacity 0.8s ease';
 
