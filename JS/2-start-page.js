@@ -252,7 +252,19 @@ document.getElementById("homeExtras")?.classList.add("hidden");
 
         stack.removeEventListener("click", handleWholeScreenPaste);
 
-    renderBlockMode(true);
+renderBlockMode(true);
+
+// Automatically enter Rename & Arrange
+// if selected on the opening page.
+if (status?.classList.contains("status-green")) {
+  const brownRenameButton = document.querySelector(
+    "body > .brown-index-wrap .function-menu-toggle:first-of-type"
+  );
+
+  if (brownRenameButton) {
+    brownRenameButton.click();
+  }
+}
 
     const undoButton = document.getElementById("replace-erase-undo-button");
 
