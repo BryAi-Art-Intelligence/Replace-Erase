@@ -516,6 +516,7 @@ function enterUnifiedMode(){
   enableToolbarSwipe();
 }
 
+
 function enableToolbarSwipe(){
   const bar = document.querySelector(".type-toolbar");
   if (!bar) return;
@@ -523,23 +524,62 @@ function enableToolbarSwipe(){
   let startX = 0;
   let dx = 0;
   let dragging = false;
+  let swipeStarted = false;
+  let litButton = null;
+
+  function clearSwipeLight(){
+    if (litButton){
+      litButton.classList.remove("swipe-lit");
+      litButton = null;
+    }
+  }
+
+  function updateSwipeLight(x, y){
+    const element = document.elementFromPoint(x, y);
+    const button = element && element.closest(".type-tool");
+
+    const nextButton =
+      button && bar.contains(button) ? button : null;
+
+    if (nextButton === litButton) return;
+
+    clearSwipeLight();
+
+    if (nextButton){
+      nextButton.classList.add("swipe-lit");
+      litButton = nextButton;
+    }
+  }
 
   bar.addEventListener("pointerdown", e => {
     closeOtherEditors();
     startX = e.clientX;
     dx = 0;
     dragging = true;
+    swipeStarted = false;
+    clearSwipeLight();
     bar.setPointerCapture(e.pointerId);
   });
 
   bar.addEventListener("pointermove", e => {
     if (!dragging) return;
+
     dx = e.clientX - startX;
+
+    if (!swipeStarted && Math.abs(dx) > 10){
+      swipeStarted = true;
+    }
+
+    if (swipeStarted){
+      updateSwipeLight(e.clientX, e.clientY);
+    }
   });
 
   bar.addEventListener("pointerup", () => {
     if (!dragging) return;
+
     dragging = false;
+    clearSwipeLight();
 
     if (dx > 70) enterUnifiedMode();
     if (dx < -70) undoLastChange();
@@ -547,5 +587,7 @@ function enableToolbarSwipe(){
 
   bar.addEventListener("pointercancel", () => {
     dragging = false;
+    clearSwipeLight();
   });
 }
+
