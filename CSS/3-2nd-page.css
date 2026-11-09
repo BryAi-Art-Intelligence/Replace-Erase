@@ -142,23 +142,25 @@ bottom:105px !important;
 
 /* REPLACE & ERASE — RAISED SOFT FADE */
 
+/* REPLACE & ERASE — 75% REVEAL SOFT FADE */
+
 .code-view{
   -webkit-mask-image:linear-gradient(
     to bottom,
     #000 0%,
-    #000 calc(100% - 222px),
-    rgba(0,0,0,.65) calc(100% - 208px),
-    rgba(0,0,0,.15) calc(100% - 168px),
-    transparent calc(100% - 112px)
+    #000 calc(100% - 172px),
+    rgba(0,0,0,.65) calc(100% - 158px),
+    rgba(0,0,0,.15) calc(100% - 118px),
+    transparent calc(100% - 62px)
   ) !important;
 
   mask-image:linear-gradient(
     to bottom,
     #000 0%,
-    #000 calc(100% - 222px),
-    rgba(0,0,0,.65) calc(100% - 208px),
-    rgba(0,0,0,.15) calc(100% - 168px),
-    transparent calc(100% - 112px)
+    #000 calc(100% - 172px),
+    rgba(0,0,0,.65) calc(100% - 158px),
+    rgba(0,0,0,.15) calc(100% - 118px),
+    transparent calc(100% - 62px)
   ) !important;
 }
 
