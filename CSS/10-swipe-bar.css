@@ -11,7 +11,7 @@
   right:116px !important;
   bottom:18px !important;
   transform:none !important;
-  z-index:40000;
+  z-index:1000;
   display:flex;
   justify-content:stretch;
   align-items:stretch;
