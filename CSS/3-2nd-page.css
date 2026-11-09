@@ -11,9 +11,9 @@
   right:90px !important;
   top:5px !important;
   width:auto !important;
-   bottom: 110px !important;
   margin:0;
-  padding:28px 12px 128px !important;
+padding:28px 12px 20px !important;
+bottom:120px !important;
   box-sizing:border-box;
   overflow-x:hidden !important;
   overflow-y:auto !important;
