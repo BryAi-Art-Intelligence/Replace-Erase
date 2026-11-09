@@ -372,3 +372,9 @@ body:has(.selected-line-tools.show-selected-tools) .type-toolbar{
   height:38px !important;
   min-height:38px !important;
 }
+
+/* REPLACE & ERASE — TOOLBAR TOUCH PRIORITY */
+
+body > .type-toolbar{
+  z-index:50001 !important;
+}
