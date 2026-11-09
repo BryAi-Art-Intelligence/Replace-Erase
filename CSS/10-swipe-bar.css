@@ -11,7 +11,7 @@
   right:116px !important;
   bottom:18px !important;
   transform:none !important;
-  z-index:1000;
+  z-index:40;
   display:flex;
   justify-content:stretch;
   align-items:stretch;
@@ -373,8 +373,30 @@ body:has(.selected-line-tools.show-selected-tools) .type-toolbar{
   min-height:38px !important;
 }
 
-/* REPLACE & ERASE — TOOLBAR TOUCH PRIORITY */
 
-body > .type-toolbar{
-  z-index:50001 !important;
+/* SWIPE-ACTIVATED COLOR LIGHTING */
+
+.type-toolbar .type-tool.swipe-lit{
+  opacity:1 !important;
+  filter:none !important;
+  transition:background .08s ease !important;
+}
+
+.type-toolbar .type-tool-head.swipe-lit{
+  background:#b9a4d8 !important;
+}
+.type-toolbar .type-tool-html.swipe-lit{
+  background:#e8d38d !important;
+}
+.type-toolbar .type-tool-css.swipe-lit{
+  background:#9eddd4 !important;
+}
+.type-toolbar .type-tool-js.swipe-lit{
+  background:#e9bc79 !important;
+}
+.type-toolbar .type-tool-svg.swipe-lit{
+  background:#c2afe8 !important;
+}
+.type-toolbar .type-tool-hidden.swipe-lit{
+  background:#c9c9c9 !important;
 }
