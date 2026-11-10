@@ -19,12 +19,39 @@ function lineNumberIsVisible(button, y){
   if (!button || !codeView.contains(button)) return false;
   const view = codeView.getBoundingClientRect();
   const rect = button.getBoundingClientRect();
-  const fadeBottom = view.bottom - 62;
+  const fadeBottom = view.bottom - 118;
   const visibleTop = Math.max(view.top, rect.top);
   const visibleBottom = Math.min(fadeBottom, rect.bottom);
   if (visibleBottom <= visibleTop) return false;
   if (typeof y === 'number') return y >= visibleTop && y < visibleBottom;
   return true;
+}
+
+// Keep faded-out line-number hitboxes from intercepting toolbar gestures.
+// Recalculate after scrolling and after the code is rebuilt.
+function updateLineNumberTouchZones(){
+  const view = codeView.getBoundingClientRect();
+  const cutoff = view.bottom - 118; // approximately 15% opacity in the fade
+  codeView.querySelectorAll(".line-number-box").forEach(button => {
+    const rect = button.getBoundingClientRect();
+    const usable = rect.bottom > view.top && rect.top < cutoff;
+    button.style.pointerEvents = usable ? "" : "none";
+  });
+}
+
+function installLineNumberTouchZones(){
+  if (codeView.dataset.lineTouchZonesInstalled === "true") return;
+  codeView.dataset.lineTouchZonesInstalled = "true";
+  let pending = false;
+  codeView.addEventListener("scroll", () => {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(() => {
+      pending = false;
+      updateLineNumberTouchZones();
+    });
+  }, { passive:true });
+  window.addEventListener("resize", updateLineNumberTouchZones);
 }
 
 function enableLineNumberToggle(){
@@ -408,6 +435,7 @@ function renderBlockMode(animated = false){
 
   requestAnimationFrame(() => {
     codeView.scrollTop = scrollY;
+    updateLineNumberTouchZones();
     if (activeElement && activeElement.blur) activeElement.blur();
   });
 
@@ -419,6 +447,8 @@ function renderBlockMode(animated = false){
   enableSectionTapSelect();
   enableFunctionLineTap();
   enableLineNumberToggle();
+  installLineNumberTouchZones();
+  requestAnimationFrame(updateLineNumberTouchZones);
 }
 
 function renderSeparatedBlocks(text){
