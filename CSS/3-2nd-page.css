@@ -170,5 +170,8 @@ bottom:105px !important;
 
 /* TEST — CODE TOUCH & SCROLL */
 
-
+/* Invisible line numbers cannot intercept touches */
+.code-view .line-number-box{
+  touch-action:none;
+}
   
