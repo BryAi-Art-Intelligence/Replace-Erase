@@ -148,18 +148,18 @@ bottom:105px !important;
   -webkit-mask-image:linear-gradient(
     to bottom,
     #000 0%,
-    #000 calc(100% - 85px),
-    rgba(0,0,0,.75) calc(100% - 65px),
-    rgba(0,0,0,.35) calc(100% - 45px),
+    #000 calc(100% - 130px),
+    rgba(0,0,0,.75) calc(100% - 100px),
+    rgba(0,0,0,.35) calc(100% - 60px),
     transparent calc(100% - 20px)
   ) !important;
 
   mask-image:linear-gradient(
     to bottom,
     #000 0%,
-    #000 calc(100% - 85px),
-    rgba(0,0,0,.75) calc(100% - 65px),
-    rgba(0,0,0,.35) calc(100% - 45px),
+    #000 calc(100% - 130px),
+    rgba(0,0,0,.75) calc(100% - 100px),
+    rgba(0,0,0,.35) calc(100% - 60px),
     transparent calc(100% - 20px)
   ) !important;
 }
