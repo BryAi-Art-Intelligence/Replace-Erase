@@ -12,20 +12,19 @@ function getBlockType(block){
   return null;
 }
 
-function lineNumberIsVisible(button){
-  if (!button) return false;
-
+// Matches the original code-view fade: fully transparent 62px above its bottom.
+// Test the actual touch point as well as the button's position, so a tall
+// line-number hitbox cannot select a line through the invisible region.
+function lineNumberIsVisible(button, y){
+  if (!button || !codeView.contains(button)) return false;
   const view = codeView.getBoundingClientRect();
   const rect = button.getBoundingClientRect();
-
-  // Match the original CSS fade's transparent endpoint.
   const fadeBottom = view.bottom - 62;
-
-  // Button must be inside the visible code area.
-  return (
-    rect.bottom > view.top &&
-    rect.top < fadeBottom
-  );
+  const visibleTop = Math.max(view.top, rect.top);
+  const visibleBottom = Math.min(fadeBottom, rect.bottom);
+  if (visibleBottom <= visibleTop) return false;
+  if (typeof y === 'number') return y >= visibleTop && y < visibleBottom;
+  return true;
 }
 
 function enableLineNumberToggle(){
@@ -36,8 +35,8 @@ function enableLineNumberToggle(){
   let pointerId = null;
   let touched = new Set();
 
-  function applyButton(button){
-  if (!button || !lineNumberIsVisible(button)) return;
+  function applyButton(button, y){
+    if (!lineNumberIsVisible(button, y)) return;
 
     const block = button.dataset.block;
     const line = button.dataset.line;
@@ -58,14 +57,16 @@ function enableLineNumberToggle(){
   function buttonFromPoint(x,y){
     const el = document.elementFromPoint(x,y);
     if (!el) return null;
-    return el.closest(".line-number-box");
+    const button = el.closest(".line-number-box");
+    return lineNumberIsVisible(button, y) ? button : null;
   }
 
   buttons.forEach(button => {
     button.addEventListener("pointerdown", e => {
-  if (!lineNumberIsVisible(button)) return;
+      // Do not capture or select touches in the invisible fade area.
+      if (!lineNumberIsVisible(button, e.clientY)) return;
 
-  e.preventDefault();
+      e.preventDefault();
       e.stopPropagation();
 
       const key = `${button.dataset.block}:${button.dataset.line}`;
@@ -76,14 +77,14 @@ function enableLineNumberToggle(){
       mode = selectedLines.has(key) ? "remove" : "add";
 
       button.setPointerCapture(e.pointerId);
-      applyButton(button);
+      applyButton(button, e.clientY);
     });
 
     button.addEventListener("pointermove", e => {
       if (!active || e.pointerId !== pointerId) return;
       e.preventDefault();
       e.stopPropagation();
-      applyButton(buttonFromPoint(e.clientX, e.clientY));
+      applyButton(buttonFromPoint(e.clientX, e.clientY), e.clientY);
     });
 
     button.addEventListener("pointerup", e => {
@@ -297,6 +298,7 @@ function enableLineNumberValueDrag(){
     let changed = false;
 
     button.addEventListener("pointerdown", e => {
+      if (!lineNumberIsVisible(button, e.clientY)) return;
       const row = button.closest(".code-line");
       if (!row) return;
 
