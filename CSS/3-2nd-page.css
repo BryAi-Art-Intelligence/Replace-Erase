@@ -149,8 +149,8 @@ bottom:105px !important;
     to bottom,
     #000 0%,
     #000 calc(100% - 85px),
-    rgba(0,0,0,.65) calc(100% - 65px),
-    rgba(0,0,0,.15) calc(100% - 45px),
+    rgba(0,0,0,.75) calc(100% - 65px),
+    rgba(0,0,0,.35) calc(100% - 45px),
     transparent calc(100% - 20px)
   ) !important;
 
@@ -158,8 +158,8 @@ bottom:105px !important;
     to bottom,
     #000 0%,
     #000 calc(100% - 85px),
-    rgba(0,0,0,.65) calc(100% - 65px),
-    rgba(0,0,0,.15) calc(100% - 45px),
+    rgba(0,0,0,.75) calc(100% - 65px),
+    rgba(0,0,0,.35) calc(100% - 45px),
     transparent calc(100% - 20px)
   ) !important;
 }
@@ -177,7 +177,3 @@ bottom:105px !important;
   
 /* TEST — REMOVE CODE FADE */
 
-.code-view{
-  -webkit-mask-image:none !important;
-  mask-image:none !important;
-}
