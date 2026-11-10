@@ -12,6 +12,22 @@ function getBlockType(block){
   return null;
 }
 
+function lineNumberIsVisible(button){
+  if (!button) return false;
+
+  const view = codeView.getBoundingClientRect();
+  const rect = button.getBoundingClientRect();
+
+  // Match the original CSS fade's transparent endpoint.
+  const fadeBottom = view.bottom - 62;
+
+  // Button must be inside the visible code area.
+  return (
+    rect.bottom > view.top &&
+    rect.top < fadeBottom
+  );
+}
+
 function enableLineNumberToggle(){
   const buttons = [...codeView.querySelectorAll(".line-number-box")];
 
