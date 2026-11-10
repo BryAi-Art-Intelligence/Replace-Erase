@@ -151,7 +151,7 @@ bottom:105px !important;
     #000 calc(100% - 172px),
     rgba(0,0,0,.65) calc(100% - 158px),
     rgba(0,0,0,.15) calc(100% - 118px),
-    transparent calc(100% - 62px)
+    transparent calc(100% - 40px)
   ) !important;
 
   mask-image:linear-gradient(
@@ -160,7 +160,7 @@ bottom:105px !important;
     #000 calc(100% - 172px),
     rgba(0,0,0,.65) calc(100% - 158px),
     rgba(0,0,0,.15) calc(100% - 118px),
-    transparent calc(100% - 62px)
+    transparent calc(100% - 40px)
   ) !important;
 }
 
