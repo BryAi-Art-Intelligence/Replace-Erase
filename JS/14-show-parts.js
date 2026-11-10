@@ -37,7 +37,7 @@ function enableLineNumberToggle(){
   let touched = new Set();
 
   function applyButton(button){
-    if (!button) return;
+  if (!button || !lineNumberIsVisible(button)) return;
 
     const block = button.dataset.block;
     const line = button.dataset.line;
@@ -63,7 +63,9 @@ function enableLineNumberToggle(){
 
   buttons.forEach(button => {
     button.addEventListener("pointerdown", e => {
-      e.preventDefault();
+  if (!lineNumberIsVisible(button)) return;
+
+  e.preventDefault();
       e.stopPropagation();
 
       const key = `${button.dataset.block}:${button.dataset.line}`;
