@@ -400,3 +400,11 @@ body:has(.selected-line-tools.show-selected-tools) .type-toolbar{
 .type-toolbar .type-tool-hidden.swipe-lit{
   background:#c9c9c9 !important;
 }
+
+
+/* REPLACE & ERASE — TOOLBAR TOUCH PRIORITY */
+
+.type-toolbar{
+  z-index:50001 !important;
+}
+
