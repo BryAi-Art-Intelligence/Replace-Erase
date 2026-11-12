@@ -612,3 +612,42 @@ function showRenameArrangeSection(item){
     pointerEvents: 'auto'
   });
 }
+
+
+/* REPLACE & ERASE — BLUE SELECTED LETTER */
+
+function updateBrownLetterSelection(){
+  document.querySelectorAll(
+    '.brown-letter-section'
+  ).forEach(section => {
+
+    const chips = [
+      ...section.querySelectorAll('.brown-index-chip')
+    ];
+
+    const hasSelection = chips.some(chip =>
+      chip.classList.contains('brown-chip-selected')
+    );
+
+    const letter = section.querySelector(
+      '.brown-letter-title'
+    );
+
+    if (letter){
+      letter.classList.toggle(
+        'brown-letter-blue',
+        hasSelection
+      );
+    }
+  });
+}
+
+
+/* This is CSS — put it in 3-2nd-page.css */
+
+body > .brown-index-wrap
+.brown-letter-title.brown-letter-blue{
+  background:#246BCE !important;
+  border-color:#164B96 !important;
+  color:#FFFFFF !important;
+}
