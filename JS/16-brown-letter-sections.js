@@ -561,6 +561,7 @@ wrap.appendChild(hazeLayer);
   restoreBrownMenuScroll();
   requestAnimationFrame(updateBrownMenuFade);
   requestAnimationFrame(updateBrownHaze);
+requestAnimationFrame(updateBrownLetterSelection);
 }
 
 function showRenameArrangeSection(item){
