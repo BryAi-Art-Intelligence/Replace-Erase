@@ -98,6 +98,7 @@ function enableLineNumberToggle(){
     if (row) row.classList.toggle("selected-line", selectedLines.has(key));
 
     updateSelectedLineTools();
+    updateBrownLetterSelection();
   }
 
   function buttonFromPoint(x,y){
