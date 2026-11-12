@@ -39,20 +39,39 @@ function updateLineNumberTouchZones(){
   });
 }
 
+
 function installLineNumberTouchZones(){
   if (codeView.dataset.lineTouchZonesInstalled === "true") return;
   codeView.dataset.lineTouchZonesInstalled = "true";
+
   let pending = false;
+  let scrollTimer;
+
   codeView.addEventListener("scroll", () => {
+
+    // Reveal sharp code and hide swipe toolbar
+    codeView.classList.add("is-scrolling");
+
+    clearTimeout(scrollTimer);
+
+    scrollTimer = setTimeout(() => {
+      codeView.classList.remove("is-scrolling");
+      updateLineNumberTouchZones();
+    }, 650);
+
     if (pending) return;
     pending = true;
+
     requestAnimationFrame(() => {
       pending = false;
       updateLineNumberTouchZones();
     });
+
   }, { passive:true });
+
   window.addEventListener("resize", updateLineNumberTouchZones);
 }
+
 
 function enableLineNumberToggle(){
   const buttons = [...codeView.querySelectorAll(".line-number-box")];
