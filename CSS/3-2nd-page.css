@@ -177,3 +177,19 @@ bottom:105px !important;
   
 /* TEST — REMOVE CODE FADE */
 
+
+/* REPLACE & ERASE — SCROLL REVEAL */
+
+.code-view{
+  transition:
+    -webkit-mask-image .2s ease,
+    mask-image .2s ease,
+    bottom .2s ease !important;
+}
+
+/* While scrolling: sharp code, longer view */
+.code-view.is-scrolling{
+  -webkit-mask-image:none !important;
+  mask-image:none !important;
+  bottom:18px !important;
+}
