@@ -408,3 +408,14 @@ body:has(.selected-line-tools.show-selected-tools) .type-toolbar{
   z-index:50001 !important;
 }
 
+
+/* REPLACE & ERASE — SWIPE BAR SCROLL FADE */
+
+.type-toolbar{
+  transition:opacity .2s ease !important;
+}
+
+body:has(.code-view.is-scrolling) .type-toolbar{
+  opacity:0 !important;
+  pointer-events:none !important;
+}
