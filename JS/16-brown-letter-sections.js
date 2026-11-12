@@ -89,6 +89,7 @@ function createBrownChip(item){
   chip.className = 'brown-index-chip';
   chip.classList.toggle('brown-chip-selected', brownItemIsSelected(item));
   chip.textContent = item.label;
+  chip.brownItem = item;
   chip.addEventListener('contextmenu', e => {
     e.preventDefault();
     e.stopPropagation();
@@ -127,6 +128,7 @@ function makeBrownLetterSections(items, menu){
     title.type = 'button';
     title.className = 'brown-letter-title';
     title.textContent = letter;
+    title.dataset.letter = letter;
     title.setAttribute('aria-expanded', 'false');
     const rows = document.createElement('div');
     rows.className = 'brown-letter-rows';
@@ -614,7 +616,35 @@ function showRenameArrangeSection(item){
 }
 
 
+/* REPLACE & ERASE — MULTI BLUE LETTERS */
 
+function updateBrownLetterSelection(){
+  document.querySelectorAll(
+    '.brown-letter-section'
+  ).forEach(section => {
 
+    const letter = section.querySelector(
+      '.brown-letter-title'
+    );
 
+    const chips = section.querySelectorAll(
+      '.brown-index-chip'
+    );
 
+    const selected = [...chips].some(chip => {
+      const item = chip.brownItem;
+      if (!item) return false;
+
+      return getBrownItemLineKeys(item).some(
+        key => selectedLines.has(key)
+      );
+    });
+
+    if (letter){
+      letter.classList.toggle(
+        'brown-letter-blue',
+        selected
+      );
+    }
+  });
+}
