@@ -641,13 +641,6 @@ function updateBrownLetterSelection(){
     }
   });
 }
-
-
 /* This is CSS — put it in 3-2nd-page.css */
 
-body > .brown-index-wrap
-.brown-letter-title.brown-letter-blue{
-  background:#246BCE !important;
-  border-color:#164B96 !important;
-  color:#FFFFFF !important;
-}
+
