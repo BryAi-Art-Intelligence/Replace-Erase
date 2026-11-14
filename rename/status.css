@@ -72,3 +72,26 @@
   text-shadow:
     0 0 12px rgba(49,92,148,.55) !important;
 }
+
+
+/* PRIVACY & DATA — BOTTOM LEFT */
+
+#privacy-data.status{
+  position:fixed !important;
+  top:auto !important;
+  bottom:38px !important;
+  left:12px !important;
+  right:auto !important;
+  z-index:2000 !important;
+}
+
+/* RENAME & ARRANGE — TOP LEFT */
+
+#status.status{
+  position:absolute !important;
+  top:10px !important;
+  bottom:auto !important;
+  left:12px !important;
+  right:auto !important;
+  z-index:2000 !important;
+}
