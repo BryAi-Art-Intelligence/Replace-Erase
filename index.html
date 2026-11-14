@@ -170,5 +170,21 @@ window.dispatchEvent(new Event("replaceEraseLoaded"));
 
     loadReplaceErase();
   </script>
+  
+<script>
+/* PRIVACY & DATA — BLUE TOGGLE */
+
+(() => {
+  const privacy = document.getElementById('privacy-data');
+  if (!privacy) return;
+
+  privacy.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    privacy.classList.toggle('privacy-blue');
+  });
+})();
+</script>
+
 </body>
 </html>
