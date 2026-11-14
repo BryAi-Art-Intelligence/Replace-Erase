@@ -291,6 +291,11 @@ body > .brown-index-wrap .brown-letter-title::before {
 body > .brown-index-wrap .brown-letter-title {
   display:grid !important;
   place-items:center !important;
+
+text-align:center !important;
+line-height:1 !important;
+text-indent:0 !important;
+
   width:90% !important;
   min-width:0 !important;
   aspect-ratio:1 / 1 !important;
