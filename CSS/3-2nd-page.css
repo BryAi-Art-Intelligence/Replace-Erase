@@ -228,15 +228,18 @@ body > .brown-index-wrap
 
 
 
-/* APPLE RED — SMOOTH RETURN TO BROWN */
+
+/* APPLE RED — LETTER ONLY */
 
 body > .brown-index-wrap
-.brown-letter-title:not(.brown-letter-blue){
-  transition: background-color 1.2s ease !important;
+.brown-letter-title:not(.brown-letter-blue) {
+  color:#ffd6aa !important;
+  transition:color 1.2s ease !important;
 }
 
 body > .brown-index-wrap
-.brown-letter-title.brown-apple-pulse:not(.brown-letter-blue){
-  background:#741A14 !important;
+.brown-letter-title.brown-apple-pulse:not(.brown-letter-blue) {
+  color:#741A14 !important;
 }
+
 
