@@ -130,7 +130,7 @@ function makeBrownLetterSections(items, menu){
 const letterSpan = document.createElement('span');
 letterSpan.textContent = letter;
 letterSpan.style.display = 'block';
-letterSpan.style.transform = 'translateX(1.5px)';
+letterSpan.style.transform = 'translateX(1.7px)';
 title.appendChild(letterSpan);
     title.dataset.letter = letter;
     title.setAttribute('aria-expanded', 'false');
