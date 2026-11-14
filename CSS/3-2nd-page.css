@@ -258,30 +258,4 @@ body > .brown-index-wrap
 }
 
 
-/* REPLACE & ERASE — BOTTOM TOOLBAR FIX */
-
-
-/* REPLACE & ERASE — RESTORE CODE TOUCH */
-
-/* Code remains interactive */
-.code-view{
-  pointer-events:auto !important;
-  touch-action:pan-y !important;
-}
-
-/* Code lines accept taps */
-.code-view .code-line,
-.code-view .code-line pre{
-  pointer-events:auto !important;
-}
-
-/* Keep line numbers from intercepting taps */
-.code-view .line-number-box{
-  pointer-events:none !important;
-}
-
-/* Keep the code view below fixed controls */
-.code-view{
-  z-index:1 !important;
-}
 
