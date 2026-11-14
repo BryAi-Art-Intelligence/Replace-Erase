@@ -621,39 +621,101 @@ function showRenameArrangeSection(item){
 }
 
 
-/* REPLACE & ERASE — MULTI BLUE LETTERS */
 
-function updateBrownLetterSelection(){
-  document.querySelectorAll(
-    '.brown-letter-section'
-  ).forEach(section => {
+/* APPLE SCROLL — REVISED DETECTION */
 
-    const letter = section.querySelector(
-      '.brown-letter-title'
+(() => {
+  let lastAppleKey = '';
+  let frame = 0;
+
+  function checkAppleScroll(){
+    const view = document.querySelector('#codeView');
+    const wrap = document.querySelector(
+      'body > .brown-index-wrap.brown-letter-mode'
     );
 
-    const chips = section.querySelectorAll(
-      '.brown-index-chip'
+    if (!view || !wrap ||
+        view.dataset.renameHidden === 'true') return;
+
+    const viewRect = view.getBoundingClientRect();
+    const scanY = viewRect.top + viewRect.height * .45;
+
+    const rows = view.querySelectorAll(
+      '.code-section[data-index] .code-line'
     );
 
-    const selected = [...chips].some(chip => {
-      const item = chip.brownItem;
-      if (!item) return false;
+    let activeRow = null;
 
-      return getBrownItemLineKeys(item).some(
-        key => selectedLines.has(key)
-      );
-    });
+    for (const row of rows){
+      const rect = row.getBoundingClientRect();
 
-    if (letter){
-      letter.classList.toggle(
-        'brown-letter-blue',
-        selected
-      );
+      if (rect.top <= scanY && rect.bottom > scanY){
+        activeRow = row;
+        break;
+      }
     }
-  });
-}
 
+    if (!activeRow) return;
+
+    const section = activeRow.closest(
+      '.code-section[data-index]'
+    );
+    if (!section) return;
+
+    const index = Number(section.dataset.index);
+    const line = Number(
+      activeRow.querySelector('.line-number-box')?.dataset.line
+    );
+
+    if (!Number.isFinite(line)) return;
+
+    const chips = wrap.querySelectorAll(
+      '.function-list .brown-index-chip'
+    );
+
+    let match = null;
+
+    for (const chip of chips){
+      const item = chip.brownItem;
+      if (!item || item.index !== index) continue;
+
+      const keys = getBrownItemLineKeys(item);
+
+      if (keys.includes(`${index}:${line}`)){
+        match = chip;
+        break;
+      }
+    }
+
+    if (!match) return;
+
+    const key = `${index}:${match.brownItem.label}`;
+    if (key === lastAppleKey) return;
+    lastAppleKey = key;
+
+    const button = match.closest(
+      '.brown-letter-section'
+    )?.querySelector('.brown-letter-title');
+
+    if (!button ||
+        button.classList.contains('brown-letter-blue')) return;
+
+    button.classList.remove('brown-apple-pulse');
+    void button.offsetWidth;
+    button.classList.add('brown-apple-pulse');
+  }
+
+  document.addEventListener('scroll', e => {
+    if (!e.target?.matches?.('#codeView')) return;
+
+    if (frame) cancelAnimationFrame(frame);
+
+    frame = requestAnimationFrame(() => {
+      frame = 0;
+      checkAppleScroll();
+    });
+  }, true);
+})();
 
 /* REPLACE & ERASE — APPLE SCROLL INDICATOR */
 
