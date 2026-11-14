@@ -624,25 +624,3 @@ function showRenameArrangeSection(item){
 
 
 
-  // Keep the original blue selection animation.
-  if (button.classList.contains('brown-letter-blue')) return;
-
-  button.classList.remove('brown-apple-pulse');
-  void button.offsetWidth;
-  button.classList.add('brown-apple-pulse');
-}
-
-function scheduleBrownAppleScroll(){
-  if (brownAppleFrame) return;
-
-  brownAppleFrame = requestAnimationFrame(() => {
-    brownAppleFrame = 0;
-    updateBrownAppleScroll();
-  });
-}
-
-document.addEventListener('scroll', e => {
-  if (e.target?.matches?.('#codeView, .code-view')){
-    scheduleBrownAppleScroll();
-  }
-}, true);
