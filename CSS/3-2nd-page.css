@@ -227,25 +227,17 @@ body > .brown-index-wrap
 }
 
 
-/* APPLE RED — SCROLL POSITION PULSE */
+
+/* APPLE RED — VISIBLE FUNCTION PULSE */
 
 body > .brown-index-wrap
 .brown-letter-title.brown-apple-pulse:not(.brown-letter-blue){
-  animation:brownApplePulse .6s ease-in-out 1 !important;
+  background:#781B25 !important;
+  transition:background-color .3s ease !important;
 }
 
-@keyframes brownApplePulse{
-  0%,100%{
-    background-color:#3E281A;
-  }
-  50%{
-    background-color:#781B25;
-  }
+body > .brown-index-wrap
+.brown-letter-title:not(.brown-letter-blue){
+  transition:background-color .3s ease !important;
 }
 
-@media(prefers-reduced-motion:reduce){
-  body > .brown-index-wrap
-  .brown-letter-title.brown-apple-pulse{
-    animation:none !important;
-  }
-}
