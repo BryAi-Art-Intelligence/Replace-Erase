@@ -653,3 +653,103 @@ function updateBrownLetterSelection(){
     }
   });
 }
+
+
+/* REPLACE & ERASE — APPLE SCROLL INDICATOR */
+
+let brownAppleLastKey = '';
+let brownAppleFrame = 0;
+
+function updateBrownAppleScroll(){
+  const view = document.querySelector('#codeView') ||
+               document.querySelector('.code-view');
+
+  if (!view || view.dataset.renameHidden === 'true') return;
+
+  const wrap = document.querySelector(
+    'body > .brown-index-wrap.brown-letter-mode'
+  );
+  if (!wrap) return;
+
+  const viewRect = view.getBoundingClientRect();
+  const scanY = viewRect.top + viewRect.height * .45;
+
+  const sections = [...view.querySelectorAll(
+    '.code-section[data-index]'
+  )];
+
+  const section = sections.find(el => {
+    const r = el.getBoundingClientRect();
+    return r.top <= scanY && r.bottom > scanY;
+  });
+
+  if (!section) return;
+
+  const index = Number(section.dataset.index);
+  const part = currentParts[index];
+  if (!part) return;
+
+  const rows = [...section.querySelectorAll('.code-line')];
+
+  const row = rows.find(el => {
+    const r = el.getBoundingClientRect();
+    return r.top <= scanY && r.bottom > scanY;
+  });
+
+  if (!row) return;
+
+  const lineNumber = Number(
+    row.querySelector('.line-number-box')?.dataset.line
+  );
+
+  if (!Number.isFinite(lineNumber)) return;
+
+  const menu = wrap.querySelector('.function-list');
+  if (!menu) return;
+
+  let match = null;
+
+  for (const chip of menu.querySelectorAll('.brown-index-chip')){
+    const item = chip.brownItem;
+    if (!item || item.index !== index) continue;
+
+    const keys = getBrownItemLineKeys(item);
+    if (keys.includes(`${index}:${lineNumber}`)){
+      match = chip;
+      break;
+    }
+  }
+
+  if (!match) return;
+
+  const letterSection = match.closest('.brown-letter-section');
+  const button = letterSection?.querySelector('.brown-letter-title');
+  if (!button) return;
+
+  const key = `${index}:${match.brownItem.label}`;
+  if (key === brownAppleLastKey) return;
+
+  brownAppleLastKey = key;
+
+  // Keep the original blue selection animation.
+  if (button.classList.contains('brown-letter-blue')) return;
+
+  button.classList.remove('brown-apple-pulse');
+  void button.offsetWidth;
+  button.classList.add('brown-apple-pulse');
+}
+
+function scheduleBrownAppleScroll(){
+  if (brownAppleFrame) return;
+
+  brownAppleFrame = requestAnimationFrame(() => {
+    brownAppleFrame = 0;
+    updateBrownAppleScroll();
+  });
+}
+
+document.addEventListener('scroll', e => {
+  if (e.target?.matches?.('#codeView, .code-view')){
+    scheduleBrownAppleScroll();
+  }
+}, true);
