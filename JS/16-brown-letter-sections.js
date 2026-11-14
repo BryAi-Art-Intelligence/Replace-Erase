@@ -311,10 +311,10 @@ transform:translateX(0px) !important;
   cursor:pointer;
 }
 body > .brown-index-wrap .brown-letter-section.brown-letter-open .brown-letter-title {
-  aspect-ratio:auto !important;
-  min-height:42px !important;
-  padding:8px 2px !important;
-  border-radius:14px !important;
+  aspect-ratio:1 / 1 !important;
+  min-height:0 !important;
+  padding:2px !important;
+  border-radius:12px !important;
 }
 body > .brown-index-wrap .brown-letter-rows {
   display:none !important;
