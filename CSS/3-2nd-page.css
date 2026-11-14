@@ -242,4 +242,17 @@ body > .brown-index-wrap
   color:#741A14 !important;
 }
 
+/* APPLE RED — LETTER OPACITY FADE */
 
+body > .brown-index-wrap
+.brown-letter-title:not(.brown-letter-blue) {
+  opacity:1;
+  transition:
+    color 1.2s ease,
+    opacity 1.2s ease !important;
+}
+
+body > .brown-index-wrap
+.brown-letter-title.brown-apple-pulse:not(.brown-letter-blue) {
+  opacity:0.35;
+}
