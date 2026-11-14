@@ -705,7 +705,7 @@ function showRenameArrangeSection(item){
       const timer = setTimeout(() => {
         button.classList.remove('brown-apple-pulse');
         pulseTimers.delete(button);
-      }, 450);
+      }, 1400);
 
       pulseTimers.set(button, timer);
     });
