@@ -241,3 +241,17 @@ body > .brown-index-wrap
   transition:background-color .3s ease !important;
 }
 
+
+/* APPLE RED — BROWN LETTER INTERIOR */
+
+body > .brown-index-wrap
+.brown-letter-title.brown-apple-pulse:not(.brown-letter-blue){
+  background:#781B25 !important;
+  transition:background-color .3s ease !important;
+}
+
+body > .brown-index-wrap
+.brown-letter-title:not(.brown-letter-blue){
+  transition:background-color .3s ease !important;
+}
+
