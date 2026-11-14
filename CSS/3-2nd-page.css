@@ -225,20 +225,3 @@ body > .brown-index-wrap
     opacity:1;
   }
 }
-
-
-
-
-/* APPLE RED — LETTER ONLY */
-
-body > .brown-index-wrap
-.brown-letter-title:not(.brown-letter-blue) {
-  color:#ffd6aa !important;
-  transition:color 1.2s ease !important;
-}
-
-body > .brown-index-wrap
-.brown-letter-title.brown-apple-pulse:not(.brown-letter-blue) {
-  color:#741A14 !important;
-}
-
