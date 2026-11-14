@@ -717,81 +717,20 @@ function showRenameArrangeSection(item){
   }, true);
 })();
 
-/* REPLACE & ERASE — APPLE SCROLL INDICATOR */
 
-let brownAppleLastKey = '';
-let brownAppleFrame = 0;
+/* APPLE RED — VISIBLE FUNCTION PULSE */
 
-function updateBrownAppleScroll(){
-  const view = document.querySelector('#codeView') ||
-               document.querySelector('.code-view');
+body > .brown-index-wrap
+.brown-letter-title.brown-apple-pulse:not(.brown-letter-blue){
+  background:#781B25 !important;
+  transition:background-color .3s ease !important;
+}
 
-  if (!view || view.dataset.renameHidden === 'true') return;
+body > .brown-index-wrap
+.brown-letter-title:not(.brown-letter-blue){
+  transition:background-color .3s ease !important;
+}
 
-  const wrap = document.querySelector(
-    'body > .brown-index-wrap.brown-letter-mode'
-  );
-  if (!wrap) return;
-
-  const viewRect = view.getBoundingClientRect();
-  const scanY = viewRect.top + viewRect.height * .45;
-
-  const sections = [...view.querySelectorAll(
-    '.code-section[data-index]'
-  )];
-
-  const section = sections.find(el => {
-    const r = el.getBoundingClientRect();
-    return r.top <= scanY && r.bottom > scanY;
-  });
-
-  if (!section) return;
-
-  const index = Number(section.dataset.index);
-  const part = currentParts[index];
-  if (!part) return;
-
-  const rows = [...section.querySelectorAll('.code-line')];
-
-  const row = rows.find(el => {
-    const r = el.getBoundingClientRect();
-    return r.top <= scanY && r.bottom > scanY;
-  });
-
-  if (!row) return;
-
-  const lineNumber = Number(
-    row.querySelector('.line-number-box')?.dataset.line
-  );
-
-  if (!Number.isFinite(lineNumber)) return;
-
-  const menu = wrap.querySelector('.function-list');
-  if (!menu) return;
-
-  let match = null;
-
-  for (const chip of menu.querySelectorAll('.brown-index-chip')){
-    const item = chip.brownItem;
-    if (!item || item.index !== index) continue;
-
-    const keys = getBrownItemLineKeys(item);
-    if (keys.includes(`${index}:${lineNumber}`)){
-      match = chip;
-      break;
-    }
-  }
-
-  if (!match) return;
-
-  const letterSection = match.closest('.brown-letter-section');
-  const button = letterSection?.querySelector('.brown-letter-title');
-  if (!button) return;
-
-  const key = `${index}:${match.brownItem.label}`;
-  if (key === brownAppleLastKey) return;
-
-  brownAppleLastKey = key;
 
   // Keep the original blue selection animation.
   if (button.classList.contains('brown-letter-blue')) return;
