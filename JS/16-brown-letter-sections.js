@@ -127,7 +127,11 @@ function makeBrownLetterSections(items, menu){
     const title = document.createElement('button');
     title.type = 'button';
     title.className = 'brown-letter-title';
-    title.textContent = letter;
+const letterSpan = document.createElement('span');
+letterSpan.textContent = letter;
+letterSpan.style.display = 'block';
+letterSpan.style.transform = 'translateX(3px)';
+title.appendChild(letterSpan);
     title.dataset.letter = letter;
     title.setAttribute('aria-expanded', 'false');
     const rows = document.createElement('div');
@@ -291,12 +295,6 @@ body > .brown-index-wrap .brown-letter-title::before {
 body > .brown-index-wrap .brown-letter-title {
   display:grid !important;
   place-items:center !important;
-
-appearance:none !important;
--webkit-appearance:none !important;
-line-height:1 !important;
-text-indent:0 !important;
-
   width:90% !important;
   min-width:0 !important;
   aspect-ratio:1 / 1 !important;
