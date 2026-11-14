@@ -256,3 +256,22 @@ body > .brown-index-wrap
 .brown-letter-title.brown-apple-pulse:not(.brown-letter-blue) {
   opacity:0.35;
 }
+
+
+/* REPLACE & ERASE — BOTTOM TOOLBAR FIX */
+
+/* Keep code below interface controls */
+.code-view{
+  z-index:1 !important;
+  bottom:105px !important;
+}
+
+/* Prevent scrolling code from covering toolbar */
+.code-view.is-scrolling{
+  bottom:105px !important;
+}
+
+/* Keep brown menu above code */
+body > .brown-index-wrap{
+  z-index:200 !important;
+}
