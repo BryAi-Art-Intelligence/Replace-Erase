@@ -139,10 +139,33 @@ title.appendChild(letterSpan);
     groups.get(letter)
       .sort((a,b) => String(a.label).localeCompare(String(b.label)))
       .forEach(item => rows.appendChild(createBrownChip(item)));
-    title.addEventListener('click', e => {
-      e.stopPropagation();
-      const isOpen = section.classList.toggle('brown-letter-open');
-      title.setAttribute('aria-expanded', String(isOpen));
+
+title.addEventListener('click', e => {
+  e.stopPropagation();
+
+  // Open or close the letter section
+  const isOpen = section.classList.toggle('brown-letter-open');
+  title.setAttribute('aria-expanded', String(isOpen));
+
+  // SCRIPTURE RED — TAP CONFIRMATION
+  if (!title.classList.contains('brown-letter-blue')) {
+    clearTimeout(title._brownPulseTimer);
+
+    title.classList.remove('brown-apple-pulse');
+    void title.offsetWidth;
+    title.classList.add('brown-apple-pulse');
+
+    title._brownPulseTimer = setTimeout(() => {
+      title.classList.remove('brown-apple-pulse');
+    }, 1400);
+  }
+
+  requestAnimationFrame(() => {
+    updateBrownMenuFade();
+    updateBrownHaze();
+  });
+});
+ String(isOpen));
 requestAnimationFrame(() => {
   updateBrownMenuFade();
   updateBrownHaze();
