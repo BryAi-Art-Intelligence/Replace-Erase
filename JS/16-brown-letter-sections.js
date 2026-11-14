@@ -622,11 +622,15 @@ function showRenameArrangeSection(item){
 
 
 
-/* APPLE SCROLL — REVISED DETECTION */
+
+/* APPLE SCROLL — ALL BROWN LETTERS */
 
 (() => {
-  let lastAppleKey = '';
+  let previousVisible = new Set();
   let frame = 0;
+  let lastWrap = null;
+  let lastView = null;
+  const timers = new WeakMap();
 
   function checkAppleScroll(){
     const view = document.querySelector('#codeView');
@@ -634,102 +638,136 @@ function showRenameArrangeSection(item){
       'body > .brown-index-wrap.brown-letter-mode'
     );
 
-    if (!view || !wrap ||
-        view.dataset.renameHidden === 'true') return;
+    if (!view || !wrap) return;
 
-    const viewRect = view.getBoundingClientRect();
-    const scanY = viewRect.top + viewRect.height * .45;
-
-    const rows = view.querySelectorAll(
-      '.code-section[data-index] .code-line'
-    );
-
-    let activeRow = null;
-
-    for (const row of rows){
-      const rect = row.getBoundingClientRect();
-
-      if (rect.top <= scanY && rect.bottom > scanY){
-        activeRow = row;
-        break;
-      }
+    if (view.dataset.renameHidden === 'true'){
+      previousVisible.clear();
+      return;
     }
 
-    if (!activeRow) return;
+    if (wrap !== lastWrap || view !== lastView){
+      previousVisible.clear();
+      lastWrap = wrap;
+      lastView = view;
+    }
 
-    const section = activeRow.closest(
-      '.code-section[data-index]'
-    );
-    if (!section) return;
-
-    const index = Number(section.dataset.index);
-    const line = Number(
-      activeRow.querySelector('.line-number-box')?.dataset.line
-    );
-
-    if (!Number.isFinite(line)) return;
+    const viewRect = view.getBoundingClientRect();
+    const visibleNow = new Set();
 
     const chips = wrap.querySelectorAll(
       '.function-list .brown-index-chip'
     );
 
-    let match = null;
-
     for (const chip of chips){
       const item = chip.brownItem;
-      if (!item || item.index !== index) continue;
+      if (!item) continue;
+
+      const section = view.querySelector(
+        `.code-section[data-index="${item.index}"]`
+      );
+      if (!section) continue;
 
       const keys = getBrownItemLineKeys(item);
+      if (!keys.length) continue;
 
-      if (keys.includes(`${index}:${line}`)){
-        match = chip;
-        break;
+      let isVisible = false;
+
+      for (const key of keys){
+        const line = key.split(':')[1];
+
+        const number = section.querySelector(
+          `.line-number-box[data-line="${line}"]`
+        );
+
+        const row = number?.closest('.code-line');
+        if (!row) continue;
+
+        const rect = row.getBoundingClientRect();
+
+        if (
+          rect.bottom > viewRect.top &&
+          rect.top < viewRect.bottom - 60
+        ){
+          isVisible = true;
+          break;
+        }
       }
+
+      if (!isVisible) continue;
+
+      const button = chip.closest(
+        '.brown-letter-section'
+      )?.querySelector('.brown-letter-title');
+
+      if (!button) continue;
+
+      const letter = button.dataset.letter;
+      if (!letter) continue;
+
+      visibleNow.add(letter);
     }
 
-    if (!match) return;
+    for (const letter of visibleNow){
+      if (previousVisible.has(letter)) continue;
 
-    const key = `${index}:${match.brownItem.label}`;
-    if (key === lastAppleKey) return;
-    lastAppleKey = key;
+      const button = [...wrap.querySelectorAll(
+        '.function-list .brown-letter-title'
+      )].find(el => el.dataset.letter === letter);
 
-    const button = match.closest(
-      '.brown-letter-section'
-    )?.querySelector('.brown-letter-title');
+      if (!button ||
+          button.classList.contains('brown-letter-blue')){
+        continue;
+      }
 
-    if (!button ||
-        button.classList.contains('brown-letter-blue')) return;
+      clearTimeout(timers.get(button));
 
-    button.classList.remove('brown-apple-pulse');
-    void button.offsetWidth;
-    button.classList.add('brown-apple-pulse');
+      button.classList.add('brown-apple-pulse');
+
+      timers.set(button, setTimeout(() => {
+        button.classList.remove('brown-apple-pulse');
+      }, 450));
+    }
+
+    previousVisible = visibleNow;
   }
 
-  document.addEventListener('scroll', e => {
-    if (!e.target?.matches?.('#codeView')) return;
-
-    if (frame) cancelAnimationFrame(frame);
+  function scheduleAppleCheck(){
+    if (frame) return;
 
     frame = requestAnimationFrame(() => {
       frame = 0;
       checkAppleScroll();
     });
+  }
+
+  document.addEventListener('scroll', e => {
+    if (e.target?.matches?.('#codeView, .code-view')){
+      scheduleAppleCheck();
+    }
   }, true);
+
+  // Handles code redraws and menu rebuilds.
+  const observer = new MutationObserver(scheduleAppleCheck);
+
+  const startObserver = () => {
+    const view = document.querySelector('#codeView');
+    if (view){
+      observer.observe(view, {
+        childList:true,
+        subtree:true
+      });
+    }
+  };
+
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', startObserver);
+  } else {
+    startObserver();
+  }
+
+  requestAnimationFrame(scheduleAppleCheck);
 })();
 
-
-/* APPLE RED — VISIBLE FUNCTION PULSE */
-
-body > .brown-index-wrap
-.brown-letter-title.brown-apple-pulse:not(.brown-letter-blue){
-  background:#781B25 !important;
-  transition:background-color .3s ease !important;
-}
-
-body > .brown-index-wrap
-.brown-letter-title:not(.brown-letter-blue){
-  transition:background-color .3s ease !important;
-}
 
 
   // Keep the original blue selection animation.
