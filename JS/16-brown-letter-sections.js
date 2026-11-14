@@ -621,6 +621,117 @@ function showRenameArrangeSection(item){
 }
 
 
+/* APPLE RED — SAFE VISIBLE CODE DETECTION */
+
+(function () {
+  let previousVisibleLetters = new Set();
+  let scheduled = false;
+  const pulseTimers = new WeakMap();
+
+  function checkVisibleBrownLetters() {
+    scheduled = false;
+
+    const view = document.querySelector('#codeView');
+    const menu = document.querySelector(
+      'body > .brown-index-wrap.brown-letter-mode'
+    );
+
+    if (!view || !menu ||
+        typeof getBrownItemLineKeys !== 'function') {
+      previousVisibleLetters.clear();
+      return;
+    }
+
+    const viewport = view.getBoundingClientRect();
+    const visibleLetters = new Set();
+
+    menu.querySelectorAll('.function-list .brown-index-chip')
+      .forEach(chip => {
+        const item = chip.brownItem;
+        if (!item) return;
+
+        const letter = chip.closest('.brown-letter-section')
+          ?.querySelector('.brown-letter-title')
+          ?.dataset.letter;
+
+        if (!letter) return;
+
+        const section = Array.from(
+          view.querySelectorAll('.code-section')
+        ).find(el => Number(el.dataset.index) === item.index);
+
+        if (!section) return;
+
+        const keys = getBrownItemLineKeys(item);
+
+        const isVisible = keys.some(key => {
+          const line = key.split(':')[1];
+
+          const number = Array.from(
+            section.querySelectorAll('.line-number-box')
+          ).find(el => el.dataset.line === line);
+
+          const row = number?.closest('.code-line');
+          if (!row) return false;
+
+          const rect = row.getBoundingClientRect();
+
+          return rect.bottom > viewport.top &&
+                 rect.top < viewport.bottom &&
+                 rect.right > viewport.left &&
+                 rect.left < viewport.right;
+        });
+
+        if (isVisible) visibleLetters.add(letter);
+      });
+
+    visibleLetters.forEach(letter => {
+      if (previousVisibleLetters.has(letter)) return;
+
+      const button = Array.from(
+        menu.querySelectorAll(
+          '.function-list .brown-letter-title'
+        )
+      ).find(el => el.dataset.letter === letter);
+
+      if (!button ||
+          button.classList.contains('brown-letter-blue')) return;
+
+      const oldTimer = pulseTimers.get(button);
+      if (oldTimer) clearTimeout(oldTimer);
+
+      button.classList.add('brown-apple-pulse');
+
+      const timer = setTimeout(() => {
+        button.classList.remove('brown-apple-pulse');
+        pulseTimers.delete(button);
+      }, 450);
+
+      pulseTimers.set(button, timer);
+    });
+
+    previousVisibleLetters = visibleLetters;
+  }
+
+  function scheduleCheck() {
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(checkVisibleBrownLetters);
+  }
+
+  document.addEventListener('scroll', event => {
+    if (event.target?.matches?.('#codeView, .code-view')) {
+      scheduleCheck();
+    }
+  }, true);
+
+  document.addEventListener('click', scheduleCheck);
+
+  window.addEventListener('load', scheduleCheck);
+
+  scheduleCheck();
+})();
+
 
 
 
