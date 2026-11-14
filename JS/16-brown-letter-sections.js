@@ -292,7 +292,8 @@ body > .brown-index-wrap .brown-letter-title {
   display:grid !important;
   place-items:center !important;
 
-text-align:center !important;
+appearance:none !important;
+-webkit-appearance:none !important;
 line-height:1 !important;
 text-indent:0 !important;
 
