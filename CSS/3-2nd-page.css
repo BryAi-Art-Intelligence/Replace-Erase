@@ -228,17 +228,16 @@ body > .brown-index-wrap
 
 
 
-/* APPLE RED — VISIBLE FUNCTION PULSE */
-
-body > .brown-index-wrap
-.brown-letter-title.brown-apple-pulse:not(.brown-letter-blue){
-  background:#781B25 !important;
-  transition:background-color .3s ease !important;
-}
+/* APPLE RED — SMOOTH RETURN TO BROWN */
 
 body > .brown-index-wrap
 .brown-letter-title:not(.brown-letter-blue){
-  transition:background-color .3s ease !important;
+  transition: background-color 1.2s ease !important;
+}
+
+body > .brown-index-wrap
+.brown-letter-title.brown-apple-pulse:not(.brown-letter-blue){
+  background:#741A14 !important;
 }
 
 
