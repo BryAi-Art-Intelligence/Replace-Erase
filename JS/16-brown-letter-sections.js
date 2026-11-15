@@ -828,3 +828,41 @@ function updateBrownLetterSelection(){
   };
 
 })();
+
+
+/* A-Z GRID — FORCE TWO COLUMNS */
+
+(function(){
+
+  const style = document.createElement('style');
+  style.id = 'brown-az-two-column-fix';
+
+  style.textContent = `
+    body > .brown-index-wrap.open-function-menu
+    .brown-index-menu.function-list {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      grid-auto-flow: row !important;
+      grid-auto-rows: min-content !important;
+      align-content: start !important;
+      justify-content: stretch !important;
+      gap: 5px !important;
+    }
+
+    body > .brown-index-wrap
+    .function-list .brown-letter-section {
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+
+    body > .brown-index-wrap
+    .function-list .brown-letter-title {
+      width: 100% !important;
+      aspect-ratio: 1 / 1 !important;
+      font-size: 19px !important;
+    }
+  `;
+
+  document.head.appendChild(style);
+
+})();
