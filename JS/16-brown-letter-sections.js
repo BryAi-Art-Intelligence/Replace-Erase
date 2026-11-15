@@ -621,113 +621,135 @@ function showRenameArrangeSection(item){
 }
 
 
-/* APPLE RED — SAFE VISIBLE CODE DETECTION */
+/* REPLACE & ERASE — MULTI BLUE LETTERS */
 
-(function () {
-  let previousVisibleLetters = new Set();
-  let scheduled = false;
-  const pulseTimers = new WeakMap();
+function updateBrownLetterSelection(){
+  document.querySelectorAll(
+    '.brown-letter-section'
+  ).forEach(section => {
 
-  function checkVisibleBrownLetters() {
-    scheduled = false;
-
-    const view = document.querySelector('#codeView');
-    const menu = document.querySelector(
-      'body > .brown-index-wrap.brown-letter-mode'
+    const letter = section.querySelector(
+      '.brown-letter-title'
     );
 
-    if (!view || !menu ||
-        typeof getBrownItemLineKeys !== 'function') {
-      previousVisibleLetters.clear();
-      return;
-    }
+    const chips = section.querySelectorAll(
+      '.brown-index-chip'
+    );
 
-    const viewport = view.getBoundingClientRect();
-    const visibleLetters = new Set();
+    const selected = [...chips].some(chip => {
+      const item = chip.brownItem;
+      if (!item) return false;
 
-    menu.querySelectorAll('.function-list .brown-index-chip')
-      .forEach(chip => {
-        const item = chip.brownItem;
-        if (!item) return;
-
-        const letter = chip.closest('.brown-letter-section')
-          ?.querySelector('.brown-letter-title')
-          ?.dataset.letter;
-
-        if (!letter) return;
-
-        const section = Array.from(
-          view.querySelectorAll('.code-section')
-        ).find(el => Number(el.dataset.index) === item.index);
-
-        if (!section) return;
-
-        const keys = getBrownItemLineKeys(item);
-
-        const isVisible = keys.some(key => {
-          const line = key.split(':')[1];
-
-          const number = Array.from(
-            section.querySelectorAll('.line-number-box')
-          ).find(el => el.dataset.line === line);
-
-          const row = number?.closest('.code-line');
-          if (!row) return false;
-
-          const rect = row.getBoundingClientRect();
-
-          return rect.bottom > viewport.top &&
-                 rect.top < viewport.bottom &&
-                 rect.right > viewport.left &&
-                 rect.left < viewport.right;
-        });
-
-        if (isVisible) visibleLetters.add(letter);
-      });
-
-    visibleLetters.forEach(letter => {
-      if (previousVisibleLetters.has(letter)) return;
-
-      const button = Array.from(
-        menu.querySelectorAll(
-          '.function-list .brown-letter-title'
-        )
-      ).find(el => el.dataset.letter === letter);
-
-      if (!button ||
-          button.classList.contains('brown-letter-blue')) return;
-
-      const oldTimer = pulseTimers.get(button);
-      if (oldTimer) clearTimeout(oldTimer);
-
-      button.classList.add('brown-apple-pulse');
-
-      const timer = setTimeout(() => {
-        button.classList.remove('brown-apple-pulse');
-        pulseTimers.delete(button);
-      }, 1400);
-
-      pulseTimers.set(button, timer);
+      return getBrownItemLineKeys(item).some(
+        key => selectedLines.has(key)
+      );
     });
 
-    previousVisibleLetters = visibleLetters;
-  }
-
-  function scheduleCheck() {
-    if (scheduled) return;
-    scheduled = true;
-    requestAnimationFrame(checkVisibleBrownLetters);
-  }
-
-  document.addEventListener('scroll', event => {
-    if (event.target?.matches?.('#codeView, .code-view')) {
-      scheduleCheck();
+    if (letter){
+      letter.classList.toggle(
+        'brown-letter-blue',
+        selected
+      );
     }
-  }, true);
+  });
+}
 
-  document.addEventListener('click', scheduleCheck);
 
-  window.addEventListener('load', scheduleCheck);
+/* REPLACE & ERASE — APPLE SCROLL INDICATOR */
 
-  scheduleCheck();
-})();
+let brownAppleLastKey = '';
+let brownAppleFrame = 0;
+
+function updateBrownAppleScroll(){
+  const view = document.querySelector('#codeView') ||
+               document.querySelector('.code-view');
+
+  if (!view || view.dataset.renameHidden === 'true') return;
+
+  const wrap = document.querySelector(
+    'body > .brown-index-wrap.brown-letter-mode'
+  );
+  if (!wrap) return;
+
+  const viewRect = view.getBoundingClientRect();
+  const scanY = viewRect.top + viewRect.height * .45;
+
+  const sections = [...view.querySelectorAll(
+    '.code-section[data-index]'
+  )];
+
+  const section = sections.find(el => {
+    const r = el.getBoundingClientRect();
+    return r.top <= scanY && r.bottom > scanY;
+  });
+
+  if (!section) return;
+
+  const index = Number(section.dataset.index);
+  const part = currentParts[index];
+  if (!part) return;
+
+  const rows = [...section.querySelectorAll('.code-line')];
+
+  const row = rows.find(el => {
+    const r = el.getBoundingClientRect();
+    return r.top <= scanY && r.bottom > scanY;
+  });
+
+  if (!row) return;
+
+  const lineNumber = Number(
+    row.querySelector('.line-number-box')?.dataset.line
+  );
+
+  if (!Number.isFinite(lineNumber)) return;
+
+  const menu = wrap.querySelector('.function-list');
+  if (!menu) return;
+
+  let match = null;
+
+  for (const chip of menu.querySelectorAll('.brown-index-chip')){
+    const item = chip.brownItem;
+    if (!item || item.index !== index) continue;
+
+    const keys = getBrownItemLineKeys(item);
+    if (keys.includes(`${index}:${lineNumber}`)){
+      match = chip;
+      break;
+    }
+  }
+
+  if (!match) return;
+
+  const letterSection = match.closest('.brown-letter-section');
+  const button = letterSection?.querySelector('.brown-letter-title');
+  if (!button) return;
+
+  const key = `${index}:${match.brownItem.label}`;
+  if (key === brownAppleLastKey) return;
+
+  brownAppleLastKey = key;
+
+  // Keep the original blue selection animation.
+  if (button.classList.contains('brown-letter-blue')) return;
+
+  button.classList.remove('brown-apple-pulse');
+  void button.offsetWidth;
+  button.classList.add('brown-apple-pulse');
+}
+
+function scheduleBrownAppleScroll(){
+  if (brownAppleFrame) return;
+
+  brownAppleFrame = requestAnimationFrame(() => {
+    brownAppleFrame = 0;
+    updateBrownAppleScroll();
+  });
+}
+
+document.addEventListener('scroll', e => {
+  if (e.target?.matches?.('#codeView, .code-view')){
+    scheduleBrownAppleScroll();
+  }
+}, true);
