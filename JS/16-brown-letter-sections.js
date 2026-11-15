@@ -830,7 +830,8 @@ function updateBrownLetterSelection(){
 })();
 
 
-/* A-Z GRID — FORCE TWO COLUMNS */
+
+/* A-Z GRID — THREE COLUMNS + LL */
 
 (function(){
 
@@ -841,12 +842,12 @@ function updateBrownLetterSelection(){
     body > .brown-index-wrap.open-function-menu
     .brown-index-menu.function-list {
       display: grid !important;
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
       grid-auto-flow: row !important;
       grid-auto-rows: min-content !important;
       align-content: start !important;
       justify-content: stretch !important;
-      gap: 5px !important;
+      gap: 4px !important;
     }
 
     body > .brown-index-wrap
@@ -859,10 +860,55 @@ function updateBrownLetterSelection(){
     .function-list .brown-letter-title {
       width: 100% !important;
       aspect-ratio: 1 / 1 !important;
-      font-size: 19px !important;
+      font-size: 16px !important;
+      border-radius: 7px !important;
+    }
+
+    body > .brown-index-wrap
+    .function-list .brown-letter-section.brown-letter-open {
+      grid-column: span 3 !important;
+    }
+
+    body > .brown-index-wrap
+    .function-list .brown-ll-square {
+      width: 100% !important;
+      min-width: 0 !important;
+      aspect-ratio: 1 / 1 !important;
+      height: auto !important;
+      padding: 0 !important;
+      font-size: 16px !important;
+      border-radius: 7px !important;
+      transform: none !important;
+      order: initial !important;
     }
   `;
 
   document.head.appendChild(style);
 
+  const originalBuild = buildBrownIndexBar;
+
+  buildBrownIndexBar = function(){
+    originalBuild.apply(this, arguments);
+
+    const wrap = document.querySelector(
+      'body > .brown-index-wrap.brown-letter-mode'
+    );
+
+    if (!wrap) return;
+
+    const menu = wrap.querySelector('.function-list');
+    const labelless = wrap.querySelector(
+      '.brown-labelless-bottom'
+    );
+
+    if (!menu || !labelless) return;
+
+    labelless.textContent = 'LL';
+    labelless.title = 'LABELLESS';
+    labelless.classList.add('brown-ll-square');
+
+    menu.appendChild(labelless);
+  };
+
 })();
+
