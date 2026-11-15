@@ -602,3 +602,30 @@ function updateBrownLetterSelection(){
     if (letter) letter.classList.toggle('brown-letter-blue', selected);
   });
 }
+
+
+/* REPLACE & ERASE — RESTORE RENAME & ARRANGE */
+
+(function(){
+
+  const style = document.createElement('style');
+  style.id = 'brown-restore-rename-button';
+
+  style.textContent = `
+    body > .brown-index-wrap.brown-letter-mode
+    .function-menu-toggle:first-of-type {
+      position: absolute !important;
+      top: -72px !important;
+      bottom: auto !important;
+      left: 0 !important;
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      z-index: 10 !important;
+    }
+  `;
+
+  document.head.appendChild(style);
+
+})();
+
