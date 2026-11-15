@@ -653,3 +653,178 @@ function updateBrownLetterSelection(){
     }
   });
 }
+
+
+/* REPLACE & ERASE — A-Z TWO COLUMN MENU */
+
+(function(){
+
+  const style = document.createElement('style');
+  style.id = 'brown-az-grid-style';
+
+  style.textContent = `
+    body > .brown-index-wrap.brown-letter-mode {
+      width: 112px !important;
+      right: 8px !important;
+      gap: 4px !important;
+    }
+
+    body > .brown-index-wrap .brown-index-menu {
+      padding: 3px 0 !important;
+      gap: 4px !important;
+    }
+
+    body > .brown-index-wrap .function-list {
+      display: none !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-auto-rows: min-content;
+      align-content: start;
+      justify-content: stretch !important;
+      column-gap: 5px !important;
+      row-gap: 5px !important;
+    }
+
+    body > .brown-index-wrap.open-function-menu
+    .function-list {
+      display: grid !important;
+    }
+
+    body > .brown-index-wrap .brown-letter-section {
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+
+    body > .brown-index-wrap .brown-letter-title {
+      width: 100% !important;
+      aspect-ratio: 1 / 1 !important;
+      font-size: 19px !important;
+      border-width: 2px !important;
+      border-radius: 9px !important;
+      padding: 1px !important;
+      box-shadow: none !important;
+    }
+
+    body > .brown-index-wrap
+    .brown-letter-section.brown-letter-empty
+    .brown-letter-title {
+      background: #514942 !important;
+      border-color: #625b54 !important;
+      color: #928981 !important;
+      opacity: .65 !important;
+      pointer-events: none !important;
+    }
+
+    body > .brown-index-wrap
+    .brown-letter-section.brown-letter-open {
+      grid-column: span 2;
+    }
+
+    body > .brown-index-wrap
+    .brown-letter-section.brown-letter-open
+    .brown-letter-rows {
+      width: 100% !important;
+    }
+
+    body > .brown-index-wrap
+    .function-menu-toggle.brown-labelless-bottom {
+      order: 5 !important;
+      transform: none !important;
+      font-size: 10px !important;
+      padding: 8px 3px !important;
+    }
+
+    body > .brown-index-wrap .function-list {
+      order: 2 !important;
+    }
+
+    body > .brown-index-wrap .labelless-list {
+      order: 3 !important;
+    }
+
+    body > .brown-index-wrap
+    .function-menu-toggle:first-of-type {
+      order: 1 !important;
+    }
+  `;
+
+  document.head.appendChild(style);
+
+  const originalBuild = buildBrownIndexBar;
+
+  buildBrownIndexBar = function(){
+
+    originalBuild.apply(this, arguments);
+
+    const wrap = document.querySelector(
+      'body > .brown-index-wrap.brown-letter-mode'
+    );
+
+    if (!wrap) return;
+
+    const menu = wrap.querySelector('.function-list');
+    const labelless = wrap.querySelectorAll(
+      '.function-menu-toggle'
+    )[1];
+
+    if (!menu || !labelless) return;
+
+    // Add missing alphabet letters.
+    const existing = new Set(
+      [...menu.querySelectorAll(
+        '.brown-letter-title'
+      )].map(el => el.dataset.letter)
+    );
+
+    for (const letter of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'){
+
+      if (existing.has(letter)) continue;
+
+      const section = document.createElement('div');
+      section.className =
+        'brown-letter-section brown-letter-empty';
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'brown-letter-title';
+      button.disabled = true;
+      button.dataset.letter = letter;
+
+      const span = document.createElement('span');
+      span.textContent = letter;
+      span.style.transform = 'translateX(1.9px)';
+
+      button.appendChild(span);
+      section.appendChild(button);
+      menu.appendChild(section);
+    }
+
+    // Alphabetical ordering.
+    [...menu.querySelectorAll(
+      '.brown-letter-section'
+    )].sort((a,b) => {
+
+      const aLetter =
+        a.querySelector('.brown-letter-title')
+        ?.dataset.letter || '';
+
+      const bLetter =
+        b.querySelector('.brown-letter-title')
+        ?.dataset.letter || '';
+
+      return aLetter.localeCompare(bLetter);
+
+    }).forEach(section => menu.appendChild(section));
+
+    // Move LABELLESS below A-Z.
+    labelless.classList.add('brown-labelless-bottom');
+
+    wrap.appendChild(labelless);
+
+    // Refresh haze and fade.
+    requestAnimationFrame(() => {
+      updateBrownMenuFade();
+      updateBrownHaze();
+    });
+  };
+
+})();
