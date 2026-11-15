@@ -653,39 +653,3 @@ function updateBrownLetterSelection(){
     }
   });
 }
-
-
-
- 
-
-
-
-  
-
-  // Keep the original blue selection animation.
-  if (button.classList.contains('brown-letter-blue')) return;
-
-  button.classList.remove('brown-apple-pulse');
-  void button.offsetWidth;
-  button.classList.add('brown-apple-pulse');
-
-  // Automatically return to the original brown/peach color.
-  setTimeout(() => {
-    button.classList.remove('brown-apple-pulse');
-  }, 1400);
-}
-
-function scheduleBrownAppleScroll(){
-  if (brownAppleFrame) return;
-
-  brownAppleFrame = requestAnimationFrame(() => {
-    brownAppleFrame = 0;
-    updateBrownAppleScroll();
-  });
-}
-
-document.addEventListener('scroll', e => {
-  if (e.target?.matches?.('#codeView, .code-view')){
-    scheduleBrownAppleScroll();
-  }
-}, true);
